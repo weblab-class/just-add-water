@@ -1,3 +1,6 @@
 [submodule "client/src/js-plant-gen"]
 	path = client/src/js-plant-gen
 	url = https://github.com/dielsalder/js-plant-gen
+[submodule "client/src/inflorescence"]
+	path = client/src/inflorescence
+	url = https://github.com/dielsalder/inflorescence
