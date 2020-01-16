@@ -36,7 +36,18 @@ module.exports = {
         test: /\.(js|jsx)$/,
         loader: "babel-loader",
         exclude: /node_modules/,
+
+        options: {
+          presets: [
+            '@babel/preset-env',
+            {
+              plugins: [
+                '@babel/plugin-proposal-class-properties'
+              ]
+            }
+          ]
       },
+    },
       {
         test: /\.(scss|css)$/,
         use: [
