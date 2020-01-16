@@ -1,0 +1,3 @@
+[submodule "client/src/js-plant-gen"]
+	path = client/src/js-plant-gen
+	url = https://github.com/dielsalder/js-plant-gen
