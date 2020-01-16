@@ -1,0 +1,1 @@
+// objects (flowers, etc) packaged as components using react-three-fiber
