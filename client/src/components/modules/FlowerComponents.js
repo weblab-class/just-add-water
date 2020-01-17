@@ -6,6 +6,11 @@ import React, {useRef } from "react";
 import * as DrawFlower from '../../js-plant-gen/DrawFlower';
 import * as THREE from 'three';
 const soilColor = "#AD907F"
+// length of one grid space in world units
+const gridUnit = 10;
+// number of spaces in grid
+const gridSizeX = 3;
+const gridSizeZ = 3;
 function flowerModel(props){
     const flowerData=props.flowerData;
     const mesh =  DrawFlower.plantModel(flowerData);
@@ -13,10 +18,10 @@ function flowerModel(props){
     return <primitive object={mesh} position={position}/>
 }
 function tile(props){
-    const lengthY = props.hasOwnProperty(lengthY) ? props.lengthY: 20;
-    const lengthX = props.hasOwnProperty(lengthX) ? props.lengthX: 20;
+    const lengthY = props.hasOwnProperty(lengthY) ? props.lengthY: gridUnit*gridSizeX;
+    const lengthX = props.hasOwnProperty(lengthX) ? props.lengthX: gridUnit*gridSizeZ;
     // this is now the vertical height. why is it internally inconsistent?!!
-    const lengthZ = props.hasOwnProperty(lengthZ) ? props.lengthZ: 10;
+    const lengthZ = props.hasOwnProperty(lengthZ) ? props.lengthZ: gridUnit;
     const position = props.hasOwnProperty("position") ? props.position: [10,6,-20];
     const color = props.hasOwnProperty(color) ? props.color: soilColor;
     return <mesh position={position}>

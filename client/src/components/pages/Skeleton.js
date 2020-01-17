@@ -50,7 +50,7 @@ class Skeleton extends Component {
       <div className="canvasContainer">
         <Canvas orthographic={true} camera={{zoom:10, position:[-10,0,0], rotation:isometricRotation}}>
           <hemisphereLight intensity={0.7}/>
-          <spotLight position={[15,20,15]} />
+          <spotLight position={[25,15,20]} />
           <ambientLight intensity={0.1}/>
           <fc.flowerModel flowerData={Examples.blueSixPetals} position={[10,0,0]}/>
           <fc.flowerModel flowerData={Examples.poppy} position={[10,10,0]} />
