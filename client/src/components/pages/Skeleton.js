@@ -49,6 +49,7 @@ class Skeleton extends Component {
           <ambientLight intensity={0.3}/>
           <fc.flowerModel flowerData={Examples.blueSixPetals}/>
           <fc.flowerModel flowerData={Examples.poppy} position={[10,10,0]} />
+          <fc.tile/>
         </Canvas>
       </div>
       </>
