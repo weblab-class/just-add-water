@@ -10,7 +10,7 @@ export default function FiberScene(){
         onClick={e => console.log('click')}
         onPointerOver={e => console.log('hover')}
         onPointerOut={e => console.log('unhover')}>
-        <boxBufferGeometry attach="geometry" args={[10, 1, 1]} />
+        <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
         <meshNormalMaterial attach="material" />
         </mesh>
     )

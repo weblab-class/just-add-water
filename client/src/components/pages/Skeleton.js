@@ -43,7 +43,7 @@ class Skeleton extends Component {
         )}
 
       <div className="canvasContainer">
-        <Canvas >
+        <Canvas orthographic={true} camera={{zoom:200}}>
           <FiberScene />
         </Canvas>
       </div>
