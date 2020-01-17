@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
-import ThreeScene from '../modules/ThreeScene';
 import { Canvas} from 'react-three-fiber';
-import FiberScene from '../modules/FiberScene';
 import * as Examples from '../../js-plant-gen/ExampleFlowers';
 import * as fc from '../modules/FlowerComponents';
+import * as THREE from 'three';
 
 import "../../utilities.css";
 import "./Skeleton.css";
@@ -25,6 +24,10 @@ class Skeleton extends Component {
   }
 
   render() {
+    // z axis is coming out of page - remember
+    // angle to rotate orthographic camera by for isometric view
+    const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
+    // const isometricRotation = new THREE.Euler(-.8,0,0.8);
     return (
       <>
         {this.props.userId ? (
@@ -44,7 +47,7 @@ class Skeleton extends Component {
         )}
 
       <div className="canvasContainer">
-        <Canvas orthographic={true} camera={{zoom:10}}>
+        <Canvas orthographic={true} camera={{zoom:10, position:[-10,-10,0], rotation:isometricRotation}}>
           <pointLight position={[10,10,10]} />
           <ambientLight intensity={0.3}/>
           <fc.flowerModel flowerData={Examples.blueSixPetals}/>

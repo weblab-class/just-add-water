@@ -10,13 +10,13 @@ function flowerModel(props){
     const flowerData=props.flowerData;
     const mesh =  DrawFlower.plantModel(flowerData);
     const position = props.hasOwnProperty("position") ? props.position:[0,0,0];
-    return <primitive object={mesh} position={position} rotation={isometricRotation}/>
+    return <primitive object={mesh} position={position}/>
 }
 function tile(props){
     const size = props.hasOwnProperty(size) ? props.size: 10;
     const position = props.hasOwnProperty("position") ? props.position: [10,6,-20];
     const colorTop = props.hasOwnProperty(colorTop) ? props.colorTop: "#88cc00";
-    return <mesh position={position} rotation={isometricRotation}>
+    return <mesh position={position}>
         <boxGeometry args={[size,size,size]} attach="geometry"/>
         <meshToonMaterial color={colorTop} attach="material"/>
     </mesh>
