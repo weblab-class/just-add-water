@@ -3,7 +3,8 @@ import GoogleLogin, { GoogleLogout } from "react-google-login";
 import ThreeScene from '../modules/ThreeScene';
 import { Canvas} from 'react-three-fiber';
 import FiberScene from '../modules/FiberScene';
-
+import * as Examples from '../../js-plant-gen/ExampleFlowers';
+import * as fc from '../modules/FlowerComponents';
 
 import "../../utilities.css";
 import "./Skeleton.css";
@@ -43,8 +44,10 @@ class Skeleton extends Component {
         )}
 
       <div className="canvasContainer">
-        <Canvas orthographic={true} camera={{zoom:200}}>
-          <FiberScene />
+        <Canvas orthographic={true} camera={{zoom:20}}>
+          <pointLight />
+          <ambientLight/>
+          <fc.flowerModel {...Examples.blueSixPetals}/>
         </Canvas>
       </div>
       </>
