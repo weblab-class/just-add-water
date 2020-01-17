@@ -1,1 +1,7 @@
 /* Fill me in :) */
+html, body, div, #app, #app>div, #root {
+  height: 100%;
+}
+canvas {
+    height:100% !important;
+}

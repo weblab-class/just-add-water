@@ -41,9 +41,12 @@ class Skeleton extends Component {
             onFailure={(err) => console.log(err)}
           />
         )}
-      <Canvas>
-        <FiberScene />
-      </Canvas>
+
+      <div className="canvasContainer">
+        <Canvas >
+          <FiberScene />
+        </Canvas>
+      </div>
       </>
     );
   }
