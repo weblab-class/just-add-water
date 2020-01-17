@@ -45,8 +45,7 @@ class Skeleton extends Component {
 
       <div className="canvasContainer">
         <Canvas orthographic={true} camera={{zoom:20}}>
-          <pointLight />
-          <ambientLight/>
+          <pointLight position={[10,10,15]} />
           <fc.flowerModel {...Examples.blueSixPetals}/>
         </Canvas>
       </div>
