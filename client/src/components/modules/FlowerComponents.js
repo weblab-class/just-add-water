@@ -5,7 +5,7 @@ import {useFrame} from 'react-three-fiber';
 import React, {useRef } from "react";
 import * as DrawFlower from '../../js-plant-gen/DrawFlower';
 import * as THREE from 'three';
-const isometricRotation = new THREE.Euler(-.8,0,0.8);
+const soilColor = "#AD907F"
 function flowerModel(props){
     const flowerData=props.flowerData;
     const mesh =  DrawFlower.plantModel(flowerData);
@@ -13,12 +13,15 @@ function flowerModel(props){
     return <primitive object={mesh} position={position}/>
 }
 function tile(props){
-    const size = props.hasOwnProperty(size) ? props.size: 10;
+    const lengthY = props.hasOwnProperty(lengthY) ? props.lengthY: 20;
+    const lengthX = props.hasOwnProperty(lengthX) ? props.lengthX: 20;
+    // this is now the vertical height. why is it internally inconsistent?!!
+    const lengthZ = props.hasOwnProperty(lengthZ) ? props.lengthZ: 10;
     const position = props.hasOwnProperty("position") ? props.position: [10,6,-20];
-    const colorTop = props.hasOwnProperty(colorTop) ? props.colorTop: "#88cc00";
+    const color = props.hasOwnProperty(color) ? props.color: soilColor;
     return <mesh position={position}>
-        <boxGeometry args={[size,size,size]} attach="geometry"/>
-        <meshToonMaterial color={colorTop} attach="material"/>
+        <boxGeometry args={[lengthX,lengthY,lengthZ]} attach="geometry"/>
+        <meshStandardMaterial color={color} attach="material" roughness={0.9}/>
     </mesh>
 }
 export {flowerModel, tile};

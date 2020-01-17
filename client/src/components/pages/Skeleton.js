@@ -17,6 +17,7 @@ class Skeleton extends Component {
     super(props);
     // Initialize Default State
     this.state = {};
+    this.groundColor = "#8C7A6f"
   }
 
   componentDidMount() {
@@ -47,10 +48,11 @@ class Skeleton extends Component {
         )}
 
       <div className="canvasContainer">
-        <Canvas orthographic={true} camera={{zoom:10, position:[-10,-10,0], rotation:isometricRotation}}>
-          <pointLight position={[10,10,10]} />
-          <ambientLight intensity={0.3}/>
-          <fc.flowerModel flowerData={Examples.blueSixPetals}/>
+        <Canvas orthographic={true} camera={{zoom:10, position:[-10,0,0], rotation:isometricRotation}}>
+          <hemisphereLight intensity={0.7}/>
+          <spotLight position={[15,20,15]} />
+          <ambientLight intensity={0.1}/>
+          <fc.flowerModel flowerData={Examples.blueSixPetals} position={[10,0,0]}/>
           <fc.flowerModel flowerData={Examples.poppy} position={[10,10,0]} />
           <fc.tile/>
         </Canvas>
