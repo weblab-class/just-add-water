@@ -4,14 +4,15 @@ import { Canvas} from 'react-three-fiber';
 import * as Examples from '../../js-plant-gen/ExampleFlowers';
 import * as fc from '../modules/FlowerComponents';
 import * as THREE from 'three';
+import GameMap from '../modules/Map';
 
 import "../../utilities.css";
 import "./Skeleton.css";
 
-
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
+const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
 class Skeleton extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +28,6 @@ class Skeleton extends Component {
   render() {
     // z axis is coming out of page - remember
     // angle to rotate orthographic camera by for isometric view
-    const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
     // const isometricRotation = new THREE.Euler(-.8,0,0.8);
     return (
       <>
@@ -48,13 +48,8 @@ class Skeleton extends Component {
         )}
 
       <div className="canvasContainer">
-        <Canvas orthographic={true} camera={{zoom:10, position:[-10,0,0], rotation:isometricRotation}}>
-          <hemisphereLight intensity={0.7}/>
-          <spotLight position={[25,15,20]} />
-          <ambientLight intensity={0.1}/>
-          <fc.flowerModel flowerData={Examples.blueSixPetals} position={[10,0,0]}/>
-          <fc.flowerModel flowerData={Examples.poppy} position={[10,10,0]} />
-          <fc.tile/>
+        <Canvas orthographic={true} camera={{zoom:10, position:[-20,-20,0], rotation:isometricRotation}}>
+          <GameMap/>
         </Canvas>
       </div>
       </>

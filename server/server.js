@@ -33,9 +33,9 @@ const socket = require("./server-socket");
 
 // Server configuration below
 // TODO change connection URL after setting up your team database
-const mongoConnectionURL = "FILL ME IN";
+const mongoConnectionURL = "mongodb+srv://admin:3o8wwqy3@cluster0-v4kxs.mongodb.net/test?retryWrites=true&w=majority";
 // TODO change database name to the name you chose
-const databaseName = "FILL ME IN";
+const databaseName = "h2gro";
 
 // connect to mongodb
 mongoose
@@ -97,7 +97,8 @@ app.use((err, req, res, next) => {
 // hardcode port to 3000 for now
 const port = 3000;
 const server = http.Server(app);
-socket.init(server);
+// commenting out socket stuff for now
+// socket.init(server);
 
 server.listen(port, () => {
   console.log(`Server running on port: ${port}`);

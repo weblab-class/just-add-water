@@ -11,6 +11,7 @@ const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
+const Tile = require("./models/tile");
 
 // import authentication library
 const auth = require("./auth");
@@ -36,6 +37,12 @@ router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
   if (req.user) socket.addUser(req.user, socket.getSocketFromSocketID(req.body.socketid));
   res.send({});
+});
+
+router.get("/tiles", (req, res) => {
+  Tile.find({creator_id: req.query.creator_id}).then((tiles) => {
+    res.send(tiles);
+  });
 });
 
 // |------------------------------|
