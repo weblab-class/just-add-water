@@ -45,10 +45,6 @@ function TileGrid(props){
 // cannot return a canvas element because of weird DOM shit; this just puts together everything required in the map
 // write test map to render
 GameMap.propTypes = {
-    /** X-length of map, in tiles */
-    mapDimX: PropTypes.number,
-    /** Z-length of map, in tiles */
-    mapDimZ: PropTypes.number,
     /** tiles on map that contain plants, i.e. have been changed */
     tiles: PropTypes.array.tile,
 };
@@ -62,7 +58,6 @@ function MapLighting(props){
     )
 }
 function toWorldUnits(tileUnits){
-    // place in center of grid space instead of corner
     return tileUnits*tileSize;
 }
 function GameMap(props){

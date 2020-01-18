@@ -1,7 +1,8 @@
 /* Fill me in :) */
 html, body, div, #app, #app>div, #root {
   height: 100%;
+  background-color:#6bbDA9;
 }
 canvas {
-    height:100% !important;
+  height:100% !important;
 }
