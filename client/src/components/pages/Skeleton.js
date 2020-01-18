@@ -11,7 +11,8 @@ import "./Skeleton.css";
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
-const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
+// const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
+const isometricRotation = new THREE.Euler(-30*Math.PI/180,45*Math.PI/180,0 ,"YXZ");
 class Skeleton extends Component {
   constructor(props) {
     super(props);
@@ -47,7 +48,7 @@ class Skeleton extends Component {
         )}
 
       <div className="canvasContainer">
-        <Canvas orthographic={true} camera={{zoom:10, position:[-20,-20,0], rotation:isometricRotation}}>
+        <Canvas orthographic={true} camera={{zoom:10, position:[fc.worldLengthX,10,fc.worldLengthZ],rotation:isometricRotation}}>
           <GameMap tiles={[]}/>
         </Canvas>
       </div>
