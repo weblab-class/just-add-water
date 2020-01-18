@@ -41,7 +41,7 @@ function Ground(props){
 function SoilTile(props){
     // tile lights on hover, depresses on click (while flower comes up)
     // planted tiles elevated or not?
-    const height = soilHeight*0.2;
+    const height = soilHeight*0.3;
     const x = props.hasOwnProperty("x")? props.x : 0;
     const z = props.hasOwnProperty("z")? props.z : 0;
     const y = height/2;

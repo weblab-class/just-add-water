@@ -31,4 +31,29 @@ import * as Flowers from '../js-plant-gen/ExampleFlowers';
             growth_state: 10, },
     ],
  }
- export {emptyMap, mapTwoFlowers};
+ const mapAdjFlowers={
+    tiles: [
+        {
+            creator_id: "u1",
+            x: 0,
+            z: 0,
+            // if one exists
+            flower: Flowers.blueSixPetals,
+            growth_state: 10, },
+        {
+            creator_id: "u1",
+            x: 0,
+            z: 1,
+            // if one exists
+            flower: Flowers.poppy,
+            growth_state: 10, },
+        {
+            creator_id: "u1",
+            x: 0,
+            z: 2,
+            // if one exists
+            flower: Flowers.poppy,
+            growth_state: 10, },
+    ],
+ }
+ export {emptyMap, mapTwoFlowers, mapAdjFlowers};
