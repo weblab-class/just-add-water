@@ -79,7 +79,10 @@ function toWorldUnits(tileUnits){
 }
 function GameMap(props){
     const flowers = props.tiles.map((tile) => 
-        <React.Fragment key = {JSON.stringify(tile)}><FlowerModel  flowerData={tile.flower} position={[toWorldUnits(tile.x),tile.flower.stemHeight, toWorldUnits(tile.z)]}/></React.Fragment>
+        <React.Fragment key = {JSON.stringify(tile)}>
+            <FlowerModel  flowerData={tile.flower} position={[toWorldUnits(tile.x),tile.flower.stemHeight, toWorldUnits(tile.z)]}/>
+            <SoilTile x={toWorldUnits(tile.x)} z={toWorldUnits(tile.z)}/>
+        </React.Fragment>
     );
     console.log(flowers);
     return(
@@ -90,7 +93,6 @@ function GameMap(props){
           {/* <FlowerModel flowerData={Examples.poppy} position={[10,10,0]} /> */} */}
           </>
           <Ground/>
-          <SoilTile/>
           <TileGrid/>
         </>
     );
