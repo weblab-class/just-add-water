@@ -1,4 +1,4 @@
-import * as Flowers from '../../js-plant-gen/ExampleFlowers';
+import * as Flowers from '../js-plant-gen/ExampleFlowers';
 /** 
  * data for rendering a test map
  * things to check for

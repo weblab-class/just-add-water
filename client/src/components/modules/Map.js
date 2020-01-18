@@ -69,8 +69,8 @@ function GameMap(props){
           <MapLighting/>
           <>
           {/* flower list goes here */}
-          <FlowerModel flowerData={Examples.blueSixPetals} position={[10,10,10]}/>
-          <FlowerModel flowerData={Examples.poppy} position={[10,10,0]} />
+          {/* <FlowerModel flowerData={Examples.blueSixPetals} position={[10,10,10]}/> */}
+          {/* <FlowerModel flowerData={Examples.poppy} position={[10,10,0]} /> */}
           </>
           <Ground/>
           <TileGrid/>

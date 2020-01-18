@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { Canvas} from 'react-three-fiber';
+import * as maptest from '../../test/MapTest';
 import * as THREE from 'three';
-import * as map from '../modules/Map';
+import * as gmap from '../modules/Map';
 
 import "../../utilities.css";
 import "./Skeleton.css";
@@ -47,8 +48,8 @@ class Skeleton extends Component {
         )}
 
       <div className="canvasContainer">
-        <Canvas orthographic={true} camera={{zoom:15, position:[map.worldLengthX,10,map.worldLengthZ],rotation:isometricRotation}}>
-          <map.GameMap tiles={[]}/>
+        <Canvas orthographic={true} camera={{zoom:15, position:[gmap.worldLengthX,10,gmap.worldLengthZ],rotation:isometricRotation}}>
+          <gmap.GameMap {...maptest.emptyMap}/>
         </Canvas>
       </div>
       </>
