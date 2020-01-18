@@ -45,8 +45,8 @@ function mouseCrdsToWorld(x, y, viewport, camera){
     console.log("mouse crds");
     console.log(x,y);
     var vector = new THREE.Vector3( x, y, -1).unproject( camera );
-    console.log(vector);
-    var worldPosition = new THREE.Vector3(vector.x-camera.position.x,25,vector.z-camera.position.z);
+    var worldPosition = new THREE.Vector3(vector.x-camera.position.x,-vector.y+camera.position.y,vector.z-camera.position.z);
+    console.log(worldPosition);
     return [worldPosition.x, worldPosition.y, worldPosition.z]
 }
 function SoilTile(props){
@@ -74,7 +74,7 @@ function SoilTile(props){
         // fix: convert these to iso coordinates so things don't go flying off the screen
         // snap?
         ({ xy: [x, y], vxvy: [vx, vy], down, ...props }) => {
-            set({ position:mouseCrdsToWorld(x/viewport.width*2-1,-y/viewport.height*2-1, viewport, camera)});
+            set({ position:mouseCrdsToWorld(x/viewport.width*2-1,y/viewport.height*2-1, viewport, camera)});
         },
         { pointerEvents: true }
     )
