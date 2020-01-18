@@ -5,6 +5,8 @@ import React, {useRef, Fragment } from "react";
 import * as PropTypes from 'prop-types';
 import * as DrawFlower from '../../js-plant-gen/DrawFlower';
 import * as THREE from 'three';
+import {useHover} from "react-use-gesture";
+import {useSpring, a} from 'react-spring/three';
 
 // lighter color
 // const soilColor = "#AD907F"
@@ -45,10 +47,24 @@ function SoilTile(props){
     const x = props.hasOwnProperty("x")? props.x : 0;
     const z = props.hasOwnProperty("z")? props.z : 0;
     const y = height/2;
-    return <mesh position={[x,y,z]}>
+
+    const [spring, set] = useSpring(() => ({
+        scale: [1, 1, 1],
+        // y is one space below ground to prevent clipping on unhover
+        position: [x, y-1, z],
+        rotation: [0, 0, 0],
+        config: { mass: 3, friction: 40, tension: 800 }
+    }))
+    // const bindHover = useHover( hovering  =>{return hovering}, { pointerEvents: true });
+    const bindHover = useHover(({ hovering }) => set({ scale: hovering ? [1, 2, 1] : [1, 1, 1] }), {
+        pointerEvents: true
+    })
+
+    return <a.mesh position={[x,y,z]} 
+        {...spring}  {...bindHover()} >
         <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
         <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
-    </mesh>
+    </a.mesh>
 }
 
 function TileGrid(props){
