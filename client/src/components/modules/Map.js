@@ -38,6 +38,19 @@ function Ground(props){
     </mesh>
 }
 
+function SoilTile(props){
+    // tile lights on hover, depresses on click (while flower comes up)
+    // planted tiles elevated or not?
+    const height = soilHeight*0.2;
+    const x = props.hasOwnProperty("x")? props.x : 0;
+    const z = props.hasOwnProperty("z")? props.z : 0;
+    const y = height/2;
+    return <mesh position={[x,y,z]}>
+        <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
+        <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
+    </mesh>
+}
+
 function TileGrid(props){
     return (
         <gridHelper args={[worldLengthX,numTilesX]}  position={[0,0.1,0]} colorGrid="#ffffff"/>
@@ -77,6 +90,7 @@ function GameMap(props){
           {/* <FlowerModel flowerData={Examples.poppy} position={[10,10,0]} /> */} */}
           </>
           <Ground/>
+          <SoilTile/>
           <TileGrid/>
         </>
     );
