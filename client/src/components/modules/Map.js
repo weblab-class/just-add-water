@@ -24,8 +24,9 @@ function FlowerModel(props){
     return <primitive object={mesh} position={position} rotation={rotateToXZPlane}/>
 }
 function Ground(props){
-    const lengthX = worldLengthX;
-    const lengthZ = worldLengthZ;
+    // ground is drawn with a 0.5*tileSize-width margin so it's slightly bigger than the map and flowers don't run off the edge
+    const lengthX = worldLengthX+0.5*tileSize;
+    const lengthZ = worldLengthZ+0.5*tileSize;
     const lengthY = soilHeight;
     const position = props.hasOwnProperty("position") ? props.position: [0,-soilHeight*0.5,0];
     const color = props.hasOwnProperty(color) ? props.color: soilColor;

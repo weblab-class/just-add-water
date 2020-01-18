@@ -24,8 +24,8 @@ import * as Flowers from '../js-plant-gen/ExampleFlowers';
             growth_state: 10, },
         {
             creator_id: "u1",
-            x: 3,
-            z: 3,
+            x: 2,
+            z: 2,
             // if one exists
             flower: Flowers.poppy,
             growth_state: 10, },
