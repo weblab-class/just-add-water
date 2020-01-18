@@ -2,10 +2,10 @@
 // globally define flower stem length and ground height
 // would probably be easier to rotate camera if i'm doing grid thing
 import React, {useRef, Fragment } from "react";
-import * as Examples from '../../js-plant-gen/ExampleFlowers';
 import * as PropTypes from 'prop-types';
 import * as DrawFlower from '../../js-plant-gen/DrawFlower';
 import * as THREE from 'three';
+
 const soilColor = "#AD907F"
 // length/width/depth of one grid space in world units
 const tileSize = 10;
@@ -24,9 +24,9 @@ function FlowerModel(props){
     return <primitive object={mesh} position={position} rotation={rotateToXZPlane}/>
 }
 function Ground(props){
-    // ground is drawn with a 0.5*tileSize-width margin so it's slightly bigger than the map and flowers don't run off the edge
-    const lengthX = worldLengthX+0.5*tileSize;
-    const lengthZ = worldLengthZ+0.5*tileSize;
+    // ground is drawn with a  margin so it's slightly bigger than the map and flowers don't run off the edge
+    const lengthX = worldLengthX+tileSize;
+    const lengthZ = worldLengthZ+tileSize;
     const lengthY = soilHeight;
     const position = props.hasOwnProperty("position") ? props.position: [0,-soilHeight*0.5,0];
     const color = props.hasOwnProperty(color) ? props.color: soilColor;
@@ -62,7 +62,7 @@ function toWorldUnits(tileUnits){
 }
 function GameMap(props){
     const flowers = props.tiles.map((tile) => 
-        <><FlowerModel key = {JSON.stringify(tile)} flowerData={tile.flower} position={[toWorldUnits(tile.x),tile.flower.stemHeight, toWorldUnits(tile.z)]}/></>
+        <React.Fragment key = {JSON.stringify(tile)}><FlowerModel  flowerData={tile.flower} position={[toWorldUnits(tile.x),tile.flower.stemHeight, toWorldUnits(tile.z)]}/></React.Fragment>
     );
     console.log(flowers);
     return(
@@ -78,4 +78,4 @@ function GameMap(props){
     );
 }
 
-export {GameMap, worldLengthX, worldLengthZ};
+export {GameMap, worldLengthX, worldLengthZ,tileSize};

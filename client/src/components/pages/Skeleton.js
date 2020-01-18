@@ -48,7 +48,7 @@ class Skeleton extends Component {
         )}
 
       <div className="canvasContainer">
-        <Canvas orthographic={true} camera={{zoom:15, position:[gmap.worldLengthX,10,gmap.worldLengthZ],rotation:isometricRotation}}>
+        <Canvas orthographic={true} camera={{zoom:15, position:[gmap.worldLengthX,15,gmap.worldLengthZ],rotation:isometricRotation}}>
           <gmap.GameMap {...maptest.mapTwoFlowers}/>
         </Canvas>
       </div>
