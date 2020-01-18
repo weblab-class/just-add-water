@@ -6,7 +6,9 @@ import * as PropTypes from 'prop-types';
 import * as DrawFlower from '../../js-plant-gen/DrawFlower';
 import * as THREE from 'three';
 
-const soilColor = "#AD907F"
+// lighter color
+// const soilColor = "#AD907F"
+const soilColor = "#8C7A6F";
 // length/width/depth of one grid space in world units
 const tileSize = 10;
 const soilHeight = tileSize;
@@ -52,7 +54,7 @@ function MapLighting(props){
     return(
         <>
           <hemisphereLight intensity={0.5}/>
-          <directionalLight intensity={0.4}/>
+          <directionalLight intensity={0.7}/>
           <directionalLight intensity={0.9} position={[-20,5,20]}/>
            {/* <spotLight position={[25,20,20]} /> */}
           <ambientLight intensity={0.1}/>
