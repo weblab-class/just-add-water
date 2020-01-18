@@ -5,8 +5,9 @@ import React, {useRef, Fragment } from "react";
 import * as PropTypes from 'prop-types';
 import * as DrawFlower from '../../js-plant-gen/DrawFlower';
 import * as THREE from 'three';
-import {useHover} from "react-use-gesture";
+import {useHover, useDrag} from "react-use-gesture";
 import {useSpring, a} from 'react-spring/three';
+import {useThree} from 'react-three-fiber';
 
 // lighter color
 // const soilColor = "#AD907F"
@@ -40,6 +41,14 @@ function Ground(props){
     </mesh>
 }
 
+function mouseCrdsToWorld(x, y, viewport, camera){
+    console.log("mouse crds");
+    console.log(x,y);
+    var vector = new THREE.Vector3( x, y, -1).unproject( camera );
+    console.log(vector);
+    var worldPosition = new THREE.Vector3(vector.x-camera.position.x,25,vector.z-camera.position.z);
+    return [worldPosition.x, worldPosition.y, worldPosition.z]
+}
 function SoilTile(props){
     // tile lights on hover, depresses on click (while flower comes up)
     // planted tiles elevated or not?
@@ -54,14 +63,24 @@ function SoilTile(props){
         position: [x, y-1, z],
         rotation: [0, 0, 0],
         config: { mass: 3, friction: 40, tension: 800 }
-    }))
+    }));
     // const bindHover = useHover( hovering  =>{return hovering}, { pointerEvents: true });
-    const bindHover = useHover(({ hovering }) => set({ scale: hovering ? [1, 2, 1] : [1, 1, 1] }), {
+    const bindHover = useHover(({ hovering }) => set({ scale: hovering ? [1, 2.5, 1] : [1, 1, 1] }), {
         pointerEvents: true
-    })
+    });
+
+    const {viewport, camera } = useThree();
+    const bindDrag = useDrag(
+        // fix: convert these to iso coordinates so things don't go flying off the screen
+        // snap?
+        ({ xy: [x, y], vxvy: [vx, vy], down, ...props }) => {
+            set({ position:mouseCrdsToWorld(x/viewport.width*2-1,-y/viewport.height*2-1, viewport, camera)});
+        },
+        { pointerEvents: true }
+    )
 
     return <a.mesh position={[x,y,z]} 
-        {...spring}  {...bindHover()} >
+        {...spring} {...bindDrag()} {...bindHover()} >
         <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
         <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
     </a.mesh>

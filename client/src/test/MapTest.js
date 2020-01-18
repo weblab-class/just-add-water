@@ -7,7 +7,17 @@ import * as Flowers from '../js-plant-gen/ExampleFlowers';
  * - if plants are different then they are rendered correctly 
  * 
  */
-
+function blueFlowerTile(x,z){
+    const tile = 
+        {
+            creator_id: "test",
+            x: x,
+            z: z,
+            // if one exists
+            flower: Flowers.blueSixPetals,
+            growth_state: 10, };
+    return tile;
+}
  const emptyMap={
 
     tiles: [],
@@ -56,4 +66,34 @@ import * as Flowers from '../js-plant-gen/ExampleFlowers';
             growth_state: 10, },
     ],
  }
- export {emptyMap, mapTwoFlowers, mapAdjFlowers};
+ const mapFull={
+    tiles : [
+        blueFlowerTile(0,-2),
+        blueFlowerTile(0,-1),
+        blueFlowerTile(0,0),
+        blueFlowerTile(0,1),
+        blueFlowerTile(0,2),
+
+        blueFlowerTile(1,-2),
+        blueFlowerTile(1,-1),
+        blueFlowerTile(1,0),
+        blueFlowerTile(1,1),
+        blueFlowerTile(1,2),
+        blueFlowerTile(2,-2),
+        blueFlowerTile(2,-1),
+        blueFlowerTile(2,0),
+        blueFlowerTile(2,1),
+        blueFlowerTile(2,2),
+        blueFlowerTile(-1,-2),
+        blueFlowerTile(-1,-1),
+        blueFlowerTile(-1,0),
+        blueFlowerTile(-1,1),
+        blueFlowerTile(-1,2),
+        blueFlowerTile(-2,-2),
+        blueFlowerTile(-2,-1),
+        blueFlowerTile(-2,0),
+        blueFlowerTile(-2,1),
+        blueFlowerTile(-2,2),
+    ]
+ }
+ export {emptyMap, mapTwoFlowers, mapAdjFlowers,mapFull};
