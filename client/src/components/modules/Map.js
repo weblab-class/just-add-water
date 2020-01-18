@@ -127,7 +127,7 @@ function GameMap(props){
           {flowers}
           {/* <FlowerModel flowerData={Examples.poppy} position={[10,10,0]} /> */} */}
           </>
-          <Ground/>
+          {/* <Ground/> */}
           <TileGrid/>
         </>
     );
