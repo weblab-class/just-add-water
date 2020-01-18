@@ -51,8 +51,10 @@ GameMap.propTypes = {
 function MapLighting(props){
     return(
         <>
-          <hemisphereLight intensity={0.7}/>
-          <spotLight position={[25,20,20]} />
+          <hemisphereLight intensity={0.5}/>
+          <directionalLight intensity={0.4}/>
+          <directionalLight intensity={0.9} position={[-20,5,20]}/>
+           {/* <spotLight position={[25,20,20]} /> */}
           <ambientLight intensity={0.1}/>
         </>
     )
