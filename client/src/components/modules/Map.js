@@ -60,17 +60,21 @@ function MapLighting(props){
         </>
     )
 }
+function toWorldUnits(tileUnits){
+    // place in center of grid space instead of corner
+    return tileUnits*tileSize;
+}
 function GameMap(props){
     const flowers = props.tiles.map((tile) => 
-        <><fc.flowerModel key = {JSON.stringify(tile)} flowerData={tile.flower} position={[fc.tileSize*tile.x,tile.flower.stemHeight, fc.tileSize*tile.z]}/></>
+        <><FlowerModel key = {JSON.stringify(tile)} flowerData={tile.flower} position={[toWorldUnits(tile.x),tile.flower.stemHeight, toWorldUnits(tile.z)]}/></>
     );
+    console.log(flowers);
     return(
         <>
           <MapLighting/>
           <>
-          {/* flower list goes here */}
-          {/* <FlowerModel flowerData={Examples.blueSixPetals} position={[10,10,10]}/> */}
-          {/* <FlowerModel flowerData={Examples.poppy} position={[10,10,0]} /> */}
+          {flowers}
+          {/* <FlowerModel flowerData={Examples.poppy} position={[10,10,0]} /> */} */}
           </>
           <Ground/>
           <TileGrid/>

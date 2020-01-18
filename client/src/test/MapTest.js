@@ -9,18 +9,11 @@ import * as Flowers from '../js-plant-gen/ExampleFlowers';
  */
 
  const emptyMap={
-    mapDimX: 4,
-    /** Z-length of map, in tiles */
-    mapDimZ: 4,
-    /** tiles on map that contain plants, i.e. have been changed */
+
     tiles: [],
  }
 
  const mapTwoFlowers={
-    mapDimX: 4,
-    /** Z-length of map, in tiles */
-    mapDimZ: 4,
-    /** tiles on map that contain plants, i.e. have been changed */
     tiles: [
         {
             creator_id: "u1",
