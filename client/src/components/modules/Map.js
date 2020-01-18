@@ -24,14 +24,14 @@ function MapLighting(props){
 }
 function GameMap(props){
     const flowers = props.tiles.map((tile) => 
-        <><fc.flowerModel key = {JSON.stringify(tile)} flowerData={tile.flower} position={[fc.tileSize*tile.x,0, fc.tileSize*tile.z]}/></>
+        <><fc.flowerModel key = {JSON.stringify(tile)} flowerData={tile.flower} position={[fc.tileSize*tile.x,tile.flower.stemHeight, fc.tileSize*tile.z]}/></>
     );
     return(
         <>
           <MapLighting/>
           <>
           {/* flower list goes here */}
-          <fc.flowerModel flowerData={Examples.blueSixPetals} position={[10,0,0]}/>
+          <fc.flowerModel flowerData={Examples.blueSixPetals} position={[10,10,10]}/>
           <fc.flowerModel flowerData={Examples.poppy} position={[10,10,0]} />
           </>
           <fc.ground/>

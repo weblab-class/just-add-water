@@ -14,20 +14,19 @@ const numTilesX = 4;
 const numTilesZ = 4;
 const worldLengthX = numTilesX*tileSize;
 const worldLengthZ = numTilesZ*tileSize;
-// const rotateToXZPlane = new THREE.Euler(90*Math.PI/180,0,0);
-const rotateToXZPlane = new THREE.Euler(0,0,0);
+const rotateToXZPlane = new THREE.Euler(-90*Math.PI/180,0,0);
+// const rotateToXZPlane = new THREE.Euler(0,0,0);
 function flowerModel(props){
     const flowerData=props.flowerData;
     const mesh =  DrawFlower.plantModel(flowerData);
     const position = props.hasOwnProperty("position") ? props.position:[0,0,0];
-    return <primitive object={mesh} position={position}/>
+    return <primitive object={mesh} position={position} rotation={rotateToXZPlane}/>
 }
 function ground(props){
     const lengthX = worldLengthX;
     const lengthZ = worldLengthZ;
-    // this is now the vertical height. why is it internally inconsistent?!!
     const lengthY = soilHeight;
-    const position = props.hasOwnProperty("position") ? props.position: [0,0,-soilHeight];
+    const position = props.hasOwnProperty("position") ? props.position: [0,-soilHeight*0.5,0];
     const color = props.hasOwnProperty(color) ? props.color: soilColor;
     return <mesh position={position}>
         <boxGeometry args={[lengthX,lengthY,lengthZ]} attach="geometry"/>
@@ -37,7 +36,7 @@ function ground(props){
 
 function tileGrid(props){
     return (
-        <gridHelper args={[worldLengthX,tileSize]} rotation={rotateToXZPlane} position={[0,0,0]}/>
+        <gridHelper args={[worldLengthX,numTilesX]}  position={[0,0.1,0]} colorGrid="#ffffff"/>
     );
 }
 
