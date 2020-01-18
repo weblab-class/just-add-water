@@ -1,4 +1,4 @@
-import React, {useRef } from "react";
+import React, {useRef, Fragment } from "react";
 import * as Examples from '../../js-plant-gen/ExampleFlowers';
 import * as fc from '../modules/FlowerComponents';
 import * as PropTypes from 'prop-types';
@@ -10,10 +10,8 @@ GameMap.propTypes = {
     mapDimX: PropTypes.number,
     /** Z-length of map, in tiles */
     mapDimZ: PropTypes.number,
-    tileSize: PropTypes.number,
-    groundHeight: PropTypes.number,
     /** tiles on map that contain plants, i.e. have been changed */
-    tiles: PropTypes.array,
+    tiles: PropTypes.array.tile,
 };
 function MapLighting(props){
     return(
@@ -25,12 +23,19 @@ function MapLighting(props){
     )
 }
 function GameMap(props){
+    const flowers = props.tiles.map((tile) => 
+        <><fc.flowerModel key = {JSON.stringify(tile)} flowerData={tile.flower} position={[fc.tileSize*tile.x,0, fc.tileSize*tile.z]}/></>
+    );
     return(
         <>
           <MapLighting/>
+          <>
+          {/* flower list goes here */}
           <fc.flowerModel flowerData={Examples.blueSixPetals} position={[10,0,0]}/>
           <fc.flowerModel flowerData={Examples.poppy} position={[10,10,0]} />
-          <fc.tile/>
+          </>
+          <fc.ground/>
+          <fc.tileGrid/>
         </>
     );
 }

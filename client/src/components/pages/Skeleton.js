@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { Canvas} from 'react-three-fiber';
-import * as Examples from '../../js-plant-gen/ExampleFlowers';
 import * as fc from '../modules/FlowerComponents';
 import * as THREE from 'three';
 import GameMap from '../modules/Map';
@@ -49,7 +48,7 @@ class Skeleton extends Component {
 
       <div className="canvasContainer">
         <Canvas orthographic={true} camera={{zoom:10, position:[-20,-20,0], rotation:isometricRotation}}>
-          <GameMap/>
+          <GameMap tiles={[]}/>
         </Canvas>
       </div>
       </>
