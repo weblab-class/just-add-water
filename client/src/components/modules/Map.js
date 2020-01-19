@@ -69,12 +69,11 @@ function SoilTile(props){
         pointerEvents: true
     });
 
-    const {viewport, camera } = useThree();
+    // get moust position on ground from hook
+    const mouseRef=props.mouseRef;
     const bindDrag = useDrag(
-        // fix: convert these to iso coordinates so things don't go flying off the screen
-        // snap?
-        ({ xy: [x, y], vxvy: [vx, vy], down, ...props }) => {
-            set({ position:mouseCrdsToWorld(x/viewport.width*2-1,y/viewport.height*2-1, viewport, camera)});
+        () => {
+            set({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
         },
         { pointerEvents: true }
     )
@@ -88,7 +87,9 @@ function SoilTile(props){
 
 function TileGrid(props){
     return (
-        <gridHelper args={[worldLengthX,numTilesX]}  position={[0,0.1,0]} colorGrid="#ffffff"/>
+        <gridHelper args={[worldLengthX,numTilesX]}  position={[0,0.1,0]} colorGrid="#ffffff"onPointerOver={event=>{
+            props.mouseRef.current=event.point;
+        }}/>
     );
 }
 
@@ -113,10 +114,12 @@ function toWorldUnits(tileUnits){
     return tileUnits*tileSize;
 }
 function GameMap(props){
+    // hook for where on the ground the mouse currently is
+    const groundPosition = useRef(null);
     const flowers = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
             <FlowerModel  flowerData={tile.flower} position={[toWorldUnits(tile.x),tile.flower.stemHeight, toWorldUnits(tile.z)]}/>
-            <SoilTile x={toWorldUnits(tile.x)} z={toWorldUnits(tile.z)}/>
+            <SoilTile x={toWorldUnits(tile.x)} z={toWorldUnits(tile.z)} mouseRef={groundPosition}/>
         </React.Fragment>
     );
     console.log(flowers);
@@ -128,7 +131,7 @@ function GameMap(props){
           {/* <FlowerModel flowerData={Examples.poppy} position={[10,10,0]} /> */} */}
           </>
           {/* <Ground/> */}
-          <TileGrid/>
+          <TileGrid mouseRef={groundPosition} />
         </>
     );
 }
