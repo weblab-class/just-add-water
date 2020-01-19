@@ -32,7 +32,7 @@ function Ground(props){
     const lengthX = worldLengthX+tileSize;
     const lengthZ = worldLengthZ+tileSize;
     const lengthY = soilHeight;
-    const position = props.hasOwnProperty("position") ? props.position: [0,-soilHeight*0.5,0];
+    const position = props.hasOwnProperty("position") ? props.position: [0,-soilHeight*0.4,0];
     const color = props.hasOwnProperty(color) ? props.color: soilColor;
     return <mesh position={position}>
         <boxGeometry args={[lengthX,lengthY,lengthZ]} attach="geometry"/>
@@ -91,7 +91,7 @@ function SoilBlock(props){
 
 function TileGrid(props){
     return (
-        <gridHelper args={[worldLengthX,numTilesX]}  position={[0,0.1,0]} colorGrid="#ffffff"onPointerOver={event=>{
+        <gridHelper args={[worldLengthX,numTilesX]}  position={[0,1,0]} colorGrid="#ffffff"onPointerOver={event=>{
             props.mouseRef.current=event.point;
         }}/>
     );
