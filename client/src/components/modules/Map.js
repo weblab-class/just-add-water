@@ -3,11 +3,10 @@
 // would probably be easier to rotate camera if i'm doing grid thing
 import React, {useRef, Fragment } from "react";
 import * as PropTypes from 'prop-types';
-import * as DrawFlower from '../../js-plant-gen/DrawFlower';
 import * as THREE from 'three';
 import {useHover, useDrag} from "react-use-gesture";
 import {useSpring, a} from 'react-spring/three';
-import {useThree} from 'react-three-fiber';
+import {PlantMesh} from './Flower';
 
 // lighter color
 // const soilColor = "#AD907F"
@@ -20,13 +19,7 @@ const numTilesX = 4;
 const numTilesZ = 4;
 const worldLengthX = numTilesX*tileSize;
 const worldLengthZ = numTilesZ*tileSize;
-const rotateToXZPlane = new THREE.Euler(-90*Math.PI/180,0,0);
-// const rotateToXZPlane = new THREE.Euler(0,0,0);
-function FlowerModel(props){
-    const flowerData=props.flowerData;
-    const mesh =  DrawFlower.plantModel(flowerData);
-    return <primitive object={mesh} position={[0,props.y,0]} rotation={rotateToXZPlane}/>
-}
+
 function Ground(props){
     // ground is drawn with a  margin so it's slightly bigger than the map and flowers don't run off the edge
     const lengthX = worldLengthX+tileSize;
@@ -61,7 +54,7 @@ function SoilBlock(props){
         // y is one space below ground to prevent clipping on unhover
         position: [x, y-1, z],
         rotation: [0, 0, 0],
-        config: { mass: 3, friction: 40, tension: 600 }
+        config: { mass: 3, friction: 40, tension: 700 }
     }));
     const bindHover = useHover(({ hovering }) => set({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }), {
         pointerEvents: true
@@ -79,12 +72,12 @@ function SoilBlock(props){
         { pointerEvents: true }
     )
 
-    return <a.group position={[x,y,z]} {...spring} {...bindDrag()} {...bindHover()} >
-        <mesh>
+    return <a.group name="soilMesh"position={[x,y,z]} {...spring} {...bindDrag()} {...bindHover()} >
+        <mesh visible={true}>
             <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
             <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
         </mesh>
-        <FlowerModel  flowerData={props.flower} x={x}  y={height/2+props.flower.stemHeight} z={z}/>
+        <PlantMesh  {...props.flower} x={0}  y={height/2+props.flower.stemHeight} z={0}/>
     </a.group>
 }
 
@@ -136,9 +129,8 @@ function GameMap(props){
           <MapLighting/>
           <>
           {mapTiles}
-          {/* <FlowerModel flowerData={Examples.poppy} position={[10,10,0]} /> */} */}
           </>
-          <Ground/>
+          <Ground />
           <SnapGrid mouseRef={groundPosition} />
           <GuideGrid/>
         </>
