@@ -89,14 +89,19 @@ function SoilBlock(props){
 }
 
 
-function TileGrid(props){
+function SnapGrid(props){
     return (
-        <gridHelper args={[worldLengthX,numTilesX]}  position={[0,1,0]} colorGrid="#ffffff"onPointerOver={event=>{
+        <gridHelper args={[worldLengthX,numTilesX]}  position={[0,0,0]} colorGrid="#ffffff"onPointerOver={event=>{
             props.mouseRef.current=event.point;
         }}/>
     );
 }
 
+function GuideGrid(props){
+    return (
+        <gridHelper args={[worldLengthX,numTilesX]}  position={[0,1,0]} colorGrid="#ffffff"/>
+    );
+}
 // cannot return a canvas element because of weird DOM shit; this just puts together everything required in the map
 // write test map to render
 GameMap.propTypes = {
@@ -120,21 +125,22 @@ function toWorldUnits(tileUnits){
 function GameMap(props){
     // hook for where on the ground the mouse currently is
     const groundPosition = useRef(null);
-    const flowers = props.tiles.map((tile) => 
+    const mapTiles = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
             <SoilBlock {...{flower:tile.flower,x:toWorldUnits(tile.x),z:toWorldUnits(tile.z), mouseRef:groundPosition}}/>
         </React.Fragment>
     );
-    console.log(flowers);
+    console.log(mapTiles);
     return(
         <>
           <MapLighting/>
           <>
-          {flowers}
+          {mapTiles}
           {/* <FlowerModel flowerData={Examples.poppy} position={[10,10,0]} /> */} */}
           </>
           <Ground/>
-          <TileGrid mouseRef={groundPosition} />
+          <SnapGrid mouseRef={groundPosition} />
+          <GuideGrid/>
         </>
     );
 }
