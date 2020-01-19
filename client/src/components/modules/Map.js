@@ -25,8 +25,7 @@ const rotateToXZPlane = new THREE.Euler(-90*Math.PI/180,0,0);
 function FlowerModel(props){
     const flowerData=props.flowerData;
     const mesh =  DrawFlower.plantModel(flowerData);
-    const position = props.hasOwnProperty("position") ? props.position:[0,0,0];
-    return <primitive object={mesh} position={position} rotation={rotateToXZPlane}/>
+    return <primitive object={mesh} position={[0,props.y,0]} rotation={rotateToXZPlane}/>
 }
 function Ground(props){
     // ground is drawn with a  margin so it's slightly bigger than the map and flowers don't run off the edge
@@ -52,10 +51,10 @@ function mouseCrdsToWorld(x, y, viewport, camera){
 function SoilBlock(props){
     // tile lights on hover, depresses on click (while flower comes up)
     // planted tiles elevated or not?
-    const height = soilHeight*0.3;
+    const height = soilHeight*1.5;
     const x = props.hasOwnProperty("x")? props.x : 0;
     const z = props.hasOwnProperty("z")? props.z : 0;
-    const y = height/2;
+    const y = 0;
 
     const [spring, set] = useSpring(() => ({
         scale: [1, 1, 1],
@@ -64,36 +63,31 @@ function SoilBlock(props){
         rotation: [0, 0, 0],
         config: { mass: 3, friction: 40, tension: 900 }
     }));
-    const bindHover = useHover(({ hovering }) => set({ scale: hovering ? [1, 2.5, 1] : [1, 1, 1] }), {
+    const bindHover = useHover(({ hovering }) => set({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }), {
         pointerEvents: true
     });
 
     // get mouse position on ground from hook
     const mouseRef=props.mouseRef;
+    const xRef=props.xRef;
+    const zRef=props.zRef;
     const bindDrag = useDrag(
         () => {
             set({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
+            xRef.current=mouseRef.current.x;zRef.current=mouseRef.current.z;
         },
         { pointerEvents: true }
     )
 
-    return <a.mesh position={[x,y,z]} 
-        {...spring} {...bindDrag()} {...bindHover()} >
-        <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
-        <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
-    </a.mesh>
+    return <a.group position={[x,y,z]} {...spring} {...bindDrag()} {...bindHover()} >
+        <mesh>
+            <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
+            <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
+        </mesh>
+        <FlowerModel  flowerData={props.flower} x={x}  y={height/2+props.flower.stemHeight} z={z}/>
+    </a.group>
 }
 
-function Tile(props){
-    
-    return(
-        <>
-            <FlowerModel  flowerData={props.flower} position={[toWorldUnits(props.x),props.flower.stemHeight, toWorldUnits(props.z)]}/>
-            <SoilBlock x={toWorldUnits(props.x)} z={toWorldUnits(props.z)} mouseRef={props.mouseRef}/>
-        </>
-    )
-    
-}
 
 function TileGrid(props){
     return (
@@ -128,7 +122,7 @@ function GameMap(props){
     const groundPosition = useRef(null);
     const flowers = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
-            <Tile {...{flower:tile.flower,x:tile.x,z:tile.z, mouseRef:groundPosition}}/>
+            <SoilBlock {...{flower:tile.flower,x:toWorldUnits(tile.x),z:toWorldUnits(tile.z), mouseRef:groundPosition}}/>
         </React.Fragment>
     );
     console.log(flowers);
