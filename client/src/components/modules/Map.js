@@ -54,7 +54,7 @@ function SoilBlock(props){
         // y is one space below ground to prevent clipping on unhover
         position: [x, y-1, z],
         rotation: [0, 0, 0],
-        config: { mass: 3, friction: 40, tension: 700 }
+        config: { mass: 3, friction: 30, tension: 700 }
     }));
     const bindHover = useHover(({ hovering }) => set({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }), {
         pointerEvents: true
@@ -62,12 +62,9 @@ function SoilBlock(props){
 
     // get mouse position on ground from hook
     const mouseRef=props.mouseRef;
-    const xRef=props.xRef;
-    const zRef=props.zRef;
     const bindDrag = useDrag(
         () => {
             set({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
-            xRef.current=mouseRef.current.x;zRef.current=mouseRef.current.z;
         },
         { pointerEvents: true }
     )
