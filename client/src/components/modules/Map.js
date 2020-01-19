@@ -49,7 +49,7 @@ function mouseCrdsToWorld(x, y, viewport, camera){
     console.log(worldPosition);
     return [worldPosition.x, worldPosition.y, worldPosition.z]
 }
-function SoilTile(props){
+function SoilBlock(props){
     // tile lights on hover, depresses on click (while flower comes up)
     // planted tiles elevated or not?
     const height = soilHeight*0.3;
@@ -62,14 +62,13 @@ function SoilTile(props){
         // y is one space below ground to prevent clipping on unhover
         position: [x, y-1, z],
         rotation: [0, 0, 0],
-        config: { mass: 3, friction: 40, tension: 800 }
+        config: { mass: 3, friction: 40, tension: 900 }
     }));
-    // const bindHover = useHover( hovering  =>{return hovering}, { pointerEvents: true });
     const bindHover = useHover(({ hovering }) => set({ scale: hovering ? [1, 2.5, 1] : [1, 1, 1] }), {
         pointerEvents: true
     });
 
-    // get moust position on ground from hook
+    // get mouse position on ground from hook
     const mouseRef=props.mouseRef;
     const bindDrag = useDrag(
         () => {
@@ -83,6 +82,17 @@ function SoilTile(props){
         <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
         <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
     </a.mesh>
+}
+
+function Tile(props){
+    
+    return(
+        <>
+            <FlowerModel  flowerData={props.flower} position={[toWorldUnits(props.x),props.flower.stemHeight, toWorldUnits(props.z)]}/>
+            <SoilBlock x={toWorldUnits(props.x)} z={toWorldUnits(props.z)} mouseRef={props.mouseRef}/>
+        </>
+    )
+    
 }
 
 function TileGrid(props){
@@ -118,8 +128,7 @@ function GameMap(props){
     const groundPosition = useRef(null);
     const flowers = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
-            <FlowerModel  flowerData={tile.flower} position={[toWorldUnits(tile.x),tile.flower.stemHeight, toWorldUnits(tile.z)]}/>
-            <SoilTile x={toWorldUnits(tile.x)} z={toWorldUnits(tile.z)} mouseRef={groundPosition}/>
+            <Tile {...{flower:tile.flower,x:tile.x,z:tile.z, mouseRef:groundPosition}}/>
         </React.Fragment>
     );
     console.log(flowers);
@@ -130,7 +139,7 @@ function GameMap(props){
           {flowers}
           {/* <FlowerModel flowerData={Examples.poppy} position={[10,10,0]} /> */} */}
           </>
-          {/* <Ground/> */}
+          <Ground/>
           <TileGrid mouseRef={groundPosition} />
         </>
     );
