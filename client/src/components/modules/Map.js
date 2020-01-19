@@ -51,7 +51,7 @@ function mouseCrdsToWorld(x, y, viewport, camera){
 function SoilBlock(props){
     // tile lights on hover, depresses on click (while flower comes up)
     // planted tiles elevated or not?
-    const height = soilHeight*1.5;
+    const height = soilHeight;
     const x = props.hasOwnProperty("x")? props.x : 0;
     const z = props.hasOwnProperty("z")? props.z : 0;
     const y = 0;
