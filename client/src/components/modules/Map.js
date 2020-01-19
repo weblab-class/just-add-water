@@ -61,7 +61,7 @@ function SoilBlock(props){
         // y is one space below ground to prevent clipping on unhover
         position: [x, y-1, z],
         rotation: [0, 0, 0],
-        config: { mass: 3, friction: 40, tension: 900 }
+        config: { mass: 3, friction: 40, tension: 600 }
     }));
     const bindHover = useHover(({ hovering }) => set({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }), {
         pointerEvents: true
@@ -91,7 +91,7 @@ function SoilBlock(props){
 
 function SnapGrid(props){
     return (
-        <gridHelper args={[worldLengthX,numTilesX]}  position={[0,0,0]} colorGrid="#ffffff"onPointerOver={event=>{
+        <gridHelper args={[worldLengthX,numTilesX*2]}  position={[0,0,0]} colorGrid="#ffffff"onPointerOver={event=>{
             props.mouseRef.current=event.point;
         }}/>
     );
