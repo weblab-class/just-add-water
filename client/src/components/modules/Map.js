@@ -61,6 +61,7 @@ function Tile(props){
         pointerEvents: true
     });
 
+    const doNothingFn = ()=>{};
     let bindDrag=null;
     // get mouse position on ground from hook
     if (props.inputMode.dragTile == true){
@@ -72,6 +73,9 @@ function Tile(props){
             },
             { pointerEvents: true }
         )
+    }
+    else {
+        bindDrag = doNothingFn;
     }
 
     return <a.group position={[x,y,z]} {...spring} {...bindDrag()} {...bindHover()} >
