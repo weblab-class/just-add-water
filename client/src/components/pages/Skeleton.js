@@ -27,8 +27,6 @@ class Skeleton extends Component {
 
   render() {
     // z axis is coming out of page - remember
-    // angle to rotate orthographic camera by for isometric view
-    // const isometricRotation = new THREE.Euler(-.8,0,0.8);
     return (
       <>
         {this.props.userId ? (
@@ -49,7 +47,7 @@ class Skeleton extends Component {
 
       <div className="canvasContainer">
         <Canvas orthographic={true} camera={{zoom:15, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
-          <gmap.GameMap {...maptest.mapAdjFlowers}/>
+          <gmap.GameMap {...maptest.mapDiffGrowth}/>
         </Canvas>
       </div>
       </>

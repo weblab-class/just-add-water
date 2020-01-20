@@ -7,15 +7,15 @@ import * as Flowers from '../js-plant-gen/ExampleFlowers';
  * - if plants are different then they are rendered correctly 
  * 
  */
-function blueFlowerTile(x,z){
+function blueFlowerTile(xGrid,zGrid){
     const tile = 
         {
             creator_id: "test",
-            x: x,
-            z: z,
+            xGrid: xGrid,
+            zGrid: zGrid,
             // if one exists
             flower: Flowers.blueSixPetals,
-            growth_state: 10, };
+            growthState: 1, };
     return tile;
 }
  const emptyMap={
@@ -27,45 +27,69 @@ function blueFlowerTile(x,z){
     tiles: [
         {
             creator_id: "u1",
-            x: 0,
-            z: 0,
+            xGrid: 0,
+            zGrid: 0,
             // if one exists
             flower: Flowers.blueSixPetals,
-            growth_state: 10, },
+            growthState: 1, },
         {
             creator_id: "u1",
-            x: 2,
-            z: 2,
+            xGrid: 2,
+            zGrid: 2,
             // if one exists
             flower: Flowers.poppy,
-            growth_state: 10, },
+            growthState: 1, },
     ],
  }
  const mapAdjFlowers={
     tiles: [
         {
             creator_id: "u1",
-            x: 0,
-            z: 0,
+            xGrid: 0,
+            zGrid: 0,
             // if one exists
             flower: Flowers.blueSixPetals,
-            growth_state: 10, },
+            growthState: 1, },
         {
             creator_id: "u1",
-            x: 0,
-            z: 1,
+            xGrid: 0,
+            zGrid: 1,
             // if one exists
             flower: Flowers.poppy,
-            growth_state: 10, },
+            growthState: 1, },
         {
             creator_id: "u1",
-            x: 0,
-            z: 2,
+            xGrid: 0,
+            zGrid: 2,
             // if one exists
             flower: Flowers.poppy,
-            growth_state: 10, },
+            growthState: 1, },
     ],
- }
+ };
+ const mapDiffGrowth={
+    tiles: [
+        {
+            creator_id: "u1",
+            xGrid: 0,
+            zGrid: 0,
+            // if one exists
+            flower: Flowers.blueSixPetals,
+            growthState: 0.5, },
+        {
+            creator_id: "u1",
+            xGrid: 0,
+            zGrid: 1,
+            // if one exists
+            flower: Flowers.poppy,
+            growthState: 0.7, },
+        {
+            creator_id: "u1",
+            xGrid: 0,
+            zGrid: 2,
+            // if one exists
+            flower: Flowers.poppy,
+            growthState: 1, }
+    ]};
  const mapFull={
     tiles : [
         blueFlowerTile(0,-2),
@@ -96,4 +120,4 @@ function blueFlowerTile(x,z){
         blueFlowerTile(-2,2),
     ]
  }
- export {emptyMap, mapTwoFlowers, mapAdjFlowers,mapFull};
+ export {emptyMap, mapTwoFlowers, mapAdjFlowers,mapFull, mapDiffGrowth};
