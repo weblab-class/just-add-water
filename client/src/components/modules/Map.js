@@ -65,6 +65,7 @@ function Tile(props){
     const mouseRef=props.mouseRef;
     const bindDrag = useDrag(
         (event) => {
+            event.event.stopPropagation();
             set({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
         },
         { pointerEvents: true }
