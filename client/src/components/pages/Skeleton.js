@@ -13,6 +13,10 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
 
 // const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
 const isometricRotation = new THREE.Euler(-30*Math.PI/180,45*Math.PI/180,0 ,"YXZ");
+const moveMode = {
+  dragTile:true,
+  handleChange:null
+}
 class Skeleton extends Component {
   constructor(props) {
     super(props);
@@ -51,8 +55,8 @@ class Skeleton extends Component {
         )}
 
       <div className="canvasContainer">
-        <Canvas orthographic={true} camera={{zoom:15, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
-          <gmap.GameMap {...this.state.mapToUse}/>
+        <Canvas orthographic={true} camera={{zoom:10, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
+          <gmap.GameMap {...this.state.mapToUse} inputMode={moveMode}/>
         </Canvas>
       </div>
       </>

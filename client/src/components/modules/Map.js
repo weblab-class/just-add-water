@@ -61,15 +61,18 @@ function Tile(props){
         pointerEvents: true
     });
 
+    let bindDrag=null;
     // get mouse position on ground from hook
-    const mouseRef=props.mouseRef;
-    const bindDrag = useDrag(
-        (event) => {
-            event.event.stopPropagation();
-            set({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
-        },
-        { pointerEvents: true }
-    )
+    if (props.inputMode.dragTile == true){
+        const mouseRef=props.mouseRef;
+        bindDrag = useDrag(
+            (event) => {
+                event.event.stopPropagation();
+                set({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
+            },
+            { pointerEvents: true }
+        )
+    }
 
     return <a.group position={[x,y,z]} {...spring} {...bindDrag()} {...bindHover()} >
         <mesh name="soilMesh" visible={true}>
@@ -119,7 +122,7 @@ function GameMap(props){
     const groundPosition = useRef(null);
     const mapTiles = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
-            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState}}/>
+            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, inputMode:props.inputMode}}/>
         </React.Fragment>
     );
     console.log(mapTiles);
