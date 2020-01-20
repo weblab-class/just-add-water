@@ -39,8 +39,7 @@ function FlowerMesh(props){
     </mesh>
 }
 function StemMesh(props){
-    const growthState = props.hasOwnProperty("growthState") ? props.growthState : 1;
-    const stemHeight=props.stemHeight*growthState;
+    const stemHeight=props.stemHeight*props.growthState;
     const stemColor=props.leafStemColor;
     const stemSubdivisions=3;
     const stemRadius = props.stemRadius || 0.25;
@@ -105,6 +104,7 @@ function LeafMesh(props){
 
 function PlantMesh(props){
     // base of the plant is at origin
+    console.log(props.growthState);
     const x = props.x || 0;
     const y = props.y || 0;
     const z = props.z || 0;

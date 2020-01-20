@@ -43,13 +43,12 @@ function mouseCrdsToWorld(x, y, viewport, camera){
     return [worldPosition.x, worldPosition.y, worldPosition.z]
 }
 function Tile(props){
-    // tile lights on hover, depresses on click (while flower comes up)
-    // planted tiles elevated or not?
     const height = soilHeight;
     const x = props.hasOwnProperty("x")? props.x : 0;
     const z = props.hasOwnProperty("z")? props.z : 0;
     const y = 0;
 
+    // animation and input stuff
     const [spring, set] = useSpring(() => ({
         scale: [1, 1, 1],
         // y is one space below ground to prevent clipping on unhover
@@ -77,12 +76,23 @@ function Tile(props){
         { pointerEvents: true }
     )
 
-    return <a.group position={[x,y,z]} {...spring} {...bindDrag()} {...bindHover()} >
+    let growthState = props.growthState;
+    const bindClick = (event) => {
+        if (props.canWater){
+            console.log("clicked");
+            growthState += 0.1;
+        }
+        else {
+            doNothingFn();
+        }
+    }
+
+    return <a.group position={[x,y,z]} {...spring} {...bindDrag()} {...bindHover()} onClick={bindClick}>
         <mesh name="soilMesh" visible={true}>
             <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
             <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
         </mesh>
-        <PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={props.growthState}/>
+        <PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={growthState}/>
     </a.group>
 }
 
@@ -122,11 +132,10 @@ function toWorldUnits(tileUnits){
 }
 function GameMap(props){
     // hook for where on the ground the mouse currently is
-    console.log(props.canDrag);
     const groundPosition = useRef(null);
     const mapTiles = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
-            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag}}/>
+            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater}}/>
         </React.Fragment>
     );
     console.log(mapTiles);

@@ -11,50 +11,61 @@ import "./Skeleton.css";
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
+function getTile (tileArr, x,z){
+    const tile = tileArr.find(tile => tile.xGrid === x && tile.zGrid === z);
+    return tile;
+}
 // const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
 const isometricRotation = new THREE.Euler(-30*Math.PI/180,45*Math.PI/180,0 ,"YXZ");
-const moveMode = {
-  canDrag:true,
-  canWater:false,
-  handleChange:null
-}
-const waterMode={
-  canDrag: true,
-  canWater:false,
-  handleChange:null
-}
 class Skeleton extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
     this.state = {
-      mapToUse:maptest.mapDiffGrowth,
+      // immutable array
+      tiles:maptest.mapDiffGrowth.tiles,
       canDrag:false,
-      canWater:false,
+      canWater:true,
     };
     this.groundColor = "#8C7A6f"
     this.setMoveMode=this.setMoveMode.bind(this);
     this.setWaterMode=this.setWaterMode.bind(this);
+    this.updateGrowth=this.updateGrowth.bind(this);
+
   }
 
   componentDidMount() {
     // remember -- api calls go here!
   }
 
+  // construct well organized tile array in beginning?
+  updateGrowth(x,z, increment){
+    const newArr = this.state.tiles.slice(0);
+    getTile(newArr, x,z).growthState += increment;
+    this.setState({tiles:newArr});
+    console.log(newArr);
+  }
+
+
   setMoveMode(){
-    this.setState({canDrag:true});
+    this.setState({
+      canDrag:true,
+      canWater:false});
     console.log("move mode set");
   }
 
   setWaterMode(){
-    this.setState({canDrag:false});
+    this.setState({
+      canWater:true,
+      canDrag:false});
   }
   render() {
     // z axis is coming out of page - remember
     return (
       <>
         <button onClick={this.setMoveMode}>move</button>
-        <button onClick={this.setWaterMode}>no move</button>
+        <button onClick={this.setWaterMode}>water</button>
+        <button onClick={()=>{this.updateGrowth(0,0,0.2)}}>grow</button>
         {this.props.userId ? (
           <GoogleLogout
             clientId={GOOGLE_CLIENT_ID}
@@ -73,7 +84,7 @@ class Skeleton extends Component {
 
       <div className="canvasContainer">
         <Canvas orthographic={true} camera={{zoom:10, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
-          <gmap.GameMap {...this.state.mapToUse} canDrag={this.state.canDrag}/>
+          <gmap.GameMap tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater}/>
         </Canvas>
       </div>
       </>
