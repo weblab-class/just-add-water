@@ -64,7 +64,7 @@ function Tile(props){
     const doNothingFn = ()=>{};
     let bindDrag=null;
     // get mouse position on ground from hook
-    if (props.inputMode.dragTile == true){
+    if (props.canDrag){
         const mouseRef=props.mouseRef;
         bindDrag = useDrag(
             (event) => {
@@ -75,7 +75,8 @@ function Tile(props){
         )
     }
     else {
-        bindDrag = doNothingFn;
+        // useDrag must always be called so this prevents crashing
+        bindDrag = useDrag(()=>doNothingFn);
     }
 
     return <a.group position={[x,y,z]} {...spring} {...bindDrag()} {...bindHover()} >
@@ -123,10 +124,11 @@ function toWorldUnits(tileUnits){
 }
 function GameMap(props){
     // hook for where on the ground the mouse currently is
+    console.log(props.canDrag);
     const groundPosition = useRef(null);
     const mapTiles = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
-            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, inputMode:props.inputMode}}/>
+            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag}}/>
         </React.Fragment>
     );
     console.log(mapTiles);
