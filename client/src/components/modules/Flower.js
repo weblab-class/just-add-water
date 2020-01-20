@@ -71,6 +71,10 @@ function makeLeafGeometry(xOrigin, yOrigin, leafLength, width1, width2, leafFold
 }
 
 function LeafMesh(props){
+    if(props.growthState<0.6){
+        return <mesh/>
+    }
+    const stemHeight=props.stemHeight*props.growthState;
     let leafRotAngle = props.leafRotAngle;
     let leafFoldAngle = 20 * (Math.PI/180);
     let leafLength = props.leafLength;
@@ -78,8 +82,8 @@ function LeafMesh(props){
     let leafInner = props.leafInner*leafLength;
     let leafOuter = props.leafOuter*leafLength;
     let leafPitch = props.leafPitch;
-    let leavesTopBound = -props.stemHeight*(1-props.leavesTopBound);
-    let leavesBottomBound =  -props.stemHeight*0.9;
+    let leavesTopBound = -stemHeight*(1-props.leavesTopBound);
+    let leavesBottomBound =  -stemHeight*0.9;
     let translateBy = leavesBottomBound;
     // absolutely no leaves above here
     let flowersTopBound = 0;

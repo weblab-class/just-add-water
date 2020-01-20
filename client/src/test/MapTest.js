@@ -77,6 +77,13 @@ function blueFlowerTile(xGrid,zGrid){
             growthState: 0.5, },
         {
             creator_id: "u1",
+            xGrid: 1,
+            zGrid: 1,
+            // if one exists
+            flower: Flowers.blueSixPetals,
+            growthState: 0.2, },
+        {
+            creator_id: "u1",
             xGrid: 0,
             zGrid: 1,
             // if one exists
