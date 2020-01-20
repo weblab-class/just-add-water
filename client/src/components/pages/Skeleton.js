@@ -17,18 +17,23 @@ class Skeleton extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
-    this.state = {};
+    this.state = {mapToUse:maptest.mapDiffGrowth};
     this.groundColor = "#8C7A6f"
+    this.changeMap=this.changeMap.bind(this);
   }
 
   componentDidMount() {
     // remember -- api calls go here!
   }
 
+  changeMap(){
+    this.setState({mapToUse:maptest.mapFull});
+  }
   render() {
     // z axis is coming out of page - remember
     return (
       <>
+        <button onClick={this.changeMap}>click</button>
         {this.props.userId ? (
           <GoogleLogout
             clientId={GOOGLE_CLIENT_ID}
@@ -47,7 +52,7 @@ class Skeleton extends Component {
 
       <div className="canvasContainer">
         <Canvas orthographic={true} camera={{zoom:15, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
-          <gmap.GameMap {...maptest.mapDiffGrowth}/>
+          <gmap.GameMap {...this.state.mapToUse}/>
         </Canvas>
       </div>
       </>
