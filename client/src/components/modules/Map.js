@@ -62,22 +62,20 @@ function Tile(props){
     });
 
     const doNothingFn = ()=>{};
-    let bindDrag=null;
     // get mouse position on ground from hook
-    if (props.canDrag){
-        const mouseRef=props.mouseRef;
-        bindDrag = useDrag(
-            (event) => {
+    const mouseRef=props.mouseRef;
+    const bindDrag = useDrag(
+        (event) => {
+            if (props.canDrag){
                 event.event.stopPropagation();
                 set({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
-            },
-            { pointerEvents: true }
-        )
-    }
-    else {
-        // useDrag must always be called so this prevents crashing
-        bindDrag = useDrag(()=>doNothingFn);
-    }
+            }
+            else {
+                doNothingFn();
+            }
+        },
+        { pointerEvents: true }
+    )
 
     return <a.group position={[x,y,z]} {...spring} {...bindDrag()} {...bindHover()} >
         <mesh name="soilMesh" visible={true}>
