@@ -30,6 +30,7 @@
     "express-session": "^1.17.0",
     "google-auth-library": "^5.5.1",
     "mongoose": "^5.8.9",
+    "nodemon": "^1.19.4",
     "react": "^16.7.0",
     "react-color": "^2.18.0",
     "react-dom": "^16.7.0",
