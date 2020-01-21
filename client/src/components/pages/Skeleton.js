@@ -8,13 +8,7 @@ import * as gmap from '../modules/Map';
 import "../../utilities.css";
 import "./Skeleton.css";
 
-//TODO: REPLACE WITH YOUR OWN CLIENT_ID
-const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
-
-function getTile (tileArr, x,z){
-    const tile = tileArr.find(tile => tile.xGrid === x && tile.zGrid === z);
-    return tile;
-}
+const GOOGLE_CLIENT_ID = "165089793235-ovm7mojq6cb3advrbqmis38sqqk144jt.apps.googleusercontent.com";
 // input switching suddenly broke?? why??? could be the asynchronous setstate thing
 function tileById(tileArr, id){
   const tile = tileArr.find(tile => tile._id == id);
