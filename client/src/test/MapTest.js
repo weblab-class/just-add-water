@@ -1,4 +1,5 @@
 import * as Flowers from '../js-plant-gen/ExampleFlowers';
+const mongoose = require("mongoose");
 /** 
  * data for rendering a test map
  * things to check for
@@ -10,6 +11,7 @@ import * as Flowers from '../js-plant-gen/ExampleFlowers';
 function blueFlowerTile(xGrid,zGrid){
     const tile = 
         {
+            _id: mongoose.Types.ObjectId(),
             creator_id: "test",
             xGrid: xGrid,
             zGrid: zGrid,
@@ -27,6 +29,7 @@ function blueFlowerTile(xGrid,zGrid){
     tiles: [
         {
             creator_id: "u1",
+            _id: mongoose.Types.ObjectId(),
             xGrid: 0,
             zGrid: 0,
             // if one exists
@@ -45,6 +48,7 @@ function blueFlowerTile(xGrid,zGrid){
     tiles: [
         {
             creator_id: "u1",
+            _id: mongoose.Types.ObjectId(),
             xGrid: 0,
             zGrid: 0,
             // if one exists
@@ -52,6 +56,7 @@ function blueFlowerTile(xGrid,zGrid){
             growthState: 1, },
         {
             creator_id: "u1",
+            _id: mongoose.Types.ObjectId(),
             xGrid: 0,
             zGrid: 1,
             // if one exists
@@ -59,6 +64,7 @@ function blueFlowerTile(xGrid,zGrid){
             growthState: 1, },
         {
             creator_id: "u1",
+            _id: mongoose.Types.ObjectId(),
             xGrid: 0,
             zGrid: 2,
             // if one exists
@@ -70,6 +76,7 @@ function blueFlowerTile(xGrid,zGrid){
     tiles: [
         {
             creator_id: "u1",
+            _id: mongoose.Types.ObjectId(),
             xGrid: 0,
             zGrid: 0,
             // if one exists
@@ -77,6 +84,7 @@ function blueFlowerTile(xGrid,zGrid){
             growthState: 0.5, },
         {
             creator_id: "u1",
+            _id: mongoose.Types.ObjectId(),
             xGrid: 1,
             zGrid: 1,
             // if one exists
@@ -84,6 +92,7 @@ function blueFlowerTile(xGrid,zGrid){
             growthState: 0.2, },
         {
             creator_id: "u1",
+            _id: mongoose.Types.ObjectId(),
             xGrid: 0,
             zGrid: 1,
             // if one exists
@@ -91,6 +100,7 @@ function blueFlowerTile(xGrid,zGrid){
             growthState: 0.7, },
         {
             creator_id: "u1",
+            _id: mongoose.Types.ObjectId(),
             xGrid: 0,
             zGrid: 2,
             // if one exists

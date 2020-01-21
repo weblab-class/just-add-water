@@ -15,6 +15,11 @@ function getTile (tileArr, x,z){
     const tile = tileArr.find(tile => tile.xGrid === x && tile.zGrid === z);
     return tile;
 }
+
+function tileById(tileArr, id){
+  const tile = tileArr.find(tile => tile._id == id);
+  return tile;
+}
 // const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
 const isometricRotation = new THREE.Euler(-30*Math.PI/180,45*Math.PI/180,0 ,"YXZ");
 class Skeleton extends Component {
@@ -34,17 +39,15 @@ class Skeleton extends Component {
   }
 
   componentDidMount() {
+    console.log(this.state.tiles)
     // remember -- api calls go here!
   }
 
   // construct well organized tile array in beginning?
-  updateGrowth(xGrid,zGrid, increment){
+  updateGrowth(id, increment){
     // immutable array because react won't update it if you change elements, this makes a copy
-    console.log(xGrid);
-    console.log(zGrid);
     const newArr = this.state.tiles.slice(0);
-    getTile(newArr, xGrid,zGrid).growthState += increment;
-    console.log(newArr);
+    tileById(newArr, id).growthState += increment;
     this.setState({tiles:newArr});
   }
 

@@ -80,7 +80,7 @@ function Tile(props){
     const bindClick = (event) => {
         if (props.canWater && growthState < 1){
             event.stopPropagation();
-            props.updateGrowth(toGridUnits(x),toGridUnits(z),growthIncrement);
+            props.updateGrowth(props._id,growthIncrement);
         }
         else {
             doNothingFn();
@@ -138,10 +138,9 @@ function GameMap(props){
     const groundPosition = useRef(null);
     const mapTiles = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
-            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater, updateGrowth:props.updateGrowth}}/>
+            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater, updateGrowth:props.updateGrowth,_id:tile._id }}/>
         </React.Fragment>
     );
-    // console.log(mapTiles);
     return(
         <>
           <MapLighting/>
