@@ -28,8 +28,8 @@ class Skeleton extends Component {
     // Initialize Default State
     this.state = {
       tiles:maptest.mapDiffGrowth.tiles,
-      canDrag:false,
-      canWater:true,
+      canDrag:true,
+      canWater:false,
     };
     this.groundColor = "#8C7A6f"
     this.setMoveMode=this.setMoveMode.bind(this);
@@ -74,9 +74,12 @@ class Skeleton extends Component {
       canDrag:false});
   }
   render() {
+    const dragCaption = "click and drag to move plants around";
+    const waterCaption = "click a plant to water it";
     // z axis is coming out of page - remember
     return (
       <>
+        <div className="caption">{this.state.canDrag ? dragCaption:waterCaption}</div>
         <a className={this.state.canDrag ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a>
         <a className={this.state.canWater ? "button-water-active":"button-water-inactive"} onClick={this.setWaterMode} ></a>
         {this.props.userId ? (
