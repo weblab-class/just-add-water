@@ -98,7 +98,7 @@ class Skeleton extends Component {
           />
         )}
 
-      {this.props.userId ? (
+      {true ? (
       <div>
 
         <div className="caption">{this.state.canDrag ? dragCaption:waterCaption}</div>
