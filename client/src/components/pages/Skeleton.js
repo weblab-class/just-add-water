@@ -22,7 +22,6 @@ class Skeleton extends Component {
     super(props);
     // Initialize Default State
     this.state = {
-      // immutable array
       tiles:maptest.mapDiffGrowth.tiles,
       canDrag:false,
       canWater:true,
@@ -39,11 +38,14 @@ class Skeleton extends Component {
   }
 
   // construct well organized tile array in beginning?
-  updateGrowth(x,z, increment){
+  updateGrowth(xGrid,zGrid, increment){
+    // immutable array because react won't update it if you change elements, this makes a copy
+    console.log(xGrid);
+    console.log(zGrid);
     const newArr = this.state.tiles.slice(0);
-    getTile(newArr, x,z).growthState += increment;
-    this.setState({tiles:newArr});
+    getTile(newArr, xGrid,zGrid).growthState += increment;
     console.log(newArr);
+    this.setState({tiles:newArr});
   }
 
 
@@ -65,7 +67,6 @@ class Skeleton extends Component {
       <>
         <button onClick={this.setMoveMode}>move</button>
         <button onClick={this.setWaterMode}>water</button>
-        <button onClick={()=>{this.updateGrowth(0,0,0.2)}}>grow</button>
         {this.props.userId ? (
           <GoogleLogout
             clientId={GOOGLE_CLIENT_ID}
@@ -84,7 +85,7 @@ class Skeleton extends Component {
 
       <div className="canvasContainer">
         <Canvas orthographic={true} camera={{zoom:10, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
-          <gmap.GameMap tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater}/>
+          <gmap.GameMap tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater} updateGrowth={this.updateGrowth}/>
         </Canvas>
       </div>
       </>

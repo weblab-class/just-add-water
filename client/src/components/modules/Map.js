@@ -51,8 +51,7 @@ function Tile(props){
     // animation and input stuff
     const [spring, set] = useSpring(() => ({
         scale: [1, 1, 1],
-        // y is one space below ground to prevent clipping on unhover
-        position: [x, y-1, z],
+        position: [x, y, z],
         rotation: [0, 0, 0],
         config: { mass: 3, friction: 30, tension: 700 }
     }));
@@ -77,10 +76,11 @@ function Tile(props){
     )
 
     let growthState = props.growthState;
+    const growthIncrement = 0.1;
     const bindClick = (event) => {
-        if (props.canWater){
-            console.log("clicked");
-            growthState += 0.1;
+        if (props.canWater && growthState < 1){
+            event.stopPropagation();
+            props.updateGrowth(toGridUnits(x),toGridUnits(z),growthIncrement);
         }
         else {
             doNothingFn();
@@ -130,15 +130,18 @@ function MapLighting(props){
 function toWorldUnits(tileUnits){
     return tileUnits*tileSize;
 }
+function toGridUnits(worldUnits){
+    return worldUnits/tileSize;
+}
 function GameMap(props){
     // hook for where on the ground the mouse currently is
     const groundPosition = useRef(null);
     const mapTiles = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
-            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater}}/>
+            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater, updateGrowth:props.updateGrowth}}/>
         </React.Fragment>
     );
-    console.log(mapTiles);
+    // console.log(mapTiles);
     return(
         <>
           <MapLighting/>
