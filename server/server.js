@@ -27,13 +27,14 @@ const path = require("path"); // provide utilities for working with file and dir
 
 const api = require("./api");
 const auth = require("./auth");
+require('dotenv').config();
 
 // socket stuff
 const socket = require("./server-socket");
 
 // Server configuration below
 // TODO change connection URL after setting up your team database
-const mongoConnectionURL = "mongodb+srv://admin:3o8wwqy3@cluster0-v4kxs.mongodb.net/test?retryWrites=true&w=majority";
+const mongoConnectionURL = process.env.MONGO_URL;
 // TODO change database name to the name you chose
 const databaseName = "h2gro";
 
@@ -95,7 +96,7 @@ app.use((err, req, res, next) => {
 });
 
 // hardcode port to 3000 for now
-const port = 3000;
+const port = process.env.port || 3000;
 const server = http.Server(app);
 // commenting out socket stuff for now
 // socket.init(server);
