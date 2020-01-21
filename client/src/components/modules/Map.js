@@ -4,7 +4,7 @@
 import React, {useRef, Fragment } from "react";
 import * as PropTypes from 'prop-types';
 import * as THREE from 'three';
-import {useHover, useDrag} from "react-use-gesture";
+import {useHover, useDrag, useGesture} from "react-use-gesture";
 import {useSpring, a} from 'react-spring/three';
 import {PlantMesh} from './Flower';
 import { useThree } from 'react-three-fiber';
@@ -55,25 +55,24 @@ function Tile(props){
         rotation: [0, 0, 0],
         config: { mass: 3, friction: 30, tension: 700 }
     }));
-    const bindHover = useHover(({ hovering }) => set({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }), {
-        pointerEvents: true
-    });
-
     const doNothingFn = ()=>{};
     // get mouse position on ground from hook
     const mouseRef=props.mouseRef;
-    const bindDrag = useDrag(
-        (event) => {
-            if (props.canDrag){
-                event.event.stopPropagation();
-                set({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
-            }
-            else {
-                doNothingFn();
-            }
+    const bindGesture = useGesture(
+        {
+            onDrag: (event) => {
+                if (props.canDrag){
+                    event.event.stopPropagation();
+                    set({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
+                }
+                else {
+                    doNothingFn();
+                }
+            },
+            onHover: ({hovering}) => set({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] })
         },
-        { pointerEvents: true }
-    )
+        {pointerEvents: true}
+    );
 
     let growthState = props.growthState;
     const growthIncrement = 0.1;
@@ -87,7 +86,7 @@ function Tile(props){
         }
     }
 
-    return <a.group position={[x,y,z]} {...spring} {...bindDrag()} {...bindHover()} onClick={bindClick}>
+    return <a.group position={[x,y,z]} {...spring} {...bindGesture()} onClick={bindClick}>
         <mesh name="soilMesh" visible={true}>
             <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
             <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
