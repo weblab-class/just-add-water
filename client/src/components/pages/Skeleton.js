@@ -51,6 +51,13 @@ class Skeleton extends Component {
     this.setState({tiles:newArr});
   }
 
+  updatePosition(id, newXGrid, newZGrid){
+    const newArr = this.state.tiles.slice(0);
+    tileById(newArr, id).xGrid = newXGrid ;
+    tileById(newArr, id).zGrid = newXGrid ;
+    this.setState({tiles:newArr});
+  }
+
 
   setMoveMode(){
     this.setState({
