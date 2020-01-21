@@ -49,7 +49,7 @@ function Tile(props){
     const y = 0;
 
     // animation and input stuff
-    const [spring, set] = useSpring(() => ({
+    const [spring, setSpring] = useSpring(() => ({
         scale: [1, 1, 1],
         position: [x, y, z],
         rotation: [0, 0, 0],
@@ -63,7 +63,7 @@ function Tile(props){
             onDrag: (dragEvent) => {
                 if (props.canDrag){
                     dragEvent.event.stopPropagation();
-                    set({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
+                    setSpring({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
                 }
             },
             onDragEnd: (dragEndEvent)=>{
@@ -73,7 +73,7 @@ function Tile(props){
                     toGridUnits(mouseRef.current.z));
                 }
             },
-            onHover: ({hovering}) => set({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }),
+            onHover: ({hovering}) => setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }),
             onClick: (event) => {
                 if (props.canWater && growthState < 1){
                     event.stopPropagation();
