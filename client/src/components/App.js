@@ -65,4 +65,10 @@ class App extends Component {
   }
 }
 
+function getAllTiles() {
+  get('/api/all_tiles').then(
+    (tileArr => {return tileArr})
+  );
+}
 export default App;
+export {getAllTiles};
