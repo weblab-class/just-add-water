@@ -43,7 +43,7 @@ router.get("/test", (req, res) => {
   res.send({message:"hello world"});
 });
 
-router.get("/tiles", (req, res) => {
+router.get("/tiles_by_user", (req, res) => {
   Tile.find({creator_id: req.query.creator_id}).then((tiles) => {
     res.send(tiles);
   });

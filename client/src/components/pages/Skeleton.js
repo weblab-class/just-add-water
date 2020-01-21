@@ -21,8 +21,8 @@ class Skeleton extends Component {
     super(props);
     // Initialize Default State
     this.state = {
-      // tiles:maptest.mapDiffGrowth.tiles,
-      tiles:[],
+      tiles:maptest.mapDiffGrowth.tiles,
+      // tiles:[],
       canDrag:false,
       canWater:true,
     };
@@ -35,10 +35,11 @@ class Skeleton extends Component {
   }
 
   componentDidMount() {
-    get('/api/all_tiles').then(obj =>{
+    get('/api/tiles_by_user',{creator_id:"me"}).then(obj =>{
       const tileArr = obj;
+      console.log(tileArr);
       this.setState({
-        tiles:tileArr
+        // tiles:tileArr
       });
     });
     console.log(this.state.tiles);
@@ -100,11 +101,15 @@ class Skeleton extends Component {
           />
         )}
 
+      {this.props.userId ? (
       <div className="canvasContainer">
         <Canvas orthographic={true} camera={{zoom:10, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
           <gmap.GameMap tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater} updateGrowth={this.updateGrowth} updatePosition={this.updatePosition}/>
         </Canvas>
-      </div>
+      </div>) : (
+        <span>login to begin</span>
+        )
+      }
       </>
     );
   }
