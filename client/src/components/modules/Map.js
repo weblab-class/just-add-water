@@ -20,7 +20,7 @@ const numTilesX = 4;
 const numTilesZ = 4;
 const worldLengthX = numTilesX*tileSize;
 const worldLengthZ = numTilesZ*tileSize;
-const growthIncrement = 0.1;
+const growthIncrement = 0.2;
 function Ground(props){
     // ground is drawn with a  margin so it's slightly bigger than the map and flowers don't run off the edge
     const lengthX = worldLengthX+tileSize;

@@ -1,4 +1,4 @@
-import * as Flowers from '../js-plant-gen/ExampleFlowers';
+import * as Flowers from './ExampleFlowers';
 const mongoose = require("mongoose");
 /** 
  * data for rendering a test map
