@@ -35,6 +35,7 @@ class Skeleton extends Component {
     this.setMoveMode=this.setMoveMode.bind(this);
     this.setWaterMode=this.setWaterMode.bind(this);
     this.updateGrowth=this.updateGrowth.bind(this);
+    this.updatePosition=this.updatePosition.bind(this);
 
   }
 
@@ -54,7 +55,8 @@ class Skeleton extends Component {
   updatePosition(id, newXGrid, newZGrid){
     const newArr = this.state.tiles.slice(0);
     tileById(newArr, id).xGrid = newXGrid ;
-    tileById(newArr, id).zGrid = newXGrid ;
+    tileById(newArr, id).zGrid = newZGrid ;
+    console.log(newArr);
     this.setState({tiles:newArr});
   }
 
@@ -95,7 +97,7 @@ class Skeleton extends Component {
 
       <div className="canvasContainer">
         <Canvas orthographic={true} camera={{zoom:10, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
-          <gmap.GameMap tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater} updateGrowth={this.updateGrowth}/>
+          <gmap.GameMap tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater} updateGrowth={this.updateGrowth} updatePosition={this.updatePosition}/>
         </Canvas>
       </div>
       </>

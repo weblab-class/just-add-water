@@ -69,6 +69,16 @@ function Tile(props){
                     doNothingFn();
                 }
             },
+            onDragEnd: (event)=>{
+                if (props.canDrag){
+                    event.event.stopPropagation();
+                    props.updatePosition(props._id,toGridUnits(mouseRef.current.x), 
+                    toGridUnits(mouseRef.current.z));
+                }
+                else {
+                    doNothingFn();
+                }
+            },
             onHover: ({hovering}) => set({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] })
         },
         {pointerEvents: true}
@@ -137,7 +147,7 @@ function GameMap(props){
     const groundPosition = useRef(null);
     const mapTiles = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
-            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater, updateGrowth:props.updateGrowth,_id:tile._id }}/>
+            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater, updateGrowth:props.updateGrowth,_id:tile._id, updatePosition:props.updatePosition}}/>
         </React.Fragment>
     );
     return(
