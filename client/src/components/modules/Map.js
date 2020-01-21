@@ -55,7 +55,6 @@ function Tile(props){
         rotation: [0, 0, 0],
         config: { mass: 3, friction: 30, tension: 700 }
     }));
-    const doNothingFn = ()=>{};
     // get mouse position on ground from hook
     const mouseRef=props.mouseRef;
     const bindGesture = useGesture(
@@ -76,6 +75,9 @@ function Tile(props){
             },
             onHover: ({hovering}) => setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }),
             onClick: (event) => {
+                console.log(event);
+                console.log(props.canWater);
+                console.log(growthState);
                 if (props.canWater && growthState < 1){
                     event.stopPropagation();
                     props.updateGrowth(props._id,growthIncrement); }

@@ -15,7 +15,7 @@ function getTile (tileArr, x,z){
     const tile = tileArr.find(tile => tile.xGrid === x && tile.zGrid === z);
     return tile;
 }
-
+// input switching suddenly broke?? why??? could be the asynchronous setstate thing
 function tileById(tileArr, id){
   const tile = tileArr.find(tile => tile._id == id);
   return tile;
@@ -28,8 +28,8 @@ class Skeleton extends Component {
     // Initialize Default State
     this.state = {
       tiles:maptest.mapDiffGrowth.tiles,
-      canDrag:true,
-      canWater:false,
+      canDrag:false,
+      canWater:true,
     };
     this.groundColor = "#8C7A6f"
     this.setMoveMode=this.setMoveMode.bind(this);
@@ -50,6 +50,7 @@ class Skeleton extends Component {
     const newArr = this.state.tiles.slice(0);
     tileById(newArr, id).growthState += increment;
     this.setState({tiles:newArr});
+    console.log(this.state.tiles);
   }
 
   updatePosition(id, newXGrid, newZGrid){
@@ -65,13 +66,14 @@ class Skeleton extends Component {
     this.setState({
       canDrag:true,
       canWater:false});
-    console.log("move mode set");
   }
 
   setWaterMode(){
+    console.log('water mode');
     this.setState({
       canWater:true,
       canDrag:false});
+    console.log(this.state);
   }
   render() {
     const dragCaption = "click and drag to move plants around";

@@ -21,11 +21,13 @@
   "dependencies": {
     "@reach/router": "^1.2.1",
     "babel-preset-react": "^6.24.1",
+    "chai": "^4.2.0",
     "connect-ensure-login": "^0.1.1",
     "core-js": "^3.3.6",
     "express": "^4.16.4",
     "express-session": "^1.17.0",
     "google-auth-library": "^5.5.1",
+    "mocha": "^7.0.0",
     "mongoose": "^5.8.9",
     "nodemon": "^1.19.4",
     "react": "^16.7.0",

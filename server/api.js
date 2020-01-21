@@ -39,12 +39,32 @@ router.post("/initsocket", (req, res) => {
   res.send({});
 });
 
+router.get("/test", (req, res) => {
+  res.send({message:"hello world"});
+});
+
 router.get("/tiles", (req, res) => {
   Tile.find({creator_id: req.query.creator_id}).then((tiles) => {
     res.send(tiles);
   });
 });
 
+router.get("/all_tiles", (req, res) => {
+  Tile.find({}).then((tiles) => {
+    res.send(tiles);
+    res.send("tiles printed in console");
+  });
+});
+router.post("/new_tile", (req,res) => {
+  const newTile = new Tile({
+    creator_id:"me",
+    xGrid: req.body.xGrid,
+    zGrid: req.body.zGrid,
+    flower: req.body.flower,
+    growthState:req.body.growthState,
+  });
+  newTile.save().then((tile) => res.send(tile));
+});
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|

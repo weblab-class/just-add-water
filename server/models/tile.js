@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const TileSchema = new mongoose.Schema({
     creator_id: String,
-    x_coord: Number,
-    z_coord: Number,
+    xGrid: Number,
+    zGrid: Number,
     // if one exists
     flower: Object,
-    growth_state: Number,
+    growthState: Number,
     // may add dirt/color properties
 });
 
