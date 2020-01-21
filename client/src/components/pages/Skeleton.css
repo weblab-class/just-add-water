@@ -5,4 +5,37 @@ html, body, div, #app, #app>div, #root {
 }
 canvas {
   height:100% !important;
+  z-index:0;
+}
+button#trowel {
+  z-index:1;
+  position: absolute;
+  bottom:0;
+}
+
+.button-water{
+  z-index:1;
+  position: absolute;
+  bottom:4px;
+  right:20px;
+  background: url(../../assets/glass-empty.svg) no-repeat;
+  width:110px;
+  height:190px;
+  border: none;
+  outline:none;
+}
+.button-water:hover{
+  background: url(../../assets/glass-drop.svg) no-repeat;
+}
+.button-water-active {
+  z-index:1;
+  position: absolute;
+  bottom:0px;
+  right:20px;
+  background: url(../../assets/glass-empty.svg) no-repeat;
+  width:110px;
+  height:190px;
+  border: none;
+  outline:none;
+  background: url(../../assets/glass-half-full.svg) no-repeat;
 }
