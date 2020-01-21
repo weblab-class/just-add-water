@@ -4,7 +4,7 @@ import { Canvas} from 'react-three-fiber';
 import * as maptest from '../../test/MapTest';
 import * as THREE from 'three';
 import * as gmap from '../modules/Map';
-
+import { get, post } from "../../utilities";
 import "../../utilities.css";
 import "./Skeleton.css";
 
@@ -21,7 +21,8 @@ class Skeleton extends Component {
     super(props);
     // Initialize Default State
     this.state = {
-      tiles:maptest.mapDiffGrowth.tiles,
+      // tiles:maptest.mapDiffGrowth.tiles,
+      tiles:[],
       canDrag:false,
       canWater:true,
     };
@@ -34,8 +35,13 @@ class Skeleton extends Component {
   }
 
   componentDidMount() {
-    console.log(this.state.tiles)
-    // remember -- api calls go here!
+    get('/api/all_tiles').then(obj =>{
+      const tileArr = obj;
+      this.setState({
+        tiles:tileArr
+      });
+    });
+    console.log(this.state.tiles);
   }
 
   // construct well organized tile array in beginning?
