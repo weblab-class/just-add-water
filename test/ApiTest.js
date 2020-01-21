@@ -1,9 +1,10 @@
-import { get, post } from "../utilities";
-import * as mocha from "mocha";
-import * as chai from "chai";
+import * as api from "../client/src/utilities";
+const expect = require('chai').expect;
+const should = require('chai').should();
+
 function testPrintTiles(){
     get("api/all_tiles").then((tileArr)=>{
-        console.log(tileArr);
+        return tileArr;
     })
 }
 function testNewTile(){
@@ -33,4 +34,3 @@ function testNewTile(){
         growthState: 1, },
     );
 }
-export {testNewTile, testPrintTiles};

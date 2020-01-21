@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
-import * as ApiTest from "../test/ApiTest";
+// import * as ApiTest from "../../../../test/ApiTest";
 
 import "../utilities.css";
 
@@ -29,7 +29,7 @@ class App extends Component {
         this.setState({ userId: user._id });
       }
     });
-    ApiTest.testPrintTiles();
+    // ApiTest.testPrintTiles();
     // ApiTest.testNewTile();
   }
 
