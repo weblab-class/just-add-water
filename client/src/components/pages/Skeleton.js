@@ -82,9 +82,6 @@ class Skeleton extends Component {
     // z axis is coming out of page - remember
     return (
       <>
-        <div className="caption">{this.state.canDrag ? dragCaption:waterCaption}</div>
-        <a className={this.state.canDrag ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a>
-        <a className={this.state.canWater ? "button-water-active":"button-water-inactive"} onClick={this.setWaterMode} ></a>
         {this.props.userId ? (
           <GoogleLogout
             clientId={GOOGLE_CLIENT_ID}
@@ -102,12 +99,21 @@ class Skeleton extends Component {
         )}
 
       {this.props.userId ? (
+      <div>
+
+        <div className="caption">{this.state.canDrag ? dragCaption:waterCaption}</div>
+        <div className="caption-bottom">design plants <a href="https://ju-de.itch.io/inflorescence">here</a></div>
+        <a className={this.state.canDrag ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a>
+        <a className={this.state.canWater ? "button-water-active":"button-water-inactive"} onClick={this.setWaterMode} ></a>
       <div className="canvasContainer">
+
         <Canvas orthographic={true} camera={{zoom:10, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
           <gmap.GameMap tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater} updateGrowth={this.updateGrowth} updatePosition={this.updatePosition}/>
         </Canvas>
+
+      </div>
       </div>) : (
-        <span>login to begin</span>
+        <div className="loginMessage">login to begin</div>
         )
       }
       </>
