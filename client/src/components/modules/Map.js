@@ -20,7 +20,7 @@ const numTilesX = 4;
 const numTilesZ = 4;
 const worldLengthX = numTilesX*tileSize;
 const worldLengthZ = numTilesZ*tileSize;
-
+const growthIncrement = 0.1;
 function Ground(props){
     // ground is drawn with a  margin so it's slightly bigger than the map and flowers don't run off the edge
     const lengthX = worldLengthX+tileSize;
@@ -60,43 +60,32 @@ function Tile(props){
     const mouseRef=props.mouseRef;
     const bindGesture = useGesture(
         {
-            onDrag: (event) => {
+            onDrag: (dragEvent) => {
                 if (props.canDrag){
-                    event.event.stopPropagation();
+                    dragEvent.event.stopPropagation();
                     set({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
                 }
-                else {
-                    doNothingFn();
-                }
             },
-            onDragEnd: (event)=>{
+            onDragEnd: (dragEndEvent)=>{
                 if (props.canDrag){
-                    event.event.stopPropagation();
+                    dragEndEvent.event.stopPropagation();
                     props.updatePosition(props._id,toGridUnits(mouseRef.current.x), 
                     toGridUnits(mouseRef.current.z));
                 }
-                else {
-                    doNothingFn();
+            },
+            onHover: ({hovering}) => set({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }),
+            onClick: (event) => {
+                if (props.canWater && growthState < 1){
+                    event.stopPropagation();
+                    props.updateGrowth(props._id,growthIncrement); }
                 }
             },
-            onHover: ({hovering}) => set({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] })
-        },
         {pointerEvents: true}
     );
 
     let growthState = props.growthState;
-    const growthIncrement = 0.1;
-    const bindClick = (event) => {
-        if (props.canWater && growthState < 1){
-            event.stopPropagation();
-            props.updateGrowth(props._id,growthIncrement);
-        }
-        else {
-            doNothingFn();
-        }
-    }
 
-    return <a.group position={[x,y,z]} {...spring} {...bindGesture()} onClick={bindClick}>
+    return <a.group position={[x,y,z]} {...spring} {...bindGesture()} >
         <mesh name="soilMesh" visible={true}>
             <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
             <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
