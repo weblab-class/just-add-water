@@ -29,7 +29,7 @@ class Skeleton extends Component {
     this.state = {
       tiles:maptest.mapDiffGrowth.tiles,
       canDrag:false,
-      canWater:false,
+      canWater:true,
     };
     this.groundColor = "#8C7A6f"
     this.setMoveMode=this.setMoveMode.bind(this);
@@ -77,8 +77,8 @@ class Skeleton extends Component {
     // z axis is coming out of page - remember
     return (
       <>
-        <button id="trowel" onClick={this.setMoveMode}>move</button>
-        <a className={this.state.canWater ? "button-water-active":"button-water"} onClick={this.setWaterMode} ></a>
+        <a className={this.state.canDrag ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a>
+        <a className={this.state.canWater ? "button-water-active":"button-water-inactive"} onClick={this.setWaterMode} ></a>
         {this.props.userId ? (
           <GoogleLogout
             clientId={GOOGLE_CLIENT_ID}

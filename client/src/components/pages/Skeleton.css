@@ -13,18 +13,49 @@ button#trowel {
   bottom:0;
 }
 
-.button-water{
+.button-drag-inactive {
+  z-index:1;
+  position: absolute;
+  bottom:40%;
+  right:20px;
+  transform: rotate(180deg);
+  transform-origin:center;
+  background: url(../../assets/shovel-clean.svg) no-repeat;
+  background-size:contain;
+  width:120px;
+  height:100px;
+}
+.button-drag-inactive:hover{
+  transform-origin:center;
+  transform: rotate(225deg);
+}
+.button-drag-active{
+  z-index:1;
+  position: absolute;
+  bottom:40%;
+  right:15px;
+  transform: rotate(225deg) ;
+  transform-origin:center;
+  width:120px;
+  height:100px;
+  background: url(../../assets/shovel-dirty.svg) no-repeat;
+  background-size:contain;
+  width:160px;
+}
+
+.button-water-inactive{
   z-index:1;
   position: absolute;
   bottom:4px;
   right:20px;
   background: url(../../assets/glass-empty.svg) no-repeat;
-  width:110px;
+  width:100px;
+  background-size:contain;
   height:190px;
   border: none;
   outline:none;
 }
-.button-water:hover{
+.button-water-inactive:hover{
   background: url(../../assets/glass-drop.svg) no-repeat;
 }
 .button-water-active {
@@ -33,7 +64,8 @@ button#trowel {
   bottom:0px;
   right:20px;
   background: url(../../assets/glass-empty.svg) no-repeat;
-  width:110px;
+  width:100px;
+  background-size:contain;
   height:190px;
   border: none;
   outline:none;
