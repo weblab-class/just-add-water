@@ -71,8 +71,7 @@ function Tile(props){
                     dragEndEvent.event.stopPropagation();
                     setSpring({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
                     // causes jump in animation because block is redrawn -- fix later
-                    props.updatePosition(props._id,toGridUnits(mouseRef.current.x), toGridUnits(mouseRef.current.z));
-                    post('/api/updateTile', {id:props._id, updateObj:{xGrid: toGridUnits(mouseRef.current.x), yGrid: toGridUnits(mouseRef.current.z)}});
+                    post('/api/updateTile', {id:props._id, updateObj:{xGrid: toGridUnits(mouseRef.current.x), zGrid: toGridUnits(mouseRef.current.z)}});
                 }
             },
             onHover: ({hovering}) => setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }),
@@ -148,7 +147,7 @@ function GameMap(props){
     const groundPosition = useRef(null);
     const mapTiles = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
-            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater, updateGrowth:props.updateGrowth,_id:tile._id, updatePosition:props.updatePosition}}/>
+            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater, updateGrowth:props.updateGrowth,_id:tile._id, }}/>
         </React.Fragment>
     );
     return(
