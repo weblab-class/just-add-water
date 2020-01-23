@@ -1,16 +1,16 @@
-import { get, post } from "../client/src/utilities";
-import chai from 'chai';
-import chaiHttp from 'chai-http';
-var expect = require('chai').expect;
+import chai, {expect, should} from 'chai';
+import nock from 'nock';
+
 // Configure chai
-chai.use(chaiHttp);
 chai.should();
-describe('get', function(){
-    context('all tiles', function(){
+
+describe('writing tiles', function(){
+    context('route: get all tiles', function(){
         it('should get all tiles in db', function(){
-            get("/api/all_tiles").then((res)=>{
-                const tiles = res;
-                expect(tiles).to.be.an('array').with.lengthOf(2);
+            let tiles = null;
+            nock('http://localhost:5000/api').get('/all_tiles').then(e =>{
+                tiles =e;
+                expect(tiles).to.be.an('array').of({type:"Tile"});
             })
         })
     })
