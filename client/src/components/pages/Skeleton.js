@@ -21,8 +21,8 @@ class Skeleton extends Component {
     super(props);
     // Initialize Default State
     this.state = {
-      tiles:maptest.mapDiffGrowth.tiles,
-      // tiles:[],
+      // tiles:maptest.mapDiffGrowth.tiles,
+      tiles:[],
       canDrag:false,
       canWater:true,
     };
@@ -35,14 +35,16 @@ class Skeleton extends Component {
   }
 
   componentDidMount() {
-    get('/api/tiles_by_user',{creator_id:"me"}).then(obj =>{
+    get('/api/tilesByUser',{creator_id:"me"}).then(obj =>{
       const tileArr = obj;
       console.log(tileArr);
       this.setState({
-        // tiles:tileArr
+        tiles:tileArr
       });
     });
-    console.log(this.state.tiles);
+    get('/api/tileIDsByUser', {creator_id:"me"}).then(res =>{
+      console.log(res);
+    });
   }
 
   // construct well organized tile array in beginning?

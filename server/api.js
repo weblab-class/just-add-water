@@ -43,9 +43,15 @@ router.get("/test", (req, res) => {
   res.send({message:"hello world"});
 });
 
-router.get("/tiles_by_user", (req, res) => {
+router.get("/tilesByUser", (req, res) => {
   Tile.find({creator_id: req.query.creator_id}).then((tiles) => {
     res.send(tiles);
+  });
+});
+
+router.get("/tileIDsByUser", (req, res) =>{
+  Tile.find({creator_id:req.query.creator_id}).select('_id').then((tileIDs) => {
+    res.send(tileIDs);
   });
 });
 
