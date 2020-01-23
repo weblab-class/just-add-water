@@ -66,6 +66,19 @@ router.get("/all_tiles", (req, res) => {
     res.send("tiles printed in console");
   });
 });
+
+router.post("/updateTile", (req, res) =>{
+  console.log("req.body", req.body);
+  try {
+    Tile.findByIdAndUpdate(req.body.id, req.body.updateObj).then(()=>{
+      Tile.findById({_id:req.body.id}).then((obj)=>console.log(obj));
+    });
+  }
+  catch(err){
+    res.sendStatus(500);
+    res.send({error:err})
+  }
+});
 router.post("/new_tile", (req,res) => {
   const newTile = new Tile({
     creator_id:"me",

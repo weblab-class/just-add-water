@@ -72,6 +72,7 @@ function Tile(props){
                     setSpring({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
                     // causes jump in animation because block is redrawn -- fix later
                     props.updatePosition(props._id,toGridUnits(mouseRef.current.x), toGridUnits(mouseRef.current.z));
+                    post('/api/updateTile', {id:props._id, updateObj:{xGrid: toGridUnits(mouseRef.current.x), yGrid: toGridUnits(mouseRef.current.z)}});
                 }
             },
             onHover: ({hovering}) => setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }),
