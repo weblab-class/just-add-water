@@ -33,11 +33,11 @@ router.get("/whoami", (req, res) => {
   res.send(req.user);
 });
 
-router.post("/initsocket", (req, res) => {
-  // do nothing if user not logged in
-  if (req.user) socket.addUser(req.user, socket.getSocketFromSocketID(req.body.socketid));
-  res.send({});
-});
+// router.post("/initsocket", (req, res) => {
+//   // do nothing if user not logged in
+//   if (req.user) socket.addUser(req.user, socket.getSocketFromSocketID(req.body.socketid));
+//   res.send({});
+// });
 
 router.get("/test", (req, res) => {
   res.send({message:"hello world"});
@@ -53,6 +53,11 @@ router.get("/tileIDsByUser", (req, res) =>{
   Tile.find({creator_id:req.query.creator_id}).select('_id').then((tileIDs) => {
     res.send(tileIDs);
   });
+});
+
+router.get("/tileByID", (req, res) =>{
+  Tile.findById({_id:req.query.tileID}).then((tile) =>
+    res.send(tile))
 });
 
 router.get("/all_tiles", (req, res) => {

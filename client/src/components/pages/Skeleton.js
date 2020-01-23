@@ -23,6 +23,7 @@ class Skeleton extends Component {
     this.state = {
       // tiles:maptest.mapDiffGrowth.tiles,
       tiles:[],
+      tileIDs:[],
       canDrag:false,
       canWater:true,
     };
@@ -43,7 +44,9 @@ class Skeleton extends Component {
       });
     });
     get('/api/tileIDsByUser', {creator_id:"me"}).then(res =>{
-      console.log(res);
+      const idArr = res.map(idObj => idObj._id);
+      console.log("idArr", idArr);
+      this.setState( {tileIDs:idArr});
     });
   }
 
@@ -79,6 +82,7 @@ class Skeleton extends Component {
     console.log(this.state);
   }
   render() {
+    console.log("state when rendering",this.state);
     const dragCaption = "click and drag to move plants around";
     const waterCaption = "click a plant to water it";
     // z axis is coming out of page - remember
@@ -110,7 +114,7 @@ class Skeleton extends Component {
       <div className="canvasContainer">
 
         <Canvas orthographic={true} camera={{zoom:8, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
-          <gmap.GameMap tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater} updateGrowth={this.updateGrowth} updatePosition={this.updatePosition}/>
+          <gmap.GameMap  tileIDs = {this.state.tileIDs} tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater} updateGrowth={this.updateGrowth} updatePosition={this.updatePosition}/>
         </Canvas>
 
       </div>

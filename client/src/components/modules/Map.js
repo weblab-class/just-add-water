@@ -8,6 +8,7 @@ import {useHover, useDrag, useGesture} from "react-use-gesture";
 import {useSpring, a} from 'react-spring/three';
 import {PlantMesh} from './Flower';
 import { useThree } from 'react-three-fiber';
+import { get, post } from "../../utilities";
 
 // lighter color
 // const soilColor = "#AD907F"
@@ -135,6 +136,13 @@ function toGridUnits(worldUnits){
     return worldUnits/tileSize;
 }
 function GameMap(props){
+    console.log("tile ids", props.tileIDs);
+    let tileList;
+    Promise.all(props.tileIDs.map(id => get("/api/tileById", {tileID: id}))).then(tileListObj => {
+        console.log("tilelistobj", tileListObj);
+        tileList = tileListObj;
+        console.log("tile list", tileList);
+    });
     // hook for where on the ground the mouse currently is
     const groundPosition = useRef(null);
     const mapTiles = props.tiles.map((tile) => 
