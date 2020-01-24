@@ -78,7 +78,7 @@ function Tile(props){
                     event.stopPropagation();
                     growthState += growthIncrement;
                     post('/api/updateTile', {id:props._id, updateObj:{growthState:growthState}});
-                    setPlantSpring({scale:[2,2,2]});
+                    setPlantSpring({scale:[1,2,1]});
                 }}
             },
         {pointerEvents: true}

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import React, {useImperativeHandle} from 'react';
+import React, {useImperativeHandle, useRef} from 'react';
 import {useSpring, a} from 'react-spring/three';
 
 const rotateToXZPlane = new THREE.Euler(-90*Math.PI/180,0,0);
@@ -44,10 +44,21 @@ function StemMesh(props){
     const stemColor=props.leafStemColor;
     const stemSubdivisions=3;
     const stemRadius = props.stemRadius || 0.25;
-    return <mesh name="stemMesh" > 
+
+    // for animating growth
+    const [spring, setSpring] = useSpring(() => ({
+        scale: [1, 1, 1],
+        position: [0, 0, 0],
+        rotation: [0, 0, 0],
+        config: { mass: 3, friction: 30, tension: 700 }
+    }));
+    const stemSpringRef = props.springRef;
+    stemSpringRef.current = setSpring;
+    return <a.mesh name="stemMesh" {...spring} > 
         <cylinderGeometry attach="geometry" args={[stemRadius,stemRadius,stemHeight,stemSubdivisions]}/>
         <meshBasicMaterial attach="material" color={stemColor} />
-    </mesh>
+    </a.mesh>
+
 }
 
 function makeLeafGeometry(xOrigin, yOrigin, leafLength, width1, width2, leafFoldAngle){
@@ -104,24 +115,26 @@ function LeafMesh(props){
 }
 
 function PlantMesh(props){
+    // const useFlowerSpring =useRef();
+    const useSetStemSpring = useRef();
+    const stemMesh = (
+        <StemMesh attachArray = "children" {...props} springRef={useSetStemSpring}/>
+    )
+    const usePlantSpring = () =>{
+        useSetStemSpring.current({scale:[2,3,2]});
+        // useFlowerSpring();
+    }
+    props.springRef.current = usePlantSpring;
     // base of the plant is at origin
     const x = props.x || 0;
     const y = props.y || 0;
     const z = props.z || 0;
 
-    const [spring, setSpring] = useSpring(() => ({
-        scale: [1, 1, 1],
-        position: [x, y, z],
-        rotation: [0, 0, 0],
-        config: { mass: 3, friction: 30, tension: 700 }
-    }));
-    const springRef = props.springRef;
-    springRef.current = setSpring;
     const yHeightOfStem= props.stemHeight/2*props.growthState;
-    return <a.group position={[x,y,z]} {...spring}>
+    return <group position={[x,y,z]} >
         <FlowerMesh attachArray = "children" {...props} position={[0,yHeightOfStem,0]}/>
-        <StemMesh attachArray = "children" {...props}/>
+        {stemMesh}
         <LeafMesh attachArray = "children" {...props} position={[0,yHeightOfStem,0]}/>
-    </a.group>
+    </group>
 }
 export {FlowerMesh,PlantMesh,LeafMesh,StemMesh};
