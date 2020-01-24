@@ -134,8 +134,9 @@ function PlantMesh(props){
     );
 
     const usePlantSpring = (params) =>{
-        setStemSpring({scale:[1,(params.growthIncrement+props.growthState)/props.growthState,1]});
-        setFlowerSpring({position:[0, 0.5*currentHeight+params.growthIncrement*2, 0]});
+        const growthFactor = (params.growthIncrement+props.growthState)/props.growthState
+        setStemSpring({scale:[1,growthFactor,1]});
+        setFlowerSpring({position:[0, 0.5*currentHeight*growthFactor, 0]});
     }
     props.springRef.current = usePlantSpring;
     // base of the plant is at origin
