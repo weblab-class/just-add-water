@@ -143,7 +143,4 @@ const youngPlants = mapFull.tiles.map(tile => ({
 export function populate(tileList, username){
     tileList.forEach((tileObj) => post('api/newTile', {tile:tileObj, creator_id:username}));
 }
-export function populateDb(){
-    mapDiffGrowth.tiles.forEach((tileObj) => post('api/newTile', {tile:tileObj, creator_id:"user1"}));
-}
- export {youngPlants, emptyMap, mapTwoFlowers, mapAdjFlowers,mapFull, mapDiffGrowth};
+export {youngPlants, emptyMap, mapTwoFlowers, mapAdjFlowers,mapFull, mapDiffGrowth};

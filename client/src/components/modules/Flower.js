@@ -116,9 +116,7 @@ function PlantMesh(props){
         config: { mass: 3, friction: 30, tension: 700 }
     }));
     const springRef = props.springRef;
-    useImperativeHandle(springRef, (params) =>{
-        setSpring: (params) => setSpring(params);
-    });
+    springRef.current = setSpring;
     const yHeightOfStem= props.stemHeight/2*props.growthState;
     return <a.group position={[x,y,z]} {...spring}>
         <FlowerMesh attachArray = "children" {...props} position={[0,yHeightOfStem,0]}/>
