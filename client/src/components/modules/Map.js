@@ -53,7 +53,7 @@ function Tile(props){
     let growthState = props.growthState;
     const plantSpringRef = useRef();
     const plantMesh=(
-        <PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef} alwaysShowFlower={false}/>);
+        <PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef} alwaysShowFlower={true}/>);
     const mouseRef=props.mouseRef;
     const bindGesture = useGesture(
         {

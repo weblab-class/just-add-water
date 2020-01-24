@@ -108,6 +108,7 @@ function LeafMesh(props){
 function PlantMesh(props){
     // const useFlowerSpring =useRef();
     // for animating growth
+    const currentHeight = props.growthState*props.stemHeight;
     const springConfig = {
         config: { mass: 3, friction: 30, tension: 700 }
     }
@@ -118,24 +119,23 @@ function PlantMesh(props){
     }));
     const stemMesh = ( <StemMesh attachArray = "children" {...props} spring={stemSpring}/>)
 
-    const yHeightOfStem= props.stemHeight/2*props.growthState;
     const [flowerSpring, setFlowerSpring] = useSpring(() => ({
         scale:[1,1,1],
-        position: [0, yHeightOfStem, 0],
+        position: [0, 0.5*currentHeight, 0],
         config:springConfig
     }));
-    const flowerMesh=(<FlowerMesh attachArray = "children" {...props} position={[0,yHeightOfStem,0]} spring={flowerSpring}/>)
+    const flowerMesh=(<FlowerMesh attachArray = "children" {...props} position={[0,0.5*currentHeight,0]} spring={flowerSpring}/>)
 
     const budMesh = (
         <a.mesh>
-            <sphereGeometry attach="geometry" radius={0.4} widthSegments={4} heightSegments={4} position={[0,yHeightOfStem,0]} />
+            <sphereGeometry attach="geometry" radius={0.4} widthSegments={4} heightSegments={4} position={[0,0.5*currentHeight,0]} />
             <meshBasicMaterial attach="material" color={props.leafStemColor} />
         </a.mesh>
     );
 
     const usePlantSpring = (params) =>{
         setStemSpring({scale:[1,(params.growthIncrement+props.growthState)/props.growthState,1]});
-        setFlowerSpring({position:[0, yHeightOfStem+params.growthIncrement*2, 0]});
+        setFlowerSpring({position:[0, 0.5*currentHeight+params.growthIncrement*2, 0]});
     }
     props.springRef.current = usePlantSpring;
     // base of the plant is at origin
@@ -146,7 +146,7 @@ function PlantMesh(props){
     return <group position={[x,y,z]} >
         {props.alwaysShowFlower ? flowerMesh: budMesh}
         {stemMesh}
-        <LeafMesh attachArray = "children" {...props} position={[0,yHeightOfStem,0]}/>
+        <LeafMesh attachArray = "children" {...props} position={[0,0.5*currentHeight,0]}/>
     </group>
 }
 export {FlowerMesh,PlantMesh,LeafMesh,StemMesh};
