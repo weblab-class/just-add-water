@@ -35,7 +35,7 @@ class Skeleton extends Component {
   }
 
   componentDidMount() {
-    get('/api/tilesByUser',{creator_id:"me"}).then(obj =>{
+    get('/api/tilesByUser',{creator_id:"growthtest"}).then(obj =>{
       const tileArr = obj;
       console.log(tileArr);
       this.setState({

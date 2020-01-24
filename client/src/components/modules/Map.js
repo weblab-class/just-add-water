@@ -52,9 +52,6 @@ function Tile(props){
     // set up ref to be able to access plant model animations
     let growthState = props.growthState;
     const plantSpringRef = useRef();
-    const plantMesh=(
-        <PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef}/>)
-    // get mouse position on ground from hook
     const mouseRef=props.mouseRef;
     const bindGesture = useGesture(
         {
@@ -76,14 +73,17 @@ function Tile(props){
                 if (props.canWater && growthState < 1){
                     console.log("growth triggered");
                     event.stopPropagation();
-                    newGrowthState = growthState+growthIncrement;
-                    post('/api/updateTile', {id:props._id, updateObj:{growthState:newGrowthState}});
+                    growthState += growthIncrement;
+                    post('/api/updateTile', {id:props._id, updateObj:{growthState:growthState}});
                 }}
             },
         {pointerEvents: true}
     );
 
 
+    const plantMesh=(
+        <PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef}/>)
+    // get mouse position on ground from hook
     return <a.group position={[x,y,z]} {...spring} {...bindGesture()} >
         <mesh name="soilMesh" visible={true}>
             <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
