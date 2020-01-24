@@ -42,7 +42,7 @@ class Skeleton extends Component {
         tiles:tileArr
       });
     });
-    get('/api/tileIDsByUser', {creator_id:"me"}).then(res =>{
+    get('/api/tileIDsByUser', {creator_id:"user1"}).then(res =>{
       const idArr = res.map(idObj => idObj._id);
       console.log("idArr", idArr);
       this.setState( {tileIDs:idArr});

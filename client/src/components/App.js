@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
-// import * as ApiTest from "../../../../test/ApiTest";
-
+import {populateDb} from '../test/MapTest';
 import "../utilities.css";
 
 import { socket } from "../client-socket.js";
@@ -29,8 +28,7 @@ class App extends Component {
         this.setState({ userId: user._id });
       }
     });
-    // ApiTest.testPrintTiles();
-    // ApiTest.testNewTile();
+    // populateDb();
   }
 
   handleLogin = (res) => {

@@ -70,19 +70,16 @@ function Tile(props){
                 if (props.canDrag){
                     dragEndEvent.event.stopPropagation();
                     setSpring({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
-                    // causes jump in animation because block is redrawn -- fix later
                     post('/api/updateTile', {id:props._id, updateObj:{xGrid: toGridUnits(mouseRef.current.x), zGrid: toGridUnits(mouseRef.current.z)}});
                 }
             },
             onHover: ({hovering}) => setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }),
             onClick: (event) => {
-                console.log(event);
-                console.log(props.canWater);
-                console.log(growthState);
                 if (props.canWater && growthState < 1){
+                    console.log("growth triggered");
                     event.stopPropagation();
-                    props.updateGrowth(props._id,growthIncrement); }
-                }
+                    post('/api/updateTile', {id:props._id, updateObj:{growthState:props.growthState+growthIncrement}});
+                }}
             },
         {pointerEvents: true}
     );

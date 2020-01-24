@@ -1,5 +1,6 @@
 import * as Flowers from './ExampleFlowers';
 const mongoose = require("mongoose");
+import { get, post } from "../utilities";
 /** 
  * data for rendering a test map
  * things to check for
@@ -76,7 +77,6 @@ function blueFlowerTile(xGrid,zGrid){
     tiles: [
         {
             creator_id: "u1",
-            _id: mongoose.Types.ObjectId(),
             xGrid: 0,
             zGrid: 0,
             // if one exists
@@ -84,7 +84,6 @@ function blueFlowerTile(xGrid,zGrid){
             growthState: 0.5, },
         {
             creator_id: "u1",
-            _id: mongoose.Types.ObjectId(),
             xGrid: 1,
             zGrid: 1,
             // if one exists
@@ -92,7 +91,6 @@ function blueFlowerTile(xGrid,zGrid){
             growthState: 0.2, },
         {
             creator_id: "u1",
-            _id: mongoose.Types.ObjectId(),
             xGrid: 0,
             zGrid: 1,
             // if one exists
@@ -100,7 +98,6 @@ function blueFlowerTile(xGrid,zGrid){
             growthState: 0.7, },
         {
             creator_id: "u1",
-            _id: mongoose.Types.ObjectId(),
             xGrid: 0,
             zGrid: 2,
             // if one exists
@@ -137,4 +134,8 @@ function blueFlowerTile(xGrid,zGrid){
         blueFlowerTile(-2,2),
     ]
  }
+
+export function populateDb(){
+    mapDiffGrowth.tiles.forEach((tileObj) => post('api/newTile', {tile:tileObj, creator_id:"user1"}));
+}
  export {emptyMap, mapTwoFlowers, mapAdjFlowers,mapFull, mapDiffGrowth};

@@ -79,13 +79,13 @@ router.post("/updateTile", (req, res) =>{
     res.send({error:err})
   }
 });
-router.post("/new_tile", (req,res) => {
+router.post("/newTile", (req,res) => {
   const newTile = new Tile({
-    creator_id:"me",
-    xGrid: req.body.xGrid,
-    zGrid: req.body.zGrid,
-    flower: req.body.flower,
-    growthState:req.body.growthState,
+    creator_id:req.body.creator_id,
+    xGrid: req.body.tile.xGrid,
+    zGrid: req.body.tile.zGrid,
+    flower: req.body.tile.flower,
+    growthState:req.body.tile.growthState,
   });
   newTile.save().then((tile) => res.send(tile));
 });
