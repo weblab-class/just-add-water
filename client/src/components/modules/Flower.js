@@ -45,15 +45,7 @@ function StemMesh(props){
     const stemSubdivisions=3;
     const stemRadius = props.stemRadius || 0.25;
 
-    // for animating growth
-    const [spring, setSpring] = useSpring(() => ({
-        scale: [1, 1, 1],
-        position: [0, 0, 0],
-        rotation: [0, 0, 0],
-        config: { mass: 3, friction: 30, tension: 700 }
-    }));
-    props.springRef.current = setSpring;
-    return <a.mesh name="stemMesh" {...spring} > 
+    return <a.mesh name="stemMesh" {...props.spring} > 
         <cylinderGeometry attach="geometry" args={[stemRadius,stemRadius,stemHeight,stemSubdivisions]}/>
         <meshBasicMaterial attach="material" color={stemColor} />
     </a.mesh>
@@ -115,13 +107,19 @@ function LeafMesh(props){
 
 function PlantMesh(props){
     // const useFlowerSpring =useRef();
-    const useSetStemSpring = useRef();
+    // for animating growth
+    const [stemSpring, setStemSpring] = useSpring(() => ({
+        scale: [1, 1, 1],
+        position: [0, 0, 0],
+        rotation: [0, 0, 0],
+        config: { mass: 3, friction: 30, tension: 700 }
+    }));
     const stemMesh = (
-        <StemMesh attachArray = "children" {...props} springRef={useSetStemSpring}/>
+        <StemMesh attachArray = "children" {...props} spring={stemSpring}/>
     )
     // make it multiplicative because who cares
     const usePlantSpring = (params) =>{
-        useSetStemSpring.current({scale:[1,params.growthFactor,1]});
+        setStemSpring({scale:[1,params.growthFactor,1]});
         // useFlowerSpring();
     }
     props.springRef.current = usePlantSpring;
