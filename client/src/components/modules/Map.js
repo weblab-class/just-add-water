@@ -72,14 +72,15 @@ function Tile(props){
             },
             onHover: ({hovering}) => setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }),
             onClick: (event) => {
-                if (props.canWater && growthState < 1){
-                    const setPlantSpring = plantSpringRef.current;
+                if (props.canWater)// && growthState < 1){
                     console.log("growth triggered");
                     event.stopPropagation();
-                    growthState += growthIncrement;
                     post('/api/updateTile', {id:props._id, updateObj:{growthState:growthState}});
-                    setPlantSpring({growthFactor:1.2});
-                }}
+                    growthState += growthIncrement;
+
+                    const setPlantSpring = plantSpringRef.current;
+                    setPlantSpring({growthIncrement:growthIncrement});
+                }
             },
         {pointerEvents: true}
     );

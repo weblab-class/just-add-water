@@ -127,9 +127,8 @@ function PlantMesh(props){
     const flowerMesh=(<FlowerMesh attachArray = "children" {...props} position={[0,yHeightOfStem,0]} spring={flowerSpring}/>)
 
     const usePlantSpring = (params) =>{
-        // make it multiplicative because who cares. remember to update map growth
-        setStemSpring({scale:[1,params.growthFactor,1]});
-        setFlowerSpring({scale:[3,3,3]});
+        setStemSpring({scale:[1,(params.growthIncrement+props.growthState)/props.growthState,1]});
+        setFlowerSpring({position:[0, yHeightOfStem+params.growthIncrement*2, 0]});
     }
     props.springRef.current = usePlantSpring;
     // base of the plant is at origin
