@@ -119,7 +119,14 @@ function PlantMesh(props){
     }));
     const stemMesh = ( <StemMesh attachArray = "children" {...props} spring={stemSpring}/>)
 
+    const isFlowerVisible = props.alwaysShowFlower // || props.growthState >=1
     const [flowerSpring, setFlowerSpring] = useSpring(() => ({
+        scale:isFlowerVisible?[1,1,1] : [0.01,0.01,0.01],
+        position: [0, 0.5*currentHeight, 0],
+        rotation: [rotateToXZPlane.x, 0,0],
+        config:springConfig
+    }));
+    const [budSpring, setBudSpring] = useSpring(() => ({
         scale:[1,1,1],
         position: [0, 0.5*currentHeight, 0],
         config:springConfig
@@ -127,16 +134,23 @@ function PlantMesh(props){
     const flowerMesh=(<FlowerMesh attachArray = "children" {...props} position={[0,0.5*currentHeight,0]} spring={flowerSpring}/>)
 
     const budMesh = (
-        <a.mesh {...flowerSpring}>
+        <a.mesh {...budSpring}>
             <sphereGeometry attach="geometry" radius={0.4} widthSegments={4} heightSegments={4} position={[0,currentHeight,0]} />
             <meshBasicMaterial attach="material" color={props.leafStemColor} />
         </a.mesh>
     );
 
     const usePlantSpring = (params) =>{
-        const growthFactor = (params.growthIncrement+props.growthState)/props.growthState
+        const growthFactor = (params.growthIncrement+props.growthState)/props.growthState;
         setStemSpring({scale:[1,growthFactor,1]});
         setFlowerSpring({position:[0, 0.5*currentHeight*growthFactor, 0]});
+        setBudSpring({position:[0, 0.5*currentHeight*growthFactor, 0]});
+        const isBlooming = params.newGrowthState >= 1;
+        if (isBlooming){
+            setBudSpring({scale:[0.01,0.01,0.01]});
+            // spins on vertical axis - strange order bc flower is constructed facing the wrong way
+            setFlowerSpring({scale:[1,1,1], rotation:[rotateToXZPlane.x,0,4*Math.PI] });
+        }
     }
     props.springRef.current = usePlantSpring;
     // base of the plant is at origin
@@ -147,6 +161,7 @@ function PlantMesh(props){
     return <group position={[x,y,z]} >
         {props.alwaysShowFlower ? flowerMesh: budMesh}
         {stemMesh}
+        {flowerMesh}
         <LeafMesh attachArray = "children" {...props} position={[0,0.5*currentHeight,0]}/>
     </group>
 }
