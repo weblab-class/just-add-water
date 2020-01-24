@@ -127,8 +127,8 @@ function PlantMesh(props){
     const flowerMesh=(<FlowerMesh attachArray = "children" {...props} position={[0,0.5*currentHeight,0]} spring={flowerSpring}/>)
 
     const budMesh = (
-        <a.mesh>
-            <sphereGeometry attach="geometry" radius={0.4} widthSegments={4} heightSegments={4} position={[0,0.5*currentHeight,0]} />
+        <a.mesh {...flowerSpring}>
+            <sphereGeometry attach="geometry" radius={0.4} widthSegments={4} heightSegments={4} position={[0,currentHeight,0]} />
             <meshBasicMaterial attach="material" color={props.leafStemColor} />
         </a.mesh>
     );
