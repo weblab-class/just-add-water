@@ -1,5 +1,5 @@
 /* Fill me in :) */
-html, body, div, #app, #app>div, #root {
+html, body, #app, #app>div, #root {
   height: 100%;
   background-color:#6bbDA9;
   font-family: 'Roboto Mono', monospace;
