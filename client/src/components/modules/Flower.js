@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import React, {useImperativeHandle, useRef} from 'react';
-import {useSpring, a} from 'react-spring/three';
+import {useSpring, a, useSprings} from 'react-spring/three';
 
 const rotateToXZPlane = new THREE.Euler(-90*Math.PI/180,0,0);
 function makePetalGeometry(xOrigin, yOrigin, flowerData){
@@ -34,10 +34,10 @@ function makeFlowerGeometry(flowerData) {
 
 function FlowerMesh(props){
     let flowerGeometry = makeFlowerGeometry(props); 
-    return <mesh rotation={rotateToXZPlane} position={props.position}>
+    return <a.mesh rotation={rotateToXZPlane} position={props.position} {...props.spring}>
         <meshLambertMaterial name = "flowerMesh" attach="material" color={props.flowerColor}/>
         <primitive object={flowerGeometry} attach="geometry"/>
-    </mesh>
+    </a.mesh>
 }
 function StemMesh(props){
     const stemHeight=props.stemHeight*props.growthState;
@@ -108,19 +108,28 @@ function LeafMesh(props){
 function PlantMesh(props){
     // const useFlowerSpring =useRef();
     // for animating growth
+    const springConfig = {
+        config: { mass: 3, friction: 30, tension: 700 }
+    }
     const [stemSpring, setStemSpring] = useSpring(() => ({
         scale: [1, 1, 1],
         position: [0, 0, 0],
-        rotation: [0, 0, 0],
-        config: { mass: 3, friction: 30, tension: 700 }
+        config:springConfig
     }));
-    const stemMesh = (
-        <StemMesh attachArray = "children" {...props} spring={stemSpring}/>
-    )
-    // make it multiplicative because who cares
+    const stemMesh = ( <StemMesh attachArray = "children" {...props} spring={stemSpring}/>)
+
+    const yHeightOfStem= props.stemHeight/2*props.growthState;
+    const [flowerSpring, setFlowerSpring] = useSpring(() => ({
+        scale:[1,1,1],
+        position: [0, yHeightOfStem, 0],
+        config:springConfig
+    }));
+    const flowerMesh=(<FlowerMesh attachArray = "children" {...props} position={[0,yHeightOfStem,0]} spring={flowerSpring}/>)
+
     const usePlantSpring = (params) =>{
+        // make it multiplicative because who cares. remember to update map growth
         setStemSpring({scale:[1,params.growthFactor,1]});
-        // useFlowerSpring();
+        setFlowerSpring({scale:[3,3,3]});
     }
     props.springRef.current = usePlantSpring;
     // base of the plant is at origin
@@ -128,9 +137,8 @@ function PlantMesh(props){
     const y = props.y || 0;
     const z = props.z || 0;
 
-    const yHeightOfStem= props.stemHeight/2*props.growthState;
     return <group position={[x,y,z]} >
-        <FlowerMesh attachArray = "children" {...props} position={[0,yHeightOfStem,0]}/>
+        {flowerMesh}
         {stemMesh}
         <LeafMesh attachArray = "children" {...props} position={[0,yHeightOfStem,0]}/>
     </group>
