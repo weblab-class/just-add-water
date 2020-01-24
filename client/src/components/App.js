@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
-import {populateDb} from '../test/MapTest';
+import {populateDb, youngPlants} from '../test/MapTest';
 import "../utilities.css";
 
 import { socket } from "../client-socket.js";
@@ -28,7 +28,6 @@ class App extends Component {
         this.setState({ userId: user._id });
       }
     });
-    // populateDb();
   }
 
   handleLogin = (res) => {

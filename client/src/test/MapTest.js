@@ -135,7 +135,15 @@ function blueFlowerTile(xGrid,zGrid){
     ]
  }
 
+const youngPlants = mapFull.tiles.map(tile => ({
+    xGrid:tile.xGrid,
+    zGrid:tile.zGrid,
+    flower:tile.flower,
+    growthState:0.2}));
+export function populate(tileList, username){
+    tileList.forEach((tileObj) => post('api/newTile', {tile:tileObj, creator_id:username}));
+}
 export function populateDb(){
     mapDiffGrowth.tiles.forEach((tileObj) => post('api/newTile', {tile:tileObj, creator_id:"user1"}));
 }
- export {emptyMap, mapTwoFlowers, mapAdjFlowers,mapFull, mapDiffGrowth};
+ export {youngPlants, emptyMap, mapTwoFlowers, mapAdjFlowers,mapFull, mapDiffGrowth};

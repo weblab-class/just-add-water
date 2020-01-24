@@ -1,11 +1,11 @@
 // objects (flowers, etc) packaged as components using react-three-fiber
 // globally define flower stem length and ground height
 // would probably be easier to rotate camera if i'm doing grid thing
-import React, {useRef, Fragment } from "react";
+import React, {useRef, Fragment, forwardRef } from "react";
 import * as PropTypes from 'prop-types';
 import * as THREE from 'three';
 import {useHover, useDrag, useGesture} from "react-use-gesture";
-import {useSpring, a} from 'react-spring/three';
+import {useSpring, useSprings, a} from 'react-spring/three';
 import {PlantMesh} from './Flower';
 import { useThree } from 'react-three-fiber';
 import { get, post } from "../../utilities";
@@ -35,14 +35,6 @@ function Ground(props){
     </mesh>
 }
 
-function mouseCrdsToWorld(x, y, viewport, camera){
-    console.log("mouse crds");
-    console.log(x,y);
-    var vector = new THREE.Vector3( x, y, -1).unproject( camera );
-    var worldPosition = new THREE.Vector3(vector.x-camera.position.x,-vector.y+camera.position.y,vector.z-camera.position.z);
-    console.log(worldPosition);
-    return [worldPosition.x, worldPosition.y, worldPosition.z]
-}
 function Tile(props){
     const height = soilHeight;
     const x = props.hasOwnProperty("x")? props.x : 0;
@@ -56,6 +48,12 @@ function Tile(props){
         rotation: [0, 0, 0],
         config: { mass: 3, friction: 30, tension: 700 }
     }));
+
+    // set up ref to be able to access plant model animations
+    let growthState = props.growthState;
+    const plantSpringRef = useRef();
+    const plantMesh=(
+        <PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef}/>)
     // get mouse position on ground from hook
     const mouseRef=props.mouseRef;
     const bindGesture = useGesture(
@@ -78,20 +76,20 @@ function Tile(props){
                 if (props.canWater && growthState < 1){
                     console.log("growth triggered");
                     event.stopPropagation();
-                    post('/api/updateTile', {id:props._id, updateObj:{growthState:props.growthState+growthIncrement}});
+                    newGrowthState = growthState+growthIncrement;
+                    post('/api/updateTile', {id:props._id, updateObj:{growthState:newGrowthState}});
                 }}
             },
         {pointerEvents: true}
     );
 
-    let growthState = props.growthState;
 
     return <a.group position={[x,y,z]} {...spring} {...bindGesture()} >
         <mesh name="soilMesh" visible={true}>
             <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
             <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
+            {plantMesh}
         </mesh>
-        <PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={growthState}/>
     </a.group>
 }
 

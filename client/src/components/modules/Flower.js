@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import React from 'react';
+import React, {useImperativeHandle} from 'react';
+import {useSpring, a} from 'react-spring/three';
 
 const rotateToXZPlane = new THREE.Euler(-90*Math.PI/180,0,0);
 function makePetalGeometry(xOrigin, yOrigin, flowerData){
@@ -104,15 +105,25 @@ function LeafMesh(props){
 
 function PlantMesh(props){
     // base of the plant is at origin
-    console.log(props.growthState);
     const x = props.x || 0;
     const y = props.y || 0;
     const z = props.z || 0;
+
+    const [spring, setSpring] = useSpring(() => ({
+        scale: [1, 1, 1],
+        position: [x, y, z],
+        rotation: [0, 0, 0],
+        config: { mass: 3, friction: 30, tension: 700 }
+    }));
+    const springRef = props.springRef;
+    useImperativeHandle(springRef, (params) =>{
+        setSpring: (params) => setSpring(params);
+    });
     const yHeightOfStem= props.stemHeight/2*props.growthState;
-    return <group position={[x,y,z]}>
+    return <a.group position={[x,y,z]} {...spring}>
         <FlowerMesh attachArray = "children" {...props} position={[0,yHeightOfStem,0]}/>
         <StemMesh attachArray = "children" {...props}/>
         <LeafMesh attachArray = "children" {...props} position={[0,yHeightOfStem,0]}/>
-    </group>
+    </a.group>
 }
 export {FlowerMesh,PlantMesh,LeafMesh,StemMesh};
