@@ -52,8 +52,7 @@ function StemMesh(props){
         rotation: [0, 0, 0],
         config: { mass: 3, friction: 30, tension: 700 }
     }));
-    const stemSpringRef = props.springRef;
-    stemSpringRef.current = setSpring;
+    props.springRef.current = setSpring;
     return <a.mesh name="stemMesh" {...spring} > 
         <cylinderGeometry attach="geometry" args={[stemRadius,stemRadius,stemHeight,stemSubdivisions]}/>
         <meshBasicMaterial attach="material" color={stemColor} />
@@ -120,8 +119,9 @@ function PlantMesh(props){
     const stemMesh = (
         <StemMesh attachArray = "children" {...props} springRef={useSetStemSpring}/>
     )
-    const usePlantSpring = () =>{
-        useSetStemSpring.current({scale:[2,3,2]});
+    // make it multiplicative because who cares
+    const usePlantSpring = (params) =>{
+        useSetStemSpring.current({scale:[1,params.growthFactor,1]});
         // useFlowerSpring();
     }
     props.springRef.current = usePlantSpring;
