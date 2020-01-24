@@ -53,7 +53,7 @@ function Tile(props){
     let growthState = props.growthState;
     const plantSpringRef = useRef();
     const plantMesh=(
-        <PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef}/>);
+        <PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef} alwaysShowFlower={false}/>);
     const mouseRef=props.mouseRef;
     const bindGesture = useGesture(
         {
@@ -79,7 +79,9 @@ function Tile(props){
                     growthState += growthIncrement;
 
                     const setPlantSpring = plantSpringRef.current;
-                    setPlantSpring({growthIncrement:growthIncrement});
+                    setPlantSpring({
+                        growthIncrement:growthIncrement,
+                        newGrowthState:growthState});
                 }
             },
         {pointerEvents: true}
@@ -135,13 +137,6 @@ function toGridUnits(worldUnits){
     return worldUnits/tileSize;
 }
 function GameMap(props){
-    console.log("tile ids", props.tileIDs);
-    let tileList;
-    Promise.all(props.tileIDs.map(id => get("/api/tileById", {tileID: id}))).then(tileListObj => {
-        console.log("tilelistobj", tileListObj);
-        tileList = tileListObj;
-        console.log("tile list", tileList);
-    });
     // hook for where on the ground the mouse currently is
     const groundPosition = useRef(null);
     const mapTiles = props.tiles.map((tile) => 

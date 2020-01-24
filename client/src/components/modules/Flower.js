@@ -126,6 +126,13 @@ function PlantMesh(props){
     }));
     const flowerMesh=(<FlowerMesh attachArray = "children" {...props} position={[0,yHeightOfStem,0]} spring={flowerSpring}/>)
 
+    const budMesh = (
+        <a.mesh>
+            <sphereGeometry attach="geometry" radius={0.4} widthSegments={4} heightSegments={4} position={[0,yHeightOfStem,0]} />
+            <meshBasicMaterial attach="material" color={props.leafStemColor} />
+        </a.mesh>
+    );
+
     const usePlantSpring = (params) =>{
         setStemSpring({scale:[1,(params.growthIncrement+props.growthState)/props.growthState,1]});
         setFlowerSpring({position:[0, yHeightOfStem+params.growthIncrement*2, 0]});
@@ -137,7 +144,7 @@ function PlantMesh(props){
     const z = props.z || 0;
 
     return <group position={[x,y,z]} >
-        {flowerMesh}
+        {props.alwaysShowFlower ? flowerMesh: budMesh}
         {stemMesh}
         <LeafMesh attachArray = "children" {...props} position={[0,yHeightOfStem,0]}/>
     </group>

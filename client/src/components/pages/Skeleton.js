@@ -30,33 +30,19 @@ class Skeleton extends Component {
     this.groundColor = "#8C7A6f"
     this.setMoveMode=this.setMoveMode.bind(this);
     this.setWaterMode=this.setWaterMode.bind(this);
-    this.updateGrowth=this.updateGrowth.bind(this);
 
   }
 
   componentDidMount() {
-    get('/api/tilesByUser',{creator_id:"growthtest"}).then(obj =>{
+    get('/api/tilesByUser',{creator_id:"me"}).then(obj =>{
       const tileArr = obj;
       console.log(tileArr);
       this.setState({
         tiles:tileArr
       });
     });
-    get('/api/tileIDsByUser', {creator_id:"user1"}).then(res =>{
-      const idArr = res.map(idObj => idObj._id);
-      console.log("idArr", idArr);
-      this.setState( {tileIDs:idArr});
-    });
   }
 
-  // construct well organized tile array in beginning?
-  updateGrowth(id, increment){
-    // immutable array because react won't update it if you change elements, this makes a copy
-    const newArr = this.state.tiles.slice(0);
-    tileById(newArr, id).growthState += increment;
-    this.setState({tiles:newArr});
-    console.log(this.state.tiles);
-  }
 
   setMoveMode(){
     this.setState({
