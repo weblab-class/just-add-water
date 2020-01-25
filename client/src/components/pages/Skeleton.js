@@ -63,7 +63,7 @@ class Skeleton extends Component {
     const waterCaption = "click a plant to water it";
     // z axis is coming out of page - remember
     return (
-      <>
+      <div id="game">
         {this.props.userId ? (
           <GoogleLogout
             clientId={GOOGLE_CLIENT_ID}
@@ -98,7 +98,7 @@ class Skeleton extends Component {
         <div className="loginMessage">login to begin</div>
         )
       }
-      </>
+      </div>
     );
   }
 }

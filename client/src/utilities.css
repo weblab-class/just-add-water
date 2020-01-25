@@ -36,6 +36,9 @@
   --l: 24px;
 }
 
+div [role="group"]{
+  min-height:100%
+}
 body {
   margin: 0;
   padding: 0;

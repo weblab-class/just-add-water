@@ -48,7 +48,7 @@ class App extends Component {
   render() {
     return (
       <>
-        <Router>
+        <Router className="router-wrapper">
           <Skeleton
             path="/"
             handleLogin={this.handleLogin}
@@ -56,7 +56,7 @@ class App extends Component {
             userId={this.state.userId}
           />
           <Onboarding 
-            path = "/intro" />
+            path = "/onboarding" />
           <NotFound default />
         </Router>
 

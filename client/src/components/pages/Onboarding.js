@@ -4,7 +4,6 @@ function Welcome(){
     return(
         <>
             <h1>welcome to h2gro</h1>
-            <h2>how does it work?</h2>
             <ol>
                 <li>track</li>
                 <li>grow</li>
@@ -38,6 +37,11 @@ class InfoForm extends Component{
                 <InputLabel>my typical cup of water is</InputLabel>
                 <a>mult. choice labels with units</a>
             </FormGroup>
+            <FormGroup>
+                <InputLabel>my activity level is</InputLabel>
+                <p>sedentary/medium/high</p>
+            </FormGroup>
+            <Button>next</Button>
         </div>)
     }
 }
@@ -49,6 +53,11 @@ class Onboarding extends Component{
     constructor(props){
         super(props);
     }
+    // have both parts on one page for web, or scrolling for mobile
+    // then - design your first flower (limited slider version)
+    // place it on map (with one other randomly generated flower)
+    // animation to show pollination
+    // log water to see what you get
     render(){
         return(
             <>
