@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Slider, FormGroup, InputBase, InputLabel, TextField, InputAdornment} from '@material-ui/core';
+import {Button, Slider, FormGroup, InputBase, InputLabel, TextField, InputAdornment, FormControlLabel, RadioGroup, Radio, FormLabel} from '@material-ui/core';
 function Welcome(){
     return(
         <>
@@ -50,8 +50,12 @@ class InfoForm extends Component{
                     />
             </FormGroup>
             <FormGroup>
-                <InputLabel>my activity level is</InputLabel>
-                <p>sedentary/medium/high</p>
+                <FormLabel>my activity level is</FormLabel>
+                <RadioGroup name="activity" onChange={this.handleChange}>
+                    <FormControlLabel value="low" label="sedentary (0-5 minutes/day)" labelPlacement="end" control={<Radio/>}/>
+                    <FormControlLabel value="medium" label="medium (15-30 minutes/day)" labelPlacement="end" control={<Radio/>}/>
+                    <FormControlLabel value="high" label="high (2 or more hours/day)" labelPlacement="end" control={<Radio/>}/>
+                </RadioGroup>
             </FormGroup>
             <Button>next</Button>
         </div>)
