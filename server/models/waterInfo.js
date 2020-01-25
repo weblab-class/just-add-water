@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const waterInfoSchema = new mongoose.Schema({
-  googleid: String,
+  userId: String,
   waterPerDay: Number,
   cupSize: Number,
   waterConsumedToday: Number

@@ -12,6 +12,7 @@ const express = require("express");
 // import models so we can interact with the database
 const User = require("./models/user");
 const Tile = require("./models/tile");
+const WaterInfo = require("./models/waterInfo");
 
 // import authentication library
 const auth = require("./auth");
@@ -88,6 +89,19 @@ router.post("/newTile", (req,res) => {
     growthState:req.body.tile.growthState,
   });
   newTile.save().then((tile) => res.send(tile));
+});
+
+router.post("/setWaterInfo", (req, res)=> {
+  const waterInfo = new WaterInfo({
+    userId:req.body.userId,
+    weight: parseInt(req.body.weight),
+    activity: parseInt(req.body.activity),
+    cupSize: parseInt(req.body.cupSize)
+  })
+});
+
+router.get("/getWaterInfo", (req, res) =>{
+  WaterInfo.findOne({userId: req.body.userId}).then(waterInfo => res.send(waterInfo))
 });
 // |------------------------------|
 // | write your API methods below!|

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Button, InputBase, InputAdornment} from '@material-ui/core';
-import { get, post } from "../../utilities";
 import LoginButton from '../modules/LoginButton'
 import { InfoForm } from './InfoForm';
 function Welcome(props){

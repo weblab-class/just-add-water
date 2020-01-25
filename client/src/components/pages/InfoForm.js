@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Slider, FormGroup, InputLabel, TextField, FormControlLabel, RadioGroup, Radio, FormLabel } from '@material-ui/core';
+import { get, post } from "../../utilities";
 export class InfoForm extends Component {
     /** Prop types:
      * @param userId: String
