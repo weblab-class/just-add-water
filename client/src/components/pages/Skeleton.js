@@ -7,6 +7,7 @@ import * as gmap from '../modules/Map';
 import { get, post } from "../../utilities";
 import "../../utilities.css";
 import "./Skeleton.css";
+import LoginButton from "../modules/LoginButton"
 
 const GOOGLE_CLIENT_ID = "165089793235-ovm7mojq6cb3advrbqmis38sqqk144jt.apps.googleusercontent.com";
 // input switching suddenly broke?? why??? could be the asynchronous setstate thing
@@ -64,25 +65,10 @@ class Skeleton extends Component {
     // z axis is coming out of page - remember
     return (
       <div id="game">
-        {this.props.userId ? (
-          <GoogleLogout
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Logout"
-            onLogoutSuccess={this.props.handleLogout}
-            onFailure={(err) => console.log(err)}
-          />
-        ) : (
-          <GoogleLogin
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Login"
-            onSuccess={this.props.handleLogin}
-            onFailure={(err) => console.log(err)}
-          />
-        )}
 
+      <LoginButton {...this.props}/>
       {this.props.userId ? (
       <div>
-
         <div className="caption">{this.state.canDrag ? dragCaption:waterCaption}</div>
         <div className="caption-bottom">design plants <a href="https://ju-de.itch.io/inflorescence">here</a></div>
         <a className={this.state.canDrag ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a>

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Slider, FormGroup, InputBase, InputLabel, TextField, InputAdornment, FormControlLabel, RadioGroup, Radio, FormLabel} from '@material-ui/core';
+import { get, post } from "../../utilities";
 function Welcome(){
     return(
         <>
@@ -15,7 +16,7 @@ function Welcome(){
 }
 class InfoForm extends Component{
     /** Prop types:
-     * @param googleid: String 
+     * @param userId: String 
      */
     constructor(props){
         super(props);
@@ -29,6 +30,9 @@ class InfoForm extends Component{
     handleChange(event){
         console.log(event);
         this.setState({[event.target.name]:event.target.value});
+    }
+    handleSubmit(event){
+
     }
     render() {
         return(<div>

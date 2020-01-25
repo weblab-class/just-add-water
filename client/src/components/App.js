@@ -56,7 +56,7 @@ class App extends Component {
             userId={this.state.userId}
           />
           <Onboarding 
-            path = "/onboarding" />
+            path = "/onboarding" handleLogin={this.handleLogin} handleLogout={this.handleLogout} userId={this.state.userId}/>
           <NotFound default />
         </Router>
 
