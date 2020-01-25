@@ -15,27 +15,39 @@ function Welcome(){
 }
 class InfoForm extends Component{
     /** Prop types:
-     * @param parent: component
-     * @param onChange: function
+     * @param googleid: String 
      */
     constructor(props){
         super(props);
+        this.state = {
+            weight:null,
+            activity:null,
+            cupSize:null
+        }
+        this.handleChange=this.handleChange.bind(this);
+    }
+    handleChange(event){
+        console.log(event);
+        this.setState({[event.target.name]:event.target.value});
     }
     render() {
         return(<div>
             <h1>let's get started</h1>
             <FormGroup>
                 <InputLabel id="weight-label">I weigh about</InputLabel>
-                <TextField 
+                <TextField name="weight" 
                     id="weight" 
                     type='number' 
                     label="weight"
                     required= {true}
+                    onChange={this.handleChange}
                     />
             </FormGroup>
             <FormGroup>
-                <InputLabel>my typical cup of water is</InputLabel>
-                <a>mult. choice labels with units</a>
+                <InputLabel id="cup-label">my typical cup of water is</InputLabel>
+                <Slider name="cupSize" type="number" label="cup-label" marks={
+                    [{value:8, label:"8 oz"}, {value:16, label:"16 oz"}, {value:32, label:"32 oz"}]} step={2} min={2} max={32} valueLabelDisplay="auto" valueLabelFormat={(num) => (JSON.stringify(num) + " oz")} onChange={(event, value) => this.setState({cupSize:value})} 
+                    />
             </FormGroup>
             <FormGroup>
                 <InputLabel>my activity level is</InputLabel>

@@ -23,8 +23,8 @@
   src: url('https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap');
 }
 :root {
-  --primary: #396dff;
-  --primary--dim: #6987db;
+  --primary: #f0adab;
+  --primary--dim: #dd7a73;
   --darkgrey: #d4d4d4;
   --medgrey: #e0e0e0;
   --grey: #f7f7f7;

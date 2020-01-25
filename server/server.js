@@ -30,7 +30,7 @@ const auth = require("./auth");
 require('dotenv').config();
 
 // socket stuff
-const socket = require("./server-socket");
+// const socket = require("./server-socket");
 
 // Server configuration below
 // TODO change connection URL after setting up your team database

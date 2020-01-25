@@ -8,7 +8,7 @@ import { get, post } from "../../utilities";
 import "../../utilities.css";
 import "./Skeleton.css";
 
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_ID = "165089793235-ovm7mojq6cb3advrbqmis38sqqk144jt.apps.googleusercontent.com";
 // input switching suddenly broke?? why??? could be the asynchronous setstate thing
 function tileById(tileArr, id){
   const tile = tileArr.find(tile => tile._id == id);
@@ -80,7 +80,7 @@ class Skeleton extends Component {
           />
         )}
 
-      {true ? (
+      {this.props.userId ? (
       <div>
 
         <div className="caption">{this.state.canDrag ? dragCaption:waterCaption}</div>
