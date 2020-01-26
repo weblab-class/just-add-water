@@ -71,7 +71,7 @@ router.get("/all_tiles", (req, res) => {
 
 router.post("/updateTile", (req, res) =>{
   try {
-    Tile.findByIdAndUpdate(req.query.id, req.query.updateObj).then(()=>{
+    Tile.findByIdAndUpdate(req.body.id, req.body.updateObj).then(()=>{
     });
   }
   catch(err){
@@ -81,23 +81,23 @@ router.post("/updateTile", (req, res) =>{
 });
 router.post("/newTile", (req,res) => {
   const newTile = new Tile({
-    creator_id:req.query.creator_id,
-    xGrid: req.query.tile.xGrid,
-    zGrid: req.query.tile.zGrid,
-    flower: req.query.tile.flower,
-    growthState:req.query.tile.growthState,
+    creator_id:req.body.creator_id,
+    xGrid: req.body.tile.xGrid,
+    zGrid: req.body.tile.zGrid,
+    flower: req.body.tile.flower,
+    growthState:req.body.tile.growthState,
   });
   newTile.save().then((tile) => res.send(tile));
 });
 
 router.post("/setWaterProfile", (req, res)=> {
-  console.log(req.query);
+  console.log(req.body);
   const userProfile = {
-    weight:parseInt(req.query.weight),
-    activity:parseInt(req.query.activity),
-    age:parseInt(req.query.age),
-    cupSize:parseInt(req.query.cupSize),
-    userId:req.query.userId
+    weight:parseInt(req.body.weight),
+    activity:parseInt(req.body.activity),
+    age:parseInt(req.body.age),
+    cupSize:parseInt(req.body.cupSize),
+    userId:req.body.userId
   };
   console.log("user info: ", userProfile);
   const waterProfile = new WaterProfile({
@@ -115,7 +115,7 @@ router.post("/updateWaterConsumed", (req, res) =>{
    * @param waterConsumed new water consumed value
    */
   try {
-    WaterProfile.findOneAndUpdate({userId:req.query.userId}, {waterConsumedToday:req.query.waterConsumed})
+    WaterProfile.findOneAndUpdate({userId:req.body.userId}, {waterConsumedToday:req.body.waterConsumed})
     .then((newProfile) => res.send(newProfile));
   }
   catch(err){
@@ -125,7 +125,7 @@ router.post("/updateWaterConsumed", (req, res) =>{
 });
 
 router.get("/getWaterProfile", (req, res) =>{
-  console.log("req: ", req.query);
+  console.log("body: ", req.query);
   console.log("user id: ", req.query.userId);
   WaterProfile.findOne({userId: req.query.userId}).then(waterProfile => res.send(waterProfile))
 });
