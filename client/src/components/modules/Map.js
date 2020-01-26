@@ -142,7 +142,7 @@ function GameMap(props){
     const groundPosition = useRef(null);
     const mapTiles = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
-            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater, updateGrowth:props.updateGrowth,_id:tile._id, handleFinishWater:props.handleFinishWater}}/>
+            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater, _id:tile._id, handleFinishWater:props.handleFinishWater}}/>
         </React.Fragment>
     );
     return(

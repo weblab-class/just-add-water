@@ -97,7 +97,8 @@ router.post("/setWaterProfile", (req, res)=> {
     weight:parseInt(req.body.weight),
     activity:parseInt(req.body.activity),
     age:parseInt(req.body.age),
-    cupSize:parseInt(req.body.cupSize)
+    cupSize:parseInt(req.body.cupSize),
+    userId:req.body.userId
   };
   console.log("user info: ", userProfile);
   const waterProfile = new WaterProfile({
@@ -110,10 +111,13 @@ router.post("/setWaterProfile", (req, res)=> {
     console.log("added new waterProfile: ", waterProfile)});
 });
 router.post("/updateWaterConsumed", (req, res) =>{
+  /**
+   * @param userId user id
+   * @param waterConsumed new water consumed value
+   */
   try {
-    WaterProfile.findOneAndUpdate({userId:req.body.userId}, req.body.updatedWaterProfile).then(()=>{
-      WaterProfile.findOne({userId:req.body.userId}).then((profile)=>console.log("updated water profile: ", profile))
-    });
+    WaterProfile.findOneAndUpdate({userId:req.body.userId}, {waterConsumed:req.body.waterConsumed})
+    .then((profile) => console.log("updated water profile: ", profile));
   }
   catch(err){
     res.sendStatus(500);

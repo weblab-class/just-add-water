@@ -24,7 +24,7 @@ class Skeleton extends Component {
       canWater:false,
       waterPerDay:null,
       cupSize:null,
-      waterConsumed:null,
+      waterConsumedToday:null,
     };
     this.groundColor = "#8C7A6f"
     this.setMoveMode=this.setMoveMode.bind(this);
@@ -51,9 +51,9 @@ class Skeleton extends Component {
 
 
   drinkWater(){
-    const newWaterConsumed = this.state.waterConsumed+this.state.cupSize;
-    this.setState({waterConsumed:newWaterConsumed});
-    get('/api/updateWaterProfile',{userId:this.props.userId, updatedWaterProfile:{waterConsumed:newWaterConsumed}});
+    const newWaterConsumed = this.state.waterConsumedToday+this.state.cupSize;
+    this.setState({waterConsumedToday:newWaterConsumed});
+    post('/api/updateWaterConsumed',{userId:this.props.userId, waterConsumed:newWaterConsumed});
   }
 
   handleClickWaterButton(){
@@ -94,7 +94,7 @@ class Skeleton extends Component {
       <div>
         <div className="caption">
           {this.state.canDrag ? dragCaption:waterCaption}
-          <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumed} cupSize={this.state.cupSize} />
+          <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} />
           </div>
         <div className="caption-bottom">design plants <a href="https://ju-de.itch.io/inflorescence">here</a></div>
         <a className={this.state.canDrag ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a>
@@ -102,7 +102,7 @@ class Skeleton extends Component {
       <div className="canvasContainer">
 
         <Canvas orthographic={true} camera={{zoom:8, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
-          <gmap.GameMap  tileIDs = {this.state.tileIDs} tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater} updateGrowth={this.updateGrowth} handleFinishWater={this.setViewMode}/>
+          <gmap.GameMap  tileIDs = {this.state.tileIDs} tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater}  handleFinishWater={this.setViewMode}/>
         </Canvas>
 
       </div>
