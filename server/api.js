@@ -70,7 +70,6 @@ router.get("/all_tiles", (req, res) => {
 });
 
 router.post("/updateTile", (req, res) =>{
-  console.log("req.body", req.body);
   try {
     Tile.findByIdAndUpdate(req.body.id, req.body.updateObj).then(()=>{
       Tile.findById({_id:req.body.id}).then((obj)=>console.log(obj));
@@ -109,6 +108,17 @@ router.post("/setWaterProfile", (req, res)=> {
   waterProfile.save().then(()=> {
     res.send(waterProfile);
     console.log("added new waterProfile: ", waterProfile)});
+});
+router.post("/updateWaterConsumed", (req, res) =>{
+  try {
+    WaterProfile.findOneAndUpdate({userId:req.body.userId}, req.body.updatedWaterProfile).then(()=>{
+      WaterProfile.findOne({userId:req.body.userId}).then((profile)=>console.log("updated water profile: ", profile))
+    });
+  }
+  catch(err){
+    res.sendStatus(500);
+    res.send({error:err})
+  }
 });
 
 router.get("/getWaterProfile", (req, res) =>{

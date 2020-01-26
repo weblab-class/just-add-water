@@ -11,9 +11,9 @@ function WaterCounter(props){
     const cupsRemaining = Math.ceil(waterRemaining/props.cupSize);
     const cupsTotal = Math.ceil(props.waterPerDay/props.cupSize);
     return (
-        <div>
+        <div><a>
             {cupsConsumed} out of {cupsTotal} cups consumed
-        </div>
+        </a></div>
     )
 }
 

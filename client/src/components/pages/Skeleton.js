@@ -21,7 +21,7 @@ class Skeleton extends Component {
       tiles:[],
       tileIDs:[],
       canDrag:false,
-      canWater:true,
+      canWater:false,
       waterPerDay:null,
       cupSize:null,
       waterConsumed:null,
@@ -29,6 +29,9 @@ class Skeleton extends Component {
     this.groundColor = "#8C7A6f"
     this.setMoveMode=this.setMoveMode.bind(this);
     this.setWaterMode=this.setWaterMode.bind(this);
+    this.setViewMode=this.setViewMode.bind(this);
+    this.drinkWater = this.drinkWater.bind(this);
+    this.handleClickWaterButton=this.handleClickWaterButton.bind(this);
 
   }
 
@@ -47,6 +50,17 @@ class Skeleton extends Component {
   }
 
 
+  drinkWater(){
+    const newWaterConsumed = this.state.waterConsumed+this.state.cupSize;
+    this.setState({waterConsumed:newWaterConsumed});
+    get('/api/updateWaterProfile',{userId:this.props.userId, updatedWaterProfile:{waterConsumed:newWaterConsumed}});
+  }
+
+  handleClickWaterButton(){
+    this.drinkWater();
+    this.setWaterMode();
+  }
+
   setMoveMode(){
     this.setState({
       canDrag:true,
@@ -59,6 +73,13 @@ class Skeleton extends Component {
       canWater:true,
       canDrag:false});
     console.log(this.state);
+  }
+
+  setViewMode(){
+    this.setState({
+      canWater:false,
+      canDrag:false
+    })
   }
   render() {
     console.log("state when rendering",this.state);
@@ -77,11 +98,11 @@ class Skeleton extends Component {
           </div>
         <div className="caption-bottom">design plants <a href="https://ju-de.itch.io/inflorescence">here</a></div>
         <a className={this.state.canDrag ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a>
-        <a className={this.state.canWater ? "button-water-active":"button-water-inactive"} onClick={this.setWaterMode} ></a>
+        <a className={this.state.canWater ? "button-water-active":"button-water-inactive"} onClick={this.handleClickWaterButton} ></a>
       <div className="canvasContainer">
 
         <Canvas orthographic={true} camera={{zoom:8, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
-          <gmap.GameMap  tileIDs = {this.state.tileIDs} tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater} updateGrowth={this.updateGrowth} />
+          <gmap.GameMap  tileIDs = {this.state.tileIDs} tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater} updateGrowth={this.updateGrowth} handleFinishWater={this.setViewMode}/>
         </Canvas>
 
       </div>
