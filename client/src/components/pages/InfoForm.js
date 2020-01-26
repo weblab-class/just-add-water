@@ -8,23 +8,24 @@ export class InfoForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            weight: null,
-            activity: null,
-            cupSize: null,
-            age:null
+            weight: 0,
+            activity: 0,
+            cupSize: 0,
+            age:0
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.saveWaterProfile = this.saveWaterProfile.bind(this);
     }
-    saveWaterInfo(){
-        post('/api/setWaterInfo', {userId: this.props.userId, weight:this.state.weight, activity:this.state.activity, cupSize:this.state.cupSize});
+    saveWaterProfile(){
+        post('/api/setWaterProfile', {userId: this.props.userId, weight:this.state.weight, activity:this.state.activity, cupSize:this.state.cupSize, age:this.state.age});
     }
     handleChange(event) {
-        console.log(event);
         this.setState({ [event.target.name]: event.target.value });
     }
     handleSubmit(event) {
         // route to game screen or next part of tutorial
-        this.saveWaterInfo();
+        this.saveWaterProfile();
     }
     render() {
         return (<div>
@@ -37,14 +38,20 @@ export class InfoForm extends Component {
             </FormGroup>
             <FormGroup>
                 <InputLabel id="cup-label">my typical cup of water is</InputLabel>
-                <Slider name="cupSize" type="number" label="cup-label" marks={[{ value: 8, label: "8 oz" }, { value: 16, label: "16 oz" }, { value: 32, label: "32 oz" }]} step={2} min={2} max={32} valueLabelDisplay="auto" valueLabelFormat={(num) => (JSON.stringify(num) + " oz")} onChange={(event, value) => this.setState({ cupSize: value })} />
+                <Slider name="cupSize" 
+                    value={this.state.cupSize}
+                    type="number" label="cup-label" marks={[{ value: 8, label: "8 oz" }, { value: 16, label: "16 oz" }, { value: 32, label: "32 oz" }]} step={2} min={2} max={32} valueLabelDisplay="auto" valueLabelFormat={(num) => (JSON.stringify(num) + " oz")} onChange={(event, value) => this.setState({ cupSize: value })}  
+                    getAriaLabel={num=>num.toString()} />
             </FormGroup>
             <FormGroup>
                 <FormLabel>on average, I get ___ minutes of exercise per day</FormLabel>
-                <Slider name="activity" type="number" 
-                marks={true, [{value:15,label:"15 min"}, {value:30, label:"30 min"}, {value:45, label:"45 min"},{value:60, label:">60 min"}]} step={5} min={0} max={60} valueLabelDisplay="auto"  onChange={(event, value) => this.setState({ activity: value })} />
+                <Slider 
+                    name="activity" type="number" 
+                    value={this.state.activity}
+                    marks={true, [{value:15,label:"15 min"}, {value:30, label:"30 min"}, {value:45, label:"45 min"},{value:60, label:">60 min"}]} step={5} min={0} max={60} valueLabelDisplay="auto"  onChange={(event, value) => this.setState({ activity: value })} 
+                    getAriaLabel={num=>num.toString()} />
             </FormGroup>
-            <Button>next</Button >
+            <Button onClick={this.handleSubmit}>next</Button >
         </div>);
     }
 }

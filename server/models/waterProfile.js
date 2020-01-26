@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const waterInfoSchema = new mongoose.Schema({
+const waterProfileSchema = new mongoose.Schema({
   userId: String,
   weight:Number,
   waterPerDay: Number,
@@ -12,4 +12,4 @@ const waterInfoSchema = new mongoose.Schema({
 });
 
 // compile model from schema
-module.exports = mongoose.model("waterInfo", waterInfoSchema);
+module.exports = mongoose.model("waterProfile", waterProfileSchema);

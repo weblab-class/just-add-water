@@ -9,12 +9,6 @@ import "../../utilities.css";
 import "./Skeleton.css";
 import LoginButton from "../modules/LoginButton"
 
-const GOOGLE_CLIENT_ID = "165089793235-ovm7mojq6cb3advrbqmis38sqqk144jt.apps.googleusercontent.com";
-// input switching suddenly broke?? why??? could be the asynchronous setstate thing
-function tileById(tileArr, id){
-  const tile = tileArr.find(tile => tile._id == id);
-  return tile;
-}
 // const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
 const isometricRotation = new THREE.Euler(-30*Math.PI/180,45*Math.PI/180,0 ,"YXZ");
 class Skeleton extends Component {
@@ -41,6 +35,10 @@ class Skeleton extends Component {
       this.setState({
         tiles:tileArr
       });
+    });
+    get('/api/getWaterProfile', {userId:this.props.userId}).then(info => {
+      console.log(info);
+      this.setState(...{info});
     });
   }
 

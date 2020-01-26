@@ -12,7 +12,7 @@ const express = require("express");
 // import models so we can interact with the database
 const User = require("./models/user");
 const Tile = require("./models/tile");
-const WaterInfo = require("./models/waterInfo");
+const WaterProfile = require("./models/waterProfile");
 
 const wu = require('./waterUtil');
 // import authentication library
@@ -92,23 +92,27 @@ router.post("/newTile", (req,res) => {
   newTile.save().then((tile) => res.send(tile));
 });
 
-router.post("/setWaterInfo", (req, res)=> {
-  const userInfo = {
+router.post("/setWaterProfile", (req, res)=> {
+  console.log(req.body);
+  const userProfile = {
     weight:parseInt(req.body.weight),
     activity:parseInt(req.body.activity),
     age:parseInt(req.body.age),
     cupSize:parseInt(req.body.cupSize)
   };
-  const waterInfo = new WaterInfo({
-    ...{userInfo},
-    waterPerDay:wu.ozWaterPerDay(userInfo),
+  console.log("user info: ", userProfile);
+  const waterProfile = new WaterProfile({
+    ...userProfile,
+    waterPerDay:wu.ozWaterPerDay(userProfile),
     waterConsumedToday:0,
   });
-  waterInfo.save().then(res.send(waterInfo));
+  waterProfile.save().then(()=> {
+    res.send(waterProfile);
+    console.log("added new waterProfile: ", waterProfile)});
 });
 
-router.get("/getWaterInfo", (req, res) =>{
-  WaterInfo.findOne({userId: req.body.userId}).then(waterInfo => res.send(waterInfo))
+router.get("/getWaterProfile", (req, res) =>{
+  WaterProfile.findOne({userId: req.body.userId}).then(waterProfile => res.send(waterProfile))
 });
 // |------------------------------|
 // | write your API methods below!|

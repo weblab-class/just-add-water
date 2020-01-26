@@ -37,4 +37,4 @@ function cupsWaterRemaining(params){
      */
     return (ozWaterPerDay-ozWaterConsumed)/cupSize
 }
-module.exports=ozWaterPerDay;
+module.exports={ozWaterPerDay};
