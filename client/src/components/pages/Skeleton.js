@@ -25,6 +25,7 @@ class Skeleton extends Component {
       waterPerDay:null,
       cupSize:null,
       waterConsumedToday:null,
+      captionText : "click the cup to drink water",
     };
     this.groundColor = "#8C7A6f"
     this.setMoveMode=this.setMoveMode.bind(this);
@@ -65,20 +66,32 @@ class Skeleton extends Component {
     post('/api/updateWaterConsumed',{userId:this.props.userId, waterConsumed:newWaterConsumed});
   }
 
+  hasConsumedMaxWater(){
+    return this.state.waterConsumedToday >= this.state.waterPerDay;
+  }
+
   handleClickWaterButton(){
-    this.drinkWater();
-    this.setWaterMode();
+    if (this.hasConsumedMaxWater()){
+      this.setState({captionText:"you have already finished your water for today"})
+    }
+    else{
+      this.drinkWater();
+      this.setWaterMode();
+    }
   }
 
   setMoveMode(){
+    const dragCaption = "click and drag to move plants around";
     this.setState({
+      captionText:dragCaption,
       canDrag:true,
       canWater:false});
   }
 
   setWaterMode(){
-    console.log('water mode');
+    const waterCaption = "click a plant to water it";
     this.setState({
+      captionText:waterCaption,
       canWater:true,
       canDrag:false});
     console.log(this.state);
@@ -92,8 +105,6 @@ class Skeleton extends Component {
   }
   render() {
     console.log("state when rendering",this.state);
-    const dragCaption = "click and drag to move plants around";
-    const waterCaption = "click a plant to water it";
     // z axis is coming out of page - remember
     return (
       <div id="game">
@@ -102,7 +113,7 @@ class Skeleton extends Component {
       {this.props.userId ? (
       <div>
         <div className="caption">
-          {this.state.canDrag ? dragCaption:waterCaption}
+          {this.state.captionText}
           <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} />
           </div>
         <div className="caption-bottom">design plants <a href="https://ju-de.itch.io/inflorescence">here</a></div>

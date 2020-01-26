@@ -125,7 +125,6 @@ router.post("/updateWaterConsumed", (req, res) =>{
 });
 
 router.get("/getWaterProfile", (req, res) =>{
-  console.log("body: ", req.query);
   console.log("user id: ", req.query.userId);
   WaterProfile.findOne({userId: req.query.userId}).then(waterProfile => {
     console.log("profile found: ", waterProfile);
