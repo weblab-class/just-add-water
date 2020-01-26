@@ -7,9 +7,9 @@ function WaterCounter(props){
      */
     console.log(props);
     const waterRemaining = props.waterPerDay-props.waterConsumed;
-    const cupsConsumed = props.waterConsumed/props.cupSize;
-    const cupsRemaining = waterRemaining/props.cupSize;
-    const cupsTotal = props.waterPerDay/props.cupSize;
+    const cupsConsumed = Math.round(props.waterConsumed/props.cupSize);
+    const cupsRemaining = Math.ceil(waterRemaining/props.cupSize);
+    const cupsTotal = Math.ceil(props.waterPerDay/props.cupSize);
     return (
         <div>
             {cupsConsumed} out of {cupsTotal} cups consumed
