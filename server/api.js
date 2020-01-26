@@ -14,6 +14,7 @@ const User = require("./models/user");
 const Tile = require("./models/tile");
 const WaterInfo = require("./models/waterInfo");
 
+const wu = require('./waterUtil');
 // import authentication library
 const auth = require("./auth");
 
@@ -92,12 +93,18 @@ router.post("/newTile", (req,res) => {
 });
 
 router.post("/setWaterInfo", (req, res)=> {
+  const userInfo = {
+    weight:parseInt(req.body.weight),
+    activity:parseInt(req.body.activity),
+    age:parseInt(req.body.age),
+    cupSize:parseInt(req.body.cupSize)
+  };
   const waterInfo = new WaterInfo({
-    userId:req.body.userId,
-    weight: parseInt(req.body.weight),
-    activity: parseInt(req.body.activity),
-    cupSize: parseInt(req.body.cupSize)
-  })
+    ...{userInfo},
+    waterPerDay:wu.ozWaterPerDay(userInfo),
+    waterConsumedToday:0,
+  });
+  waterInfo.save().then(res.send(waterInfo));
 });
 
 router.get("/getWaterInfo", (req, res) =>{
