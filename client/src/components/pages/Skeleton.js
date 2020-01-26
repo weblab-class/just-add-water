@@ -7,7 +7,8 @@ import * as gmap from '../modules/Map';
 import { get, post } from "../../utilities";
 import "../../utilities.css";
 import "./Skeleton.css";
-import LoginButton from "../modules/LoginButton"
+import LoginButton from "../modules/LoginButton";
+import WaterCounter from "../modules/WaterCounter";
 
 // const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
 const isometricRotation = new THREE.Euler(-30*Math.PI/180,45*Math.PI/180,0 ,"YXZ");
@@ -21,6 +22,9 @@ class Skeleton extends Component {
       tileIDs:[],
       canDrag:false,
       canWater:true,
+      waterPerDay:null,
+      cupSize:null,
+      waterConsumed:null,
     };
     this.groundColor = "#8C7A6f"
     this.setMoveMode=this.setMoveMode.bind(this);
@@ -36,9 +40,9 @@ class Skeleton extends Component {
         tiles:tileArr
       });
     });
-    get('/api/getWaterProfile', {userId:this.props.userId}).then(info => {
-      console.log(info);
-      this.setState(...{info});
+    get('/api/getWaterProfile', {userId:this.props.userId}).then(profile => {
+      console.log("got water profile: ", profile);
+      this.setState(profile);
     });
   }
 
@@ -67,7 +71,10 @@ class Skeleton extends Component {
       <LoginButton {...this.props}/>
       {this.props.userId ? (
       <div>
-        <div className="caption">{this.state.canDrag ? dragCaption:waterCaption}</div>
+        <div className="caption">
+          {this.state.canDrag ? dragCaption:waterCaption}
+          <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumed} cupSize={this.state.cupSize} />
+          </div>
         <div className="caption-bottom">design plants <a href="https://ju-de.itch.io/inflorescence">here</a></div>
         <a className={this.state.canDrag ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a>
         <a className={this.state.canWater ? "button-water-active":"button-water-inactive"} onClick={this.setWaterMode} ></a>
