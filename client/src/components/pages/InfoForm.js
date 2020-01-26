@@ -51,7 +51,7 @@ export class InfoForm extends Component {
                     marks={true, [{value:15,label:"15 min"}, {value:30, label:"30 min"}, {value:45, label:"45 min"},{value:60, label:">60 min"}]} step={5} min={0} max={60} valueLabelDisplay="auto"  onChange={(event, value) => this.setState({ activity: value })} 
                     getAriaLabel={num=>num.toString()} />
             </FormGroup>
-            <Button onClick={this.handleSubmit}>next</Button >
+            <Button onClick={this.handleSubmit} href="/">next</Button >
         </div>);
     }
 }
