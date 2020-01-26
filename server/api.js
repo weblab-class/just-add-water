@@ -127,8 +127,21 @@ router.post("/updateWaterConsumed", (req, res) =>{
 router.get("/getWaterProfile", (req, res) =>{
   console.log("body: ", req.query);
   console.log("user id: ", req.query.userId);
-  WaterProfile.findOne({userId: req.query.userId}).then(waterProfile => res.send(waterProfile))
+  WaterProfile.findOne({userId: req.query.userId}).then(waterProfile => {
+    console.log("profile found: ", waterProfile);
+
+    // refresh water log if it's a new day
+    const today12AM = new Date().getDate;
+    if (waterProfile.updatedAt < today12AM) {
+      console.log("new day, refreshing water");
+      waterProfile.updateOne({waterConsumedToday:0}).then(res.send(waterProfile));
+    }
+    else{
+      res.send(waterProfile)
+    }
+  });
 });
+
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|

@@ -8,8 +8,8 @@ const waterProfileSchema = new mongoose.Schema({
   waterConsumedToday: Number,
   weight: Number,
   age: Number,
-  activity: Number
-});
+  activity: Number, 
+}, {timestamps:true});
 
 // compile model from schema
 module.exports = mongoose.model("waterProfile", waterProfileSchema);

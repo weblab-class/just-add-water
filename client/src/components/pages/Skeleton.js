@@ -43,6 +43,7 @@ class Skeleton extends Component {
         tiles:tileArr
       });
     });
+    this.getUserData();
   }
   componentDidUpdate(){
     if(!this.state.waterPerDay){
