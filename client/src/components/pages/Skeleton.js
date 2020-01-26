@@ -43,6 +43,14 @@ class Skeleton extends Component {
         tiles:tileArr
       });
     });
+  }
+  componentDidUpdate(){
+    if(!this.state.waterPerDay){
+      this.getUserData();
+    }
+  }
+
+  getUserData(){
     get('/api/getWaterProfile', {userId:this.props.userId}).then(profile => {
       console.log("got water profile: ", profile);
       this.setState(profile);
