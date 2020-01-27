@@ -22,6 +22,7 @@ class Skeleton extends Component {
       tileIDs:[],
       canDrag:false,
       canWater:false,
+      canAdd:true,
       waterPerDay:null,
       cupSize:null,
       waterConsumedToday:null,
@@ -110,7 +111,8 @@ class Skeleton extends Component {
       <div id="game">
 
       <LoginButton {...this.props}/>
-      {this.props.userId ? (
+      {true ? (
+      // {this.props.userId ? (
       <div>
         <div className="caption">
           {this.state.captionText}
@@ -122,7 +124,7 @@ class Skeleton extends Component {
       <div className="canvasContainer">
 
         <Canvas orthographic={true} camera={{zoom:8, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
-          <gmap.GameMap  tileIDs = {this.state.tileIDs} tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater}  handleFinishWater={this.setViewMode}/>
+          <gmap.GameMap  tileIDs = {this.state.tileIDs} tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater}  handleFinishWater={this.setViewMode} canAdd={this.state.canAdd} plantToAdd={this.plantToAdd}/>
         </Canvas>
 
       </div>

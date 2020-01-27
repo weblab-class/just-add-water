@@ -7,8 +7,9 @@ import * as THREE from 'three';
 import {useHover, useDrag, useGesture} from "react-use-gesture";
 import {useSpring, useSprings, a} from 'react-spring/three';
 import {PlantMesh} from './Flower';
-import { useThree } from 'react-three-fiber';
+import { useThree, useUpdate } from 'react-three-fiber';
 import { get, post } from "../../utilities";
+import { PlaneGeometry } from "three";
 
 // lighter color
 // const soilColor = "#AD907F"
@@ -114,6 +115,33 @@ function GuideGrid(props){
         <gridHelper args={[worldLengthX,numTilesX]}  position={[0,1,0]} colorGrid="#ffffff"/>
     );
 }
+
+function AddPlantGrid(props){
+    /**proptypes
+     * @param canAdd
+     * @param mouseRef
+     * @param plantToAdd
+     */
+    const mouseRef=props.mouseRef;
+    const [spring, setSpring] = useSpring(() => ({
+        scale: [1,1,1],
+        position:[0,0,0],
+        rotation:[0,0,0],
+        immediate:true
+    }));
+    const bindGesture = useGesture({
+        onPointerMove: (event)=> {
+            console.log(event);
+            setSpring({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
+            },
+        },
+        {pointerEvents:true});
+
+    return <a.mesh name="soilMesh" visible={true} x={mouseRef.current.x} z={mouseRef.current.z}{...spring} {...bindGesture()}>
+        <boxGeometry args={[tileSize,soilHeight,tileSize]} attach="geometry"/>
+        <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
+    </a.mesh>
+}
 // cannot return a canvas element because of weird DOM shit; this just puts together everything required in the map
 // write test map to render
 GameMap.propTypes = {
@@ -139,7 +167,7 @@ function toGridUnits(worldUnits){
 }
 function GameMap(props){
     // hook for where on the ground the mouse currently is
-    const groundPosition = useRef(null);
+    const groundPosition = useRef({x:0,z:0});
     const mapTiles = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
             <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater, _id:tile._id, handleFinishWater:props.handleFinishWater}}/>
@@ -154,6 +182,7 @@ function GameMap(props){
           <Ground />
           <SnapGrid mouseRef={groundPosition} />
           <GuideGrid/>
+          <AddPlantGrid canAdd={props.canAdd} mouseRef={groundPosition} plantToAdd={props.plantToAdd}/>
         </>
     );
 }
