@@ -46,6 +46,7 @@ router.get("/test", (req, res) => {
 });
 
 router.get("/tilesByUser", (req, res) => {
+  console.log("request: ", req.query);
   Tile.find({creator_id: req.query.creator_id}).then((tiles) => {
     res.send(tiles);
   });

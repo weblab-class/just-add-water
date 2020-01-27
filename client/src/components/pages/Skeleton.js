@@ -19,7 +19,7 @@ class Skeleton extends Component {
     // Initialize Default State
     this.state = {
       // tiles:maptest.mapDiffGrowth.tiles,
-      tiles:null,
+      tiles:[],
       canDrag:false,
       canWater:false,
       canAdd:true,
@@ -39,22 +39,25 @@ class Skeleton extends Component {
   }
 
   componentDidMount() {
-    this.getMapData();
-    this.getWaterData();
+    if (this.props.userId){
+      this.getMapData();
+      this.getWaterData();
+    }
   }
   componentDidUpdate(){
     if(!this.state.waterPerDay){
       this.getWaterData();
     }
-    if(!this.state.tiles){
+    if(this.state.tiles.length == 0){
       this.getMapData();
     }
   }
 
   getMapData(){
-    get('/api/tilesByUser',{creator_id:"me"}).then(obj =>{
-      console.log("loaded map: ", tileArr);
+    console.log("fetching map...");
+    get('/api/tilesByUser',{creator_id:this.props.userId}).then(obj =>{
       const tileArr = obj;
+      console.log("loaded map: ", tileArr);
       this.setState({
         tiles:tileArr
       });
