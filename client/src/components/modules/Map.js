@@ -116,11 +116,28 @@ function GuideGrid(props){
     );
 }
 
-function AddPlantGrid(props){
+function addPlant(params){
+    /**proptypes
+     * @param xGrid
+     * @param zGrid
+     * @param userId
+     * @param plantToAdd
+     */
+    console.log(params);
+    post('/api/newTile', {
+      creator_id: params.userId,
+      xGrid: params.xGrid,
+      zGrid:params.zGrid,
+      flower:params.plantToAdd,
+      growthState:0.2
+      });
+  }
+function NewPlantCursor(props){
     /**proptypes
      * @param canAdd
      * @param mouseRef
      * @param plantToAdd
+     * @param userId
      */
     const mouseRef=props.mouseRef;
     const [spring, setSpring] = useSpring(() => ({
@@ -132,11 +149,20 @@ function AddPlantGrid(props){
     const bindGesture = useGesture({
         onPointerMove: (event)=> {
             setSpring({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
-            },
+        },
+        onClick: (event)=>{
+            event.stopPropagation();
+            addPlant({
+                xGrid:toGridUnits(mouseRef.current.x), 
+                zGrid:toGridUnits(mouseRef.current.z),
+                plantToAdd:props.plantToAdd,
+                userId:props.userId
+                });
+            props.handleClick(); }
         },
         {pointerEvents:true});
 
-    return <a.mesh name="soilMesh" visible={true} x={mouseRef.current.x} z={mouseRef.current.z} y={0}{...spring} {...bindGesture()}>
+    return <a.mesh visible={props.canAdd} name="soilMesh" x={mouseRef.current.x} z={mouseRef.current.z} y={0}{...spring} {...bindGesture()}>
         <boxGeometry args={[tileSize,soilHeight,tileSize]} attach="geometry"/>
         <meshLambertMaterial color={"#ffc7c7"} attach="material" roughness={1} emissive="white" emissiveIntensity={0.3} wireframe={true} wireframeLinewidth={2}/>
     </a.mesh>
@@ -181,7 +207,7 @@ function GameMap(props){
           <Ground />
           <SnapGrid mouseRef={groundPosition} />
           <GuideGrid/>
-          <AddPlantGrid canAdd={props.canAdd} mouseRef={groundPosition} plantToAdd={props.plantToAdd}/>
+          <NewPlantCursor canAdd={props.canAdd} mouseRef={groundPosition} plantToAdd={props.plantToAdd} handleClick={props.handleClickAddMode} userId={props.userId}/>
         </>
     );
 }

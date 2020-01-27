@@ -9,6 +9,7 @@ import "../../utilities.css";
 import "./Skeleton.css";
 import LoginButton from "../modules/LoginButton";
 import WaterCounter from "../modules/WaterCounter";
+import {yellowStar} from '../../test/ExampleFlowers';
 
 // const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
 const isometricRotation = new THREE.Euler(-30*Math.PI/180,45*Math.PI/180,0 ,"YXZ");
@@ -18,8 +19,7 @@ class Skeleton extends Component {
     // Initialize Default State
     this.state = {
       // tiles:maptest.mapDiffGrowth.tiles,
-      tiles:[],
-      tileIDs:[],
+      tiles:null,
       canDrag:false,
       canWater:false,
       canAdd:true,
@@ -27,6 +27,7 @@ class Skeleton extends Component {
       cupSize:null,
       waterConsumedToday:null,
       captionText : "click the cup to drink water",
+      plantToAdd:yellowStar
     };
     this.groundColor = "#8C7A6f"
     this.setMoveMode=this.setMoveMode.bind(this);
@@ -34,32 +35,42 @@ class Skeleton extends Component {
     this.setViewMode=this.setViewMode.bind(this);
     this.drinkWater = this.drinkWater.bind(this);
     this.handleClickWaterButton=this.handleClickWaterButton.bind(this);
-
+    this.handleClickAddMode=this.handleClickAddMode.bind(this);
   }
 
   componentDidMount() {
+    this.getMapData();
+    this.getWaterData();
+  }
+  componentDidUpdate(){
+    if(!this.state.waterPerDay){
+      this.getWaterData();
+    }
+    if(!this.state.tiles){
+      this.getMapData();
+    }
+  }
+
+  getMapData(){
     get('/api/tilesByUser',{creator_id:"me"}).then(obj =>{
+      console.log("loaded map: ", tileArr);
       const tileArr = obj;
-      console.log(tileArr);
       this.setState({
         tiles:tileArr
       });
     });
-    this.getUserData();
   }
-  componentDidUpdate(){
-    if(!this.state.waterPerDay){
-      this.getUserData();
-    }
-  }
-
-  getUserData(){
+  getWaterData(){
     get('/api/getWaterProfile', {userId:this.props.userId}).then(profile => {
       console.log("got water profile: ", profile);
       this.setState(profile);
     });
   }
 
+  handleClickAddMode(params){
+    this.setState({caption:"added plant"});
+    this.getMapData();
+  }
 
   drinkWater(){
     const newWaterConsumed = this.state.waterConsumedToday+this.state.cupSize;
@@ -111,8 +122,8 @@ class Skeleton extends Component {
       <div id="game">
 
       <LoginButton {...this.props}/>
-      {true ? (
-      // {this.props.userId ? (
+      {/* {true ? ( */}
+      {this.props.userId ? (
       <div>
         <div className="caption">
           {this.state.captionText}
@@ -124,7 +135,7 @@ class Skeleton extends Component {
       <div className="canvasContainer">
 
         <Canvas orthographic={true} camera={{zoom:8, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
-          <gmap.GameMap  tileIDs = {this.state.tileIDs} tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater}  handleFinishWater={this.setViewMode} canAdd={this.state.canAdd} plantToAdd={this.plantToAdd}/>
+          <gmap.GameMap  tileIDs = {this.state.tileIDs} tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater}  handleFinishWater={this.setViewMode} canAdd={this.state.canAdd} plantToAdd={this.state.plantToAdd} handleClickAddMode={this.handleClickAddMode} userId={this.state.userId}/>
         </Canvas>
 
       </div>
