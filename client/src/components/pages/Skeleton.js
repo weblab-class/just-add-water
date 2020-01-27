@@ -39,6 +39,10 @@ class Skeleton extends Component {
     this.drinkWater = this.drinkWater.bind(this);
     this.handleClickWaterButton=this.handleClickWaterButton.bind(this);
     this.handleClickAddMode=this.handleClickAddMode.bind(this);
+    this.getMapData=this.getMapData.bind(this);
+
+    // testing flags
+    this.unlimitedWater = true;
   }
 
   componentDidMount() {
@@ -89,12 +93,12 @@ class Skeleton extends Component {
   }
 
   handleClickWaterButton(){
-    if (this.hasConsumedMaxWater()){
-      this.setState({captionText:"you have already finished your water for today"})
-    }
-    else{
+    if (this.unlimitedWater || !this.hasConsumedMaxWater()){
       this.drinkWater();
       this.setWaterMode();
+    }
+    else{
+      this.setState({captionText:"you have already finished your water for today"})
     }
   }
 
@@ -130,7 +134,6 @@ class Skeleton extends Component {
       captionText:waterCaption,
       canWater:true,
       canDrag:false});
-    console.log(this.state);
   }
 
   setViewMode(){
@@ -159,7 +162,10 @@ class Skeleton extends Component {
       <div className="canvasContainer">
 
         <Canvas orthographic={true} camera={{zoom:8, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
-          <gmap.GameMap  tileIDs = {this.state.tileIDs} tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater}  handleFinishWater={this.setViewMode} canAdd={this.state.canAdd} plantToAdd={this.state.plantToAdd} handleClickAddMode={this.handleClickAddMode} userId={this.state.userId} canDelete={this.state.canDelete}/>
+          <gmap.GameMap  tileIDs = {this.state.tileIDs} tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater}  
+            // this.getMapData() here so that Map component always has fresh data
+            handleFinishWater={()=>{this.getMapData();this.setViewMode();} }
+            canAdd={this.state.canAdd} plantToAdd={this.state.plantToAdd} handleClickAddMode={this.handleClickAddMode} userId={this.state.userId} canDelete={this.state.canDelete}/>
         </Canvas>
 
       </div>

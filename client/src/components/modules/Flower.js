@@ -119,7 +119,7 @@ function PlantMesh(props){
     }));
     const stemMesh = ( <StemMesh attachArray = "children" {...props} spring={stemSpring}/>)
 
-    const isFlowerVisible = props.alwaysShowFlower // || props.growthState >=1
+    const isFlowerVisible = props.alwaysShowFlower || props.growthState >=1
     const [flowerSpring, setFlowerSpring] = useSpring(() => ({
         scale:isFlowerVisible?[1,1,1] : [0.01,0.01,0.01],
         position: [0, 0.5*currentHeight, 0],
@@ -141,8 +141,9 @@ function PlantMesh(props){
     );
 
     const usePlantSpring = (params) =>{
-        const growthFactor = (params.growthIncrement+props.growthState)/props.growthState;
+        const growthFactor = (props.growthIncrement+props.growthState)/props.growthState;
         setStemSpring({scale:[1,growthFactor,1]});
+        console.log("stem spring set to ", stemSpring);
         setFlowerSpring({position:[0, 0.5*currentHeight*growthFactor, 0]});
         setBudSpring({position:[0, 0.5*currentHeight*growthFactor, 0]});
         const isBlooming = params.newGrowthState >= 1;
@@ -159,7 +160,7 @@ function PlantMesh(props){
     const z = props.z || 0;
 
     return <group position={[x,y,z]} >
-        {props.alwaysShowFlower ? flowerMesh: budMesh}
+        {isFlowerVisible ? flowerMesh: budMesh}
         {stemMesh}
         {flowerMesh}
         <LeafMesh attachArray = "children" {...props} position={[0,0.5*currentHeight,0]}/>

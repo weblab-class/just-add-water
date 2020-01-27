@@ -37,6 +37,7 @@ function Ground(props){
 }
 
 function Tile(props){
+    console.log("tile props received: ", props);
     const height = soilHeight;
     const x = props.hasOwnProperty("x")? props.x : 0;
     const z = props.hasOwnProperty("z")? props.z : 0;
@@ -53,9 +54,45 @@ function Tile(props){
     // set up ref to be able to access plant model animations
     let growthState = props.growthState;
     const plantSpringRef = useRef();
-    const plantMesh=(
-        <PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef} alwaysShowFlower={false}/>);
+    let plantMesh=(
+        <PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef} alwaysShowFlower={false} growthIncrement={growthIncrement}/>);
     const mouseRef=props.mouseRef;
+    
+    const clickHandlers = {
+        water:(event) => {
+                console.log("clicked tile");
+                event.stopPropagation();
+                console.log("growth triggered");
+                growthState += growthIncrement;
+                post('/api/updateTile', {id:props._id, updateObj:{growthState:growthState}}).then(
+                    res=>console.log("updated tile: ", res)
+                );
+
+                const setPlantSpring = plantSpringRef.current;
+                setPlantSpring({
+                    growthIncrement:growthIncrement,
+                    newGrowthState:growthState});
+                // reassign state only after animation
+                plantMesh=<PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef} alwaysShowFlower={false} growthIncrement={growthIncrement}/>;
+                props.handleFinishWater();
+            },
+        delete:(event) =>{
+                    post('/api/deleteTile',{id:props._id});
+                    setSpring({position:[x,-100,z]});
+                }
+        };
+
+    let currentClickHandler;
+    if(props.canWater){
+        currentClickHandler = clickHandlers.water;
+    }
+    else if (props.canDelete){
+        currentClickHandler = clickHandlers.delete;
+    }
+    else {
+        currentClickHandler = ()=>{};
+    }
+
     const bindGesture = useGesture(
         {
             onDrag: (dragEvent) => {
@@ -71,32 +108,12 @@ function Tile(props){
                     post('/api/updateTile', {id:props._id, updateObj:{xGrid: toGridUnits(mouseRef.current.x), zGrid: toGridUnits(mouseRef.current.z)}});
                 }
             },
-            onHover: ({hovering}) => setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }),
-            onClick: (event) => {
-                event.stopPropagation();
-                if (props.canWater)// && growthState < 1)
-                { console.log("growth triggered");
-                    post('/api/updateTile', {id:props._id, updateObj:{growthState:growthState}});
-                    growthState += growthIncrement;
-
-                    const setPlantSpring = plantSpringRef.current;
-                    setPlantSpring({
-                        growthIncrement:growthIncrement,
-                        newGrowthState:growthState});
-                    props.handleFinishWater();
-                }
-                if(props.canDelete){
-                    post('/api/deleteTile',{id:props._id});
-                    setSpring({position:[x,-100,z]});
-                }
-            }},
+            onHover: ({hovering}) => setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] })
+        },
         {pointerEvents: true}
     );
 
-
-    console.log("ref is ", plantSpringRef.current);
-    // get mouse position on ground from hook
-    return <a.group position={[x,y,z]} {...spring} {...bindGesture()} >
+    return <a.group position={[x,y,z]} {...spring} {...bindGesture()} canWater={props.canWater} canDrag={props.canDrag} onClick={currentClickHandler}>
         <mesh name="soilMesh" visible={true}>
             <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
             <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
@@ -195,6 +212,7 @@ function toGridUnits(worldUnits){
     return worldUnits/tileSize;
 }
 function GameMap(props){
+    console.log("canWater in map =", props.canWater);
     // hook for where on the ground the mouse currently is
     const groundPosition = useRef({x:0,z:0});
     const mapTiles = props.tiles.map((tile) => 

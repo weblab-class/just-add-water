@@ -72,7 +72,8 @@ router.get("/all_tiles", (req, res) => {
 
 router.post("/updateTile", (req, res) =>{
   try {
-    Tile.findByIdAndUpdate(req.body.id, req.body.updateObj).then(()=>{
+    Tile.findByIdAndUpdate(req.body.id, req.body.updateObj).then((newTile)=>{
+      res.send(newTile);
     });
   }
   catch(err){
