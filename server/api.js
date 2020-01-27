@@ -91,6 +91,12 @@ router.post("/newTile", (req,res) => {
   });
   newTile.save().then((tile) => res.send(tile));
 });
+router.post("/deleteTile", (req,res) =>{
+  console.log("request to delete: ", req.body)
+  Tile.deleteOne({_id:req.body.id}).then(
+    console.log("deleted")
+  );
+});
 
 router.post("/setWaterProfile", (req, res)=> {
   console.log(req.body);

@@ -73,9 +73,9 @@ function Tile(props){
             },
             onHover: ({hovering}) => setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] }),
             onClick: (event) => {
-                if (props.canWater)// && growthState < 1){
-                    console.log("growth triggered");
-                    event.stopPropagation();
+                event.stopPropagation();
+                if (props.canWater)// && growthState < 1)
+                { console.log("growth triggered");
                     post('/api/updateTile', {id:props._id, updateObj:{growthState:growthState}});
                     growthState += growthIncrement;
 
@@ -85,7 +85,11 @@ function Tile(props){
                         newGrowthState:growthState});
                     props.handleFinishWater();
                 }
-            },
+                if(props.canDelete){
+                    post('/api/deleteTile',{id:props._id});
+                    setSpring({position:[x,-100,z]});
+                }
+            }},
         {pointerEvents: true}
     );
 
@@ -195,7 +199,7 @@ function GameMap(props){
     const groundPosition = useRef({x:0,z:0});
     const mapTiles = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
-            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater, _id:tile._id, handleFinishWater:props.handleFinishWater}}/>
+            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater, canDelete:props.canDelete, _id:tile._id, handleFinishWater:props.handleFinishWater}}/>
         </React.Fragment>
     );
     return(
