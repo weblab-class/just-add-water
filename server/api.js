@@ -138,8 +138,9 @@ router.get("/getWaterProfile", (req, res) =>{
     console.log("profile found: ", waterProfile);
 
     // refresh water log if it's a new day
-    const today12AM = new Date().getDate;
-    if (waterProfile.updatedAt < today12AM) {
+    const todaysDate = new Date().getDate();
+    const lastUpdated = new Date(waterProfile.updatedAt).getDate();
+    if (lastUpdated < todaysDate) {
       console.log("new day, refreshing water");
       waterProfile.updateOne({waterConsumedToday:0}).then(res.send(waterProfile));
     }

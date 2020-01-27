@@ -23,7 +23,7 @@ class Skeleton extends Component {
       canDrag:false,
       canWater:false,
       canAdd:false,
-      canDelete:true,
+      canDelete:false,
       waterPerDay:null,
       cupSize:null,
       waterConsumedToday:null,
@@ -34,6 +34,8 @@ class Skeleton extends Component {
     this.setMoveMode=this.setMoveMode.bind(this);
     this.setWaterMode=this.setWaterMode.bind(this);
     this.setViewMode=this.setViewMode.bind(this);
+    this.setAddMode=this.setAddMode.bind(this);
+    this.setDeleteMode=this.setDeleteMode.bind(this);
     this.drinkWater = this.drinkWater.bind(this);
     this.handleClickWaterButton=this.handleClickWaterButton.bind(this);
     this.handleClickAddMode=this.handleClickAddMode.bind(this);
@@ -102,6 +104,24 @@ class Skeleton extends Component {
       captionText:dragCaption,
       canDrag:true,
       canWater:false});
+  }
+
+  setAddMode(){
+    this.setState({
+      captionText:"click to add a flower",
+      canDrag: false,
+      canWater: false,
+      canAdd: true,
+    })
+  }
+
+  setDeleteMode(){
+    this.setState({
+      captionText:"click a plant to delete",
+      canDrag: false,
+      canWater:false,
+      canDelete:true,
+    })
   }
 
   setWaterMode(){
