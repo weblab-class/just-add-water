@@ -60,10 +60,11 @@ function Tile(props){
     
     const [colorSpringProps, setColorSpring] = useSpring(()=>({
         emissiveIntensity:0,
+        color:soilColor,
         config: { mass: 1, friction: 26, tension: 170 }
     }));
     if(props.inputMode=="pick"){
-        setColorSpring({emissiveIntensity:0.5})
+        setColorSpring({emissiveIntensity:0.3})
     }
     else{
         setColorSpring({emissiveIntensity:0})
@@ -93,6 +94,7 @@ function Tile(props){
         "view": ()=>{},
         "pick": (event) =>{
             setColorSpring({emissiveIntensity:1});
+            setSpring({position:[x,tileSize,z]});
             props.handleClickPickMode({flower:props.flower});
         }
     };
@@ -124,7 +126,7 @@ function Tile(props){
     return <a.group position={[x,y,z]} {...spring} {...bindGesture()}  onClick={currentClickHandler}>
         <mesh name="soilMesh" visible={true}>
             <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
-            <a.meshStandardMaterial {...colorSpringProps} color={soilColor} attach="material" roughness={1} emissive={soilColor} />
+            <a.meshStandardMaterial {...colorSpringProps} color={soilColor} attach="material" roughness={1} emissive ={soilColor}/>
             {plantMesh}
         </mesh>
     </a.group>
