@@ -131,15 +131,14 @@ function AddPlantGrid(props){
     }));
     const bindGesture = useGesture({
         onPointerMove: (event)=> {
-            console.log(event);
             setSpring({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
             },
         },
         {pointerEvents:true});
 
-    return <a.mesh name="soilMesh" visible={true} x={mouseRef.current.x} z={mouseRef.current.z}{...spring} {...bindGesture()}>
+    return <a.mesh name="soilMesh" visible={true} x={mouseRef.current.x} z={mouseRef.current.z} y={0}{...spring} {...bindGesture()}>
         <boxGeometry args={[tileSize,soilHeight,tileSize]} attach="geometry"/>
-        <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
+        <meshLambertMaterial color={"#ffc7c7"} attach="material" roughness={1} emissive="white" emissiveIntensity={0.3} wireframe={true} wireframeLinewidth={2}/>
     </a.mesh>
 }
 // cannot return a canvas element because of weird DOM shit; this just puts together everything required in the map
