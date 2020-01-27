@@ -20,14 +20,11 @@ class Skeleton extends Component {
     this.state = {
       // tiles:maptest.mapDiffGrowth.tiles,
       tiles:[],
-      canDrag:false,
-      canWater:false,
-      canAdd:false,
-      canDelete:false,
       waterPerDay:null,
       cupSize:null,
       waterConsumedToday:null,
       captionText : "click the cup to drink water",
+      inputMode:"view",
       plantToAdd:blueSixPetals
     };
     this.groundColor = "#8C7A6f"
@@ -106,25 +103,20 @@ class Skeleton extends Component {
     const dragCaption = "click and drag to move plants around";
     this.setState({
       captionText:dragCaption,
-      canDrag:true,
-      canWater:false});
+      inputMode:"move",});
   }
 
   setAddMode(){
     this.setState({
       captionText:"click to add a flower",
-      canDrag: false,
-      canWater: false,
-      canAdd: true,
+      inputMode:"view"
     })
   }
 
   setDeleteMode(){
     this.setState({
       captionText:"click a plant to delete",
-      canDrag: false,
-      canWater:false,
-      canDelete:true,
+      inputMode:"delete"
     })
   }
 
@@ -132,14 +124,13 @@ class Skeleton extends Component {
     const waterCaption = "click a plant to water it";
     this.setState({
       captionText:waterCaption,
-      canWater:true,
-      canDrag:false});
+      inputMode:"water"
+    });
   }
 
   setViewMode(){
     this.setState({
-      canWater:false,
-      canDrag:false
+      inputMode:"view"
     })
   }
   render() {
@@ -157,15 +148,16 @@ class Skeleton extends Component {
           <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} />
           </div>
         <div className="caption-bottom">design plants <a href="https://ju-de.itch.io/inflorescence">here</a></div>
-        <a className={this.state.canDrag ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a>
-        <a className={this.state.canWater ? "button-water-active":"button-water-inactive"} onClick={this.handleClickWaterButton} ></a>
+        <a className={this.state.inputMode == "move" ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a>
+        <a className={this.state.inputMode == "water" ? "button-water-active":"button-water-inactive"} onClick={this.handleClickWaterButton} ></a>
       <div className="canvasContainer">
 
         <Canvas orthographic={true} camera={{zoom:8, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
-          <gmap.GameMap  tileIDs = {this.state.tileIDs} tiles={this.state.tiles} canDrag={this.state.canDrag} canWater={this.state.canWater}  
+          <gmap.GameMap  tileIDs = {this.state.tileIDs} tiles={this.state.tiles}
+            inputMode={this.state.inputMode}
             // this.getMapData() here so that Map component always has fresh data
             handleFinishWater={()=>{this.getMapData();this.setViewMode();} }
-            canAdd={this.state.canAdd} plantToAdd={this.state.plantToAdd} handleClickAddMode={this.handleClickAddMode} userId={this.state.userId} canDelete={this.state.canDelete}/>
+            canAdd={this.state.canAdd} plantToAdd={this.state.plantToAdd} handleClickAddMode={this.handleClickAddMode} userId={this.state.userId} />
         </Canvas>
 
       </div>

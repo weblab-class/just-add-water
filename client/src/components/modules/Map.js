@@ -59,7 +59,7 @@ function Tile(props){
     const mouseRef=props.mouseRef;
     
     const clickHandlers = {
-        water:(event) => {
+        "water":(event) => {
                 console.log("clicked tile");
                 event.stopPropagation();
                 console.log("growth triggered");
@@ -76,33 +76,25 @@ function Tile(props){
                 plantMesh=<PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef} alwaysShowFlower={false} growthIncrement={growthIncrement}/>;
                 props.handleFinishWater();
             },
-        delete:(event) =>{
+        "delete":(event) =>{
                     post('/api/deleteTile',{id:props._id});
                     setSpring({position:[x,-100,z]});
-                }
+                },
+        "view":()=>{}
         };
 
-    let currentClickHandler;
-    if(props.canWater){
-        currentClickHandler = clickHandlers.water;
-    }
-    else if (props.canDelete){
-        currentClickHandler = clickHandlers.delete;
-    }
-    else {
-        currentClickHandler = ()=>{};
-    }
+    let currentClickHandler=clickHandlers[props.inputMode]
 
     const bindGesture = useGesture(
         {
             onDrag: (dragEvent) => {
-                if (props.canDrag){
+                if (props.inputMode == "move"){
                     dragEvent.event.stopPropagation();
                     setSpring({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
                 }
             },
             onDragEnd: (dragEndEvent)=>{
-                if (props.canDrag){
+                if (props.props.inputMode == "move"){
                     dragEndEvent.event.stopPropagation();
                     setSpring({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
                     post('/api/updateTile', {id:props._id, updateObj:{xGrid: toGridUnits(mouseRef.current.x), zGrid: toGridUnits(mouseRef.current.z)}});
@@ -113,7 +105,7 @@ function Tile(props){
         {pointerEvents: true}
     );
 
-    return <a.group position={[x,y,z]} {...spring} {...bindGesture()} canWater={props.canWater} canDrag={props.canDrag} onClick={currentClickHandler}>
+    return <a.group position={[x,y,z]} {...spring} {...bindGesture()}  onClick={currentClickHandler}>
         <mesh name="soilMesh" visible={true}>
             <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
             <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
@@ -159,6 +151,7 @@ function NewPlantCursor(props){
      * @param mouseRef
      * @param plantToAdd
      * @param userId
+     * @param inputMode
      */
     const mouseRef=props.mouseRef;
     const [spring, setSpring] = useSpring(() => ({
@@ -183,7 +176,7 @@ function NewPlantCursor(props){
         },
         {pointerEvents:true});
 
-    return <a.mesh visible={props.canAdd} name="soilMesh" x={mouseRef.current.x} z={mouseRef.current.z} y={0}{...spring} {...bindGesture()}>
+    return <a.mesh visible={props.inputMode =="add"} name="soilMesh" x={mouseRef.current.x} z={mouseRef.current.z} y={0}{...spring} {...bindGesture()}>
         <boxGeometry args={[tileSize,soilHeight,tileSize]} attach="geometry"/>
         <meshLambertMaterial color={"#ffc7c7"} attach="material" roughness={1} emissive="white" emissiveIntensity={0.3} wireframe={true} wireframeLinewidth={2}/>
     </a.mesh>
@@ -217,7 +210,7 @@ function GameMap(props){
     const groundPosition = useRef({x:0,z:0});
     const mapTiles = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
-            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, canDrag:props.canDrag, canWater:props.canWater, canDelete:props.canDelete, _id:tile._id, handleFinishWater:props.handleFinishWater}}/>
+            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, inputMode:props.inputMode, _id:tile._id, handleFinishWater:props.handleFinishWater}}/>
         </React.Fragment>
     );
     return(
@@ -229,7 +222,7 @@ function GameMap(props){
           <Ground />
           <SnapGrid mouseRef={groundPosition} />
           <GuideGrid/>
-          <NewPlantCursor canAdd={props.canAdd} mouseRef={groundPosition} plantToAdd={props.plantToAdd} handleClick={props.handleClickAddMode} userId={props.userId}/>
+          <NewPlantCursor inputMode={props.inputMode} mouseRef={groundPosition} plantToAdd={props.plantToAdd} handleClick={props.handleClickAddMode} userId={props.userId}/>
         </>
     );
 }
