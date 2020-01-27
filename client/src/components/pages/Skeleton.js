@@ -9,6 +9,7 @@ import "../../utilities.css";
 import "./Skeleton.css";
 import LoginButton from "../modules/LoginButton";
 import WaterCounter from "../modules/WaterCounter";
+import {hybridize} from "../modules/hybridize.js";
 import {yellowStar, blueSixPetals} from '../../test/ExampleFlowers';
 
 // const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
@@ -26,9 +27,9 @@ class Skeleton extends Component {
       captionText : "click the cup to drink water",
       inputMode:"view",
       plantToAdd:blueSixPetals,
-      parent1:null,
     };
     this.groundColor = "#8C7A6f"
+    this.parent1 = null; this.parent2 = null;
     this.setMoveMode=this.setMoveMode.bind(this);
     this.setWaterMode=this.setWaterMode.bind(this);
     this.setViewMode=this.setViewMode.bind(this);
@@ -76,12 +77,33 @@ class Skeleton extends Component {
   }
 
   handleClickPickMode = params =>{
-    const parent = params.flower;
-    this.setState({parent1:parent});
+    if (this.state.inputMode="pick"){
+      console.log("picked flower: ", params.flower);
+      if (!this.parent1){
+        this.parent1 = params.flower;
+        this.setState({
+          parent1:params.flower,
+          captionText:"pick a second flower"
+        });
+      }
+      else if (!this.parent2){
+        this.parent2 = params.flower;
+        this.setState({
+          plantToAdd:hybridize(this.parent1, this.parent2),
+          captionText:"select a spot to plant this seed",
+          inputMode:"add"
+        })
+        this.parent1 = null; this.parent2 = null;
+      }
+    }
+    else{
+      // shouldn't get here
+    }
   }
   handleClickAddMode(params){
     this.setState({caption:"added plant"});
     this.getMapData();
+    this.setViewMode();
   }
 
   drinkWater(){

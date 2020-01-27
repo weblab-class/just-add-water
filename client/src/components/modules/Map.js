@@ -60,7 +60,6 @@ function Tile(props){
     
     const [colorSpringProps, setColorSpring] = useSpring(()=>({
         emissiveIntensity:0,
-        color:soilColor,
         config: { mass: 1, friction: 26, tension: 170 }
     }));
     if(props.inputMode=="pick"){
@@ -71,9 +70,8 @@ function Tile(props){
     }
     const clickHandlers = {
         "water":(event) => {
-                console.log("clicked tile");
-                event.stopPropagation();
                 console.log("growth triggered");
+                event.stopPropagation();
                 growthState += growthIncrement;
                 post('/api/updateTile', {id:props._id, updateObj:{growthState:growthState}}).then(
                     res=>console.log("updated tile: ", res)
