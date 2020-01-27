@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
+import {Button} from '@material-ui/core';
 import { Canvas} from 'react-three-fiber';
 import * as maptest from '../../test/MapTest';
 import * as THREE from 'three';
@@ -109,7 +109,7 @@ class Skeleton extends Component {
   setAddMode(){
     this.setState({
       captionText:"click to add a flower",
-      inputMode:"view"
+      inputMode:"add"
     })
   }
 
@@ -146,6 +146,8 @@ class Skeleton extends Component {
         <div className="caption">
           {this.state.captionText}
           <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} />
+        <Button onClick={this.setDeleteMode}>Delete</Button>
+        <Button onClick={this.setAddMode}>Add</Button>
           </div>
         <div className="caption-bottom">design plants <a href="https://ju-de.itch.io/inflorescence">here</a></div>
         <a className={this.state.inputMode == "move" ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a>
@@ -159,7 +161,6 @@ class Skeleton extends Component {
             handleFinishWater={()=>{this.getMapData();this.setViewMode();} }
             canAdd={this.state.canAdd} plantToAdd={this.state.plantToAdd} handleClickAddMode={this.handleClickAddMode} userId={this.state.userId} />
         </Canvas>
-
       </div>
       </div>) : (
         <div className="loginMessage">login to begin</div>
