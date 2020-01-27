@@ -25,7 +25,8 @@ class Skeleton extends Component {
       waterConsumedToday:null,
       captionText : "click the cup to drink water",
       inputMode:"view",
-      plantToAdd:blueSixPetals
+      plantToAdd:blueSixPetals,
+      parent1:null,
     };
     this.groundColor = "#8C7A6f"
     this.setMoveMode=this.setMoveMode.bind(this);
@@ -74,6 +75,10 @@ class Skeleton extends Component {
     });
   }
 
+  handleClickPickMode = params =>{
+    const parent = params.flower;
+    this.setState({parent1:parent});
+  }
   handleClickAddMode(params){
     this.setState({caption:"added plant"});
     this.getMapData();
@@ -113,6 +118,13 @@ class Skeleton extends Component {
     })
   }
 
+  setPickMode(){
+    this.setState({
+      captionText: "click two flowers to cross them",
+      inputMode:"pick"
+    })
+  }
+
   setDeleteMode(){
     this.setState({
       captionText:"click a plant to delete",
@@ -133,6 +145,13 @@ class Skeleton extends Component {
       inputMode:"view"
     })
   }
+
+  setPickMode = () =>{
+    this.setState({
+      inputMode:"pick",
+      captionText: "click to select plants"
+    })
+  }
   render() {
     console.log("state when rendering",this.state);
     // z axis is coming out of page - remember
@@ -148,6 +167,7 @@ class Skeleton extends Component {
           <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} />
         <Button onClick={this.setDeleteMode}>Delete</Button>
         <Button onClick={this.setAddMode}>Add</Button>
+        <Button onClick={this.setPickMode}>Pick</Button>
           </div>
         <div className="caption-bottom">design plants <a href="https://ju-de.itch.io/inflorescence">here</a></div>
         <a className={this.state.inputMode == "move" ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a>
@@ -159,7 +179,10 @@ class Skeleton extends Component {
             inputMode={this.state.inputMode}
             // this.getMapData() here so that Map component always has fresh data
             handleFinishWater={()=>{this.getMapData();this.setViewMode();} }
-            canAdd={this.state.canAdd} plantToAdd={this.state.plantToAdd} handleClickAddMode={this.handleClickAddMode} userId={this.state.userId} />
+            canAdd={this.state.canAdd} plantToAdd={this.state.plantToAdd} 
+            handleClickAddMode={this.handleClickAddMode}
+            handleClickPickMode={this.handleClickPickMode}
+            userId={this.state.userId} />
         </Canvas>
       </div>
       </div>) : (

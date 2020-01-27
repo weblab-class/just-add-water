@@ -58,6 +58,16 @@ function Tile(props){
         <PlantMesh name="plantMesh"  {...props.flower} x={0}  y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef} alwaysShowFlower={false} growthIncrement={growthIncrement}/>);
     const mouseRef=props.mouseRef;
     
+    const [colorSpringProps, setColorSpring] = useSpring(()=>({
+        emissiveIntensity:0,
+        config: { mass: 1, friction: 26, tension: 170 }
+    }));
+    if(props.inputMode=="pick"){
+        setColorSpring({emissiveIntensity:0.5})
+    }
+    else{
+        setColorSpring({emissiveIntensity:0})
+    }
     const clickHandlers = {
         "water":(event) => {
                 console.log("clicked tile");
@@ -77,11 +87,15 @@ function Tile(props){
                 props.handleFinishWater();
             },
         "delete":(event) =>{
-                    post('/api/deleteTile',{id:props._id});
-                    setSpring({position:[x,-100,z]});
-                },
-        "view":()=>{}
-        };
+                post('/api/deleteTile',{id:props._id});
+                setSpring({position:[x,-100,z]});
+            },
+        "view": ()=>{},
+        "pick": (event) =>{
+            setColorSpring({emissiveIntensity:1});
+            props.handleClickPickMode({flower:props.flower});
+        }
+    };
 
     let currentClickHandler=clickHandlers[props.inputMode]
 
@@ -94,13 +108,15 @@ function Tile(props){
                 }
             },
             onDragEnd: (dragEndEvent)=>{
-                if (props.props.inputMode == "move"){
+                if (props.inputMode == "move"){
                     dragEndEvent.event.stopPropagation();
                     setSpring({position:[mouseRef.current.x, mouseRef.current.y, mouseRef.current.z]});
                     post('/api/updateTile', {id:props._id, updateObj:{xGrid: toGridUnits(mouseRef.current.x), zGrid: toGridUnits(mouseRef.current.z)}});
                 }
             },
-            onHover: ({hovering}) => setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] })
+            onHover: ({hovering}) => {
+                setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] });
+            }
         },
         {pointerEvents: true}
     );
@@ -108,7 +124,7 @@ function Tile(props){
     return <a.group position={[x,y,z]} {...spring} {...bindGesture()}  onClick={currentClickHandler}>
         <mesh name="soilMesh" visible={true}>
             <boxGeometry args={[tileSize,height,tileSize]} attach="geometry"/>
-            <meshStandardMaterial color={soilColor} attach="material" roughness={1}/>
+            <a.meshStandardMaterial {...colorSpringProps} color={soilColor} attach="material" roughness={1} emissive={soilColor} />
             {plantMesh}
         </mesh>
     </a.group>
@@ -210,7 +226,8 @@ function GameMap(props){
     const groundPosition = useRef({x:0,z:0});
     const mapTiles = props.tiles.map((tile) => 
         <React.Fragment key = {JSON.stringify(tile)}>
-            <Tile {...{flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, inputMode:props.inputMode, _id:tile._id, handleFinishWater:props.handleFinishWater}}/>
+            <Tile {...{
+                flower:tile.flower,x:toWorldUnits(tile.xGrid),z:toWorldUnits(tile.zGrid), mouseRef:groundPosition, growthState:tile.growthState, inputMode:props.inputMode, _id:tile._id, handleFinishWater:props.handleFinishWater, handleClickPickMode:props.handleClickPickMode}}/>
         </React.Fragment>
     );
     return(
