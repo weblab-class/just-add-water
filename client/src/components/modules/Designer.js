@@ -8,7 +8,7 @@ class Designer extends Component {
   constructor(props){
     super(props);
     this.state = {
-      ...examples.blueSixPetals,
+      ...examples.poppy,
       growthState:1,
       alwaysShowFlower:true
     }

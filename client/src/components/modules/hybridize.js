@@ -12,6 +12,9 @@ function pickOne(trait, p1, p2){
     let randomTrait = inventory[Math.floor(Math.random()*inventory.length)];
     return randomTrait;
 }
+function randomFlower(){
+
+}
 /** cross p1 and p2 (json objects containing flower data) */
 function hybridize(p1, p2){
     let flowerData = {

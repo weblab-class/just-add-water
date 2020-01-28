@@ -48,11 +48,11 @@ function Tile(props) {
         onHover:({hovering})=>scaleOnHover(hovering)
     }, {pointerEvents:true});
 
-    let isDeleted = false;
     const bindGestureDelete = useGesture({
-        onHover:({hovering})=>setSpring({scale: hovering ? [1,0.3,1]:[1,1,1]}),
+        onHover:({hovering})=>setColorSpring({emissiveIntensity: hovering? 0.3 : 0}),
         onClick: (event) => {
             event.stopPropagation();
+            setSpring({scale:[1,0.3,1]});
             post('/api/deleteTile', { id: props._id });
             setSpring({ position: [x, -100, z] });
         },
@@ -113,10 +113,9 @@ function Tile(props) {
     };
     useEffect(()=>{
         inputModeEffects[props.inputMode]();
-
     }, [props.inputMode]);
-    return <a.group visible={!isDeleted} position={[x, y, z]} {...spring} {...bindGesture()}>
-        <mesh name="soilMesh" visible={true}>
+    return <a.group position={[x, y, z]} {...spring} {...bindGesture()}>
+        <mesh name="soilMesh">
             <boxGeometry args={[tileSize, height, tileSize]} attach="geometry" />
             <a.meshStandardMaterial {...colorSpringProps}  attach="material" roughness={1} color={soilColor} />
             {plantMesh}

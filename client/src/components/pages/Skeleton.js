@@ -93,9 +93,9 @@ class Skeleton extends Component {
           captionText:"select a spot to plant this seed",
           inputMode:"add"
         })
+        this.parent1 = null; this.parent2 = null;
       }
     }
-    this.parent1 = null; this.parent2 = null;
   }
 
   handleClickAddMode(params){
@@ -139,12 +139,6 @@ class Skeleton extends Component {
     })
   }
 
-  setPickMode(){
-    this.setState({
-      captionText: "click two flowers to cross them",
-      inputMode:"pick"
-    })
-  }
 
   setDeleteMode(){
     this.setState({
@@ -162,6 +156,7 @@ class Skeleton extends Component {
   }
 
   setViewMode(){
+    this.getMapData();
     this.setState({
       inputMode:"view",
       captionText:""
