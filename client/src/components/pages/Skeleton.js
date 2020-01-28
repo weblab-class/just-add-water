@@ -175,6 +175,11 @@ class Skeleton extends Component {
       captionText: "click to select plants"
     })
   }
+  handleFinishWater=() =>{
+    this.setViewMode();
+    // wait for animation to finish before refreshing map
+    setTimeout(() => this.getMapData(), 600)
+  }
   render() {
     console.log("state when rendering",this.state);
     // z axis is coming out of page - remember
@@ -200,8 +205,7 @@ class Skeleton extends Component {
         <Canvas orthographic={true} camera={{zoom:8, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
           <gmap.GameMap  tileIDs = {this.state.tileIDs} tiles={this.state.tiles}
             inputMode={this.state.inputMode}
-            // this.getMapData() here so that Map component always has fresh data
-            handleFinishWater={()=>{this.getMapData();this.setViewMode();} }
+            handleFinishWater={this.handleFinishWater} 
             canAdd={this.state.canAdd} plantToAdd={this.state.plantToAdd} 
             handleClickAddMode={this.handleClickAddMode}
             handleClickPickMode={this.handleClickPickMode}
