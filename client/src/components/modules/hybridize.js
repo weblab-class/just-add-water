@@ -15,7 +15,7 @@ function pickOne(trait, p1, p2){
 const leafStemColor="#69a339";
 const minValues = {
       numPetals:1,
-      petalLength:0.2,
+      petalLength:3,
       petalPitch : -90*Math.PI/180,
       petalInnerXRelative:0,
       petalOuterXRelative:-2,
@@ -24,7 +24,7 @@ const minValues = {
       leafRotAngle:0,
       leafLength:0,
       leafSpacing:0.5,
-      stemHeight:5,
+      stemHeight:10,
       leafInner:0,
       leafOuter:0,
       leafPitch: -90*Math.PI/180,
@@ -42,7 +42,7 @@ const maxValues = {
       leafRotAngle:2,
       leafLength:2,
       leafSpacing:10,
-      stemHeight:16,
+      stemHeight:20,
       leafInner:2,
       leafOuter:2,
       leafPitch: 90*Math.PI/180,
