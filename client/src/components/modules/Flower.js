@@ -108,6 +108,7 @@ function LeafMesh(props){
 function PlantMesh(props){
     // const useFlowerSpring =useRef();
     // for animating growth
+    console.log(props);
     const currentHeight = props.growthState*props.stemHeight;
     const springConfig = {
         config: { mass: 3, friction: 30, tension: 700 }
@@ -153,12 +154,16 @@ function PlantMesh(props){
             setFlowerSpring({scale:[1,1,1], rotation:[rotateToXZPlane.x,0,4*Math.PI] });
         }
     }
-    props.springRef.current = usePlantSpring;
+    if(props.springRef){
+        props.springRef.current = usePlantSpring;
+    }
+
     // base of the plant is at origin
     const x = props.x || 0;
     const y = props.y || 0;
     const z = props.z || 0;
 
+    console.log(flowerMesh);
     return <group position={[x,y,z]} >
         {isFlowerVisible ? flowerMesh: budMesh}
         {stemMesh}

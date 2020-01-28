@@ -93,13 +93,11 @@ class Skeleton extends Component {
           captionText:"select a spot to plant this seed",
           inputMode:"add"
         })
-        this.parent1 = null; this.parent2 = null;
       }
     }
-    else{
-      // shouldn't get here
-    }
+    this.parent1 = null; this.parent2 = null;
   }
+
   handleClickAddMode(params){
     this.setState({caption:"added plant"});
     this.getMapData();
