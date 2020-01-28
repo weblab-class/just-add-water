@@ -4,6 +4,7 @@
 import React, {useRef, Fragment, forwardRef } from "react";
 import * as PropTypes from 'prop-types';
 import * as THREE from 'three';
+import {useHover, useDrag, useGesture} from "react-use-gesture";
 import {useSpring, useSprings, a} from 'react-spring/three';
 import { useThree, useUpdate } from 'react-three-fiber';
 import { get, post } from "../../utilities";
