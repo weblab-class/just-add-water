@@ -164,7 +164,8 @@ class Skeleton extends Component {
 
   setViewMode(){
     this.setState({
-      inputMode:"view"
+      inputMode:"view",
+      captionText:""
     })
   }
 
