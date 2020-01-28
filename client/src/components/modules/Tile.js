@@ -108,8 +108,11 @@ function Tile(props) {
             }
         },
         "view":()=>{ 
-            setSpring({position:[x,y,z]});
-            setColorSpring({emissiveIntensity:0});},
+            if (spring.position.y > props.y) {
+                setSpring({position:[x,y,z]});
+            }
+            setColorSpring({emissiveIntensity:0});
+        }
     };
     useEffect(()=>{
         inputModeEffects[props.inputMode]();
