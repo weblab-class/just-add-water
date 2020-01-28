@@ -48,9 +48,11 @@ function Tile(props) {
         onHover:({hovering})=>scaleOnHover(hovering)
     }, {pointerEvents:true});
 
+    let isDeleted = false;
     const bindGestureDelete = useGesture({
-        onHover:({hovering})=>scaleOnHover(hovering),
+        onHover:({hovering})=>setSpring({scale: hovering ? [1,0.3,1]:[1,1,1]}),
         onClick: (event) => {
+            event.stopPropagation();
             post('/api/deleteTile', { id: props._id });
             setSpring({ position: [x, -100, z] });
         },
@@ -61,6 +63,7 @@ function Tile(props) {
         onClick: (event) => {
             console.log("growth triggered");
             event.stopPropagation();
+            setColorSpring({ emissiveIntensity: 1.5 });
             growthState += growthIncrement;
             post('/api/updateTile', { id: props._id, updateObj: { growthState: growthState } }).then(res => console.log("updated tile: ", res));
             const setPlantSpring = plantSpringRef.current;
@@ -74,6 +77,7 @@ function Tile(props) {
     const bindGesturePick = useGesture({
         onHover:({hovering})=>scaleOnHover(hovering),
         onClick: (event) => {
+            event.stopPropagation();
             setColorSpring({ emissiveIntensity: 2 });
             setSpring({position:[x,tileSize,z]});
             props.handleClickPickMode({ flower: props.flower });
@@ -91,11 +95,18 @@ function Tile(props) {
     // set color/light overlay when changing input modes
     const doNothing = () =>{ };
     const inputModeEffects = {
-        "pick":() => {setColorSpring({ emissiveIntensity: 0.3 }); },
+        "pick":() => {
+            if (props.growthState>= 1){
+            setColorSpring({ emissiveIntensity: 0.3 }); }
+        },
         "move":doNothing,
         "delete":doNothing,
         "add": doNothing ,
-        "water":doNothing,
+        "water": () =>{
+            if (props.growthState <= 1){
+                setColorSpring({emissiveIntensity:0.3})
+            }
+        },
         "view":()=>{ 
             setSpring({position:[x,y,z]});
             setColorSpring({emissiveIntensity:0});},
@@ -104,7 +115,7 @@ function Tile(props) {
         inputModeEffects[props.inputMode]();
 
     }, [props.inputMode]);
-    return <a.group position={[x, y, z]} {...spring} {...bindGesture()}>
+    return <a.group visible={!isDeleted} position={[x, y, z]} {...spring} {...bindGesture()}>
         <mesh name="soilMesh" visible={true}>
             <boxGeometry args={[tileSize, height, tileSize]} attach="geometry" />
             <a.meshStandardMaterial {...colorSpringProps}  attach="material" roughness={1} color={soilColor} />
