@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "./Designer.css";
 import * as examples from './../../test/ExampleFlowers';
 import FlowerViewport from './FlowerViewport';
+import { Button, Slider, FormGroup, InputLabel, TextField, FormControlLabel, RadioGroup, Radio, FormLabel } from '@material-ui/core';
 class Designer extends Component {
   constructor(props){
     super(props);
@@ -53,12 +54,27 @@ class Designer extends Component {
     this.setState(flowerData);
   }
 
-
+  handleChange = (event)=> {
+    this.setState({ [event.target.name]: event.target.value })};
   render() {
     return (
         <div className="container">
           <div className="viewport">
             <FlowerViewport {...this.state}/>
+          </div>
+          <div className="sliders">
+            <FormGroup>
+                <InputLabel id="numPetalsLabel">numPetals</InputLabel>
+                <Slider name="numPetals" 
+                    value={this.state.numPetals}
+                    type="number" label="numPetals" 
+                    getAriaLabel={num=>num.toString()} 
+                    onChange={(event, value)=>this.setState({numPetals:value})}
+                    min={0}
+                    max={24}
+                    step={1}
+                    />
+            </FormGroup>
           </div>
         </div>
     );

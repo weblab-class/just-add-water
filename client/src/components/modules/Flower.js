@@ -163,7 +163,6 @@ function PlantMesh(props){
     const y = props.y || 0;
     const z = props.z || 0;
 
-    console.log(flowerMesh);
     return <group position={[x,y,z]} >
         {isFlowerVisible ? flowerMesh: budMesh}
         {stemMesh}
