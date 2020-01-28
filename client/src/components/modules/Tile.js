@@ -28,12 +28,22 @@ function Tile(props) {
         emissiveIntensity: 0,
         config: { mass: 1, friction: 26, tension: 170 }
     }));
-    // set color overlay when changing input modes
-    if (props.inputMode == "pick") {
-        setColorSpring({ emissiveIntensity: 0.3 });
-    } else {
-        setColorSpring({ emissiveIntensity: 0 });
-    }
+
+    // set color/light overlay when changing input modes
+    const refreshNoEffects = () =>{
+        setColorSpring({emissiveIntensity:0});
+        setSpring({position:[x,y,z]});
+    };
+    const refreshMapForMode = {
+        "pick":() => {setColorSpring({ emissiveIntensity: 0.3 }); },
+        "move":refreshNoEffects,
+        "delete":refreshNoEffects,
+        "add":refreshNoEffects,
+        "water":refreshNoEffects,
+        "view":refreshNoEffects,
+    };
+    refreshMapForMode[props.inputMode]();
+
     const scaleOnHover = (hovering)=>setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] });
     const bindGestureMove = useGesture({
         onDrag: (dragEvent) => {
