@@ -6,7 +6,6 @@ import { post } from "../../utilities";
 import { soilHeight, growthIncrement, tileSize, toGridUnits, soilColor } from "./Map";
 
 function Tile(props) {
-    console.log("tile props received: ", props);
     const height = soilHeight;
     const x = props.hasOwnProperty("x") ? props.x : 0;
     const z = props.hasOwnProperty("z") ? props.z : 0;
@@ -26,6 +25,7 @@ function Tile(props) {
     const mouseRef = props.mouseRef;
     const [colorSpringProps, setColorSpring] = useSpring(() => ({
         emissiveIntensity: 0,
+        emissive:soilColor,
         config: { mass: 1, friction: 26, tension: 170 }
     }));
 
@@ -38,7 +38,7 @@ function Tile(props) {
         "pick":() => {setColorSpring({ emissiveIntensity: 0.3 }); },
         "move":refreshNoEffects,
         "delete":refreshNoEffects,
-        "add":refreshNoEffects,
+        "add": refreshNoEffects,
         "water":refreshNoEffects,
         "view":refreshNoEffects,
     };
@@ -82,8 +82,6 @@ function Tile(props) {
                 growthIncrement: growthIncrement,
                 newGrowthState: growthState
             });
-            // reassign state only after animation
-            plantMesh = <PlantMesh name="plantMesh" {...props.flower} x={0} y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef} alwaysShowFlower={false} growthIncrement={growthIncrement} />;
             props.handleFinishWater();
         },
     }, {pointerEvents:true});
@@ -108,7 +106,7 @@ function Tile(props) {
     return <a.group position={[x, y, z]} {...spring} {...bindGesture()}>
         <mesh name="soilMesh" visible={true}>
             <boxGeometry args={[tileSize, height, tileSize]} attach="geometry" />
-            <a.meshStandardMaterial {...colorSpringProps} color={soilColor} attach="material" roughness={1} emissive={soilColor} />
+            <a.meshStandardMaterial {...colorSpringProps}  attach="material" roughness={1} color={soilColor} />
             {plantMesh}
         </mesh>
     </a.group>;
