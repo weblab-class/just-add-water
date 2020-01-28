@@ -134,6 +134,7 @@ class Skeleton extends Component {
   }
 
   setAddMode(){
+    this.getMapData();
     this.setState({
       captionText:"click to add a flower",
       inputMode:"add"

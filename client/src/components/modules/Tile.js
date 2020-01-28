@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect,useState } from "react";
 import { useGesture } from "react-use-gesture";
 import { useSpring, a } from 'react-spring/three';
 import { PlantMesh } from './Flower';
@@ -29,20 +29,6 @@ function Tile(props) {
         config: { mass: 1, friction: 26, tension: 170 }
     }));
 
-    // set color/light overlay when changing input modes
-    const refreshNoEffects = () =>{
-        setColorSpring({emissiveIntensity:0});
-        setSpring({position:[x,y,z]});
-    };
-    const refreshMapForMode = {
-        "pick":() => {setColorSpring({ emissiveIntensity: 0.3 }); },
-        "move":refreshNoEffects,
-        "delete":refreshNoEffects,
-        "add": refreshNoEffects,
-        "water":refreshNoEffects,
-        "view":refreshNoEffects,
-    };
-    refreshMapForMode[props.inputMode]();
 
     const scaleOnHover = (hovering)=>setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] });
     const bindGestureMove = useGesture({
@@ -88,8 +74,8 @@ function Tile(props) {
     const bindGesturePick = useGesture({
         onHover:({hovering})=>scaleOnHover(hovering),
         onClick: (event) => {
-            setColorSpring({ emissiveIntensity: 1 });
-            setSpring({ position: [x, tileSize, z] });
+            setColorSpring({ emissiveIntensity: 2 });
+            setSpring({position:[x,tileSize,z]});
             props.handleClickPickMode({ flower: props.flower });
         },
     }, {pointerEvents:true});
@@ -102,7 +88,22 @@ function Tile(props) {
         "add":()=>{}
     }
     const bindGesture = gestureHandlers[props.inputMode];
+    // set color/light overlay when changing input modes
+    const doNothing = () =>{ };
+    const inputModeEffects = {
+        "pick":() => {setColorSpring({ emissiveIntensity: 0.3 }); },
+        "move":doNothing,
+        "delete":doNothing,
+        "add": doNothing ,
+        "water":doNothing,
+        "view":()=>{ 
+            setSpring({position:[x,y,z]});
+            setColorSpring({emissiveIntensity:0});},
+    };
+    useEffect(()=>{
+        inputModeEffects[props.inputMode]();
 
+    }, [props.inputMode]);
     return <a.group position={[x, y, z]} {...spring} {...bindGesture()}>
         <mesh name="soilMesh" visible={true}>
             <boxGeometry args={[tileSize, height, tileSize]} attach="geometry" />
