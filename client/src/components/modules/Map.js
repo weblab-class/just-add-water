@@ -9,7 +9,7 @@ import {useSpring, useSprings, a} from 'react-spring/three';
 import { useThree, useUpdate } from 'react-three-fiber';
 import { get, post } from "../../utilities";
 import { PlaneGeometry } from "three";
-import { Tile } from "./Tile";
+import Tile from "./Tile";
 
 // lighter color
 // const soilColor = "#AD907F"

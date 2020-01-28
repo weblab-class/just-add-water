@@ -5,7 +5,7 @@ import { PlantMesh } from './Flower';
 import { post } from "../../utilities";
 import { soilHeight, growthIncrement, tileSize, toGridUnits, soilColor } from "./Map";
 
-export function Tile(props) {
+function Tile(props) {
     console.log("tile props received: ", props);
     const height = soilHeight;
     const x = props.hasOwnProperty("x") ? props.x : 0;
@@ -22,19 +22,47 @@ export function Tile(props) {
     let growthState = props.growthState;
     const plantSpringRef = useRef();
     let plantMesh = (<PlantMesh name="plantMesh" {...props.flower} x={0} y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef} alwaysShowFlower={false} growthIncrement={growthIncrement} />);
+
     const mouseRef = props.mouseRef;
     const [colorSpringProps, setColorSpring] = useSpring(() => ({
         emissiveIntensity: 0,
         config: { mass: 1, friction: 26, tension: 170 }
     }));
+    // set color overlay when changing input modes
     if (props.inputMode == "pick") {
         setColorSpring({ emissiveIntensity: 0.3 });
-    }
-    else {
+    } else {
         setColorSpring({ emissiveIntensity: 0 });
     }
-    const clickHandlers = {
-        "water": (event) => {
+    const scaleOnHover = (hovering)=>setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] });
+    const bindGestureMove = useGesture({
+        onDrag: (dragEvent) => {
+            dragEvent.event.stopPropagation();
+            setSpring({ position: [mouseRef.current.x, mouseRef.current.y, mouseRef.current.z] });
+        },
+        onDragEnd: (dragEndEvent) => {
+            dragEndEvent.event.stopPropagation();
+            setSpring({ position: [mouseRef.current.x, mouseRef.current.y, mouseRef.current.z] });
+            post('/api/updateTile', { id: props._id, updateObj: { xGrid: toGridUnits(mouseRef.current.x), zGrid: toGridUnits(mouseRef.current.z) } });
+        },
+        onHover:({hovering})=>scaleOnHover(hovering)
+    }, { pointerEvents: true });
+
+    const bindGestureView = useGesture({
+        onHover:({hovering})=>scaleOnHover(hovering)
+    }, {pointerEvents:true});
+
+    const bindGestureDelete = useGesture({
+        onHover:({hovering})=>scaleOnHover(hovering),
+        onClick: (event) => {
+            post('/api/deleteTile', { id: props._id });
+            setSpring({ position: [x, -100, z] });
+        },
+    }, {pointerEvents:true});
+
+    const bindGestureWater = useGesture({
+        onHover:({hovering})=>scaleOnHover(hovering),
+        onClick: (event) => {
             console.log("growth triggered");
             event.stopPropagation();
             growthState += growthIncrement;
@@ -48,37 +76,26 @@ export function Tile(props) {
             plantMesh = <PlantMesh name="plantMesh" {...props.flower} x={0} y={props.flower.stemHeight} z={0} growthState={growthState} springRef={plantSpringRef} alwaysShowFlower={false} growthIncrement={growthIncrement} />;
             props.handleFinishWater();
         },
-        "delete": (event) => {
-            post('/api/deleteTile', { id: props._id });
-            setSpring({ position: [x, -100, z] });
-        },
-        "view": () => { },
-        "pick": (event) => {
+    }, {pointerEvents:true});
+    const bindGesturePick = useGesture({
+        onHover:({hovering})=>scaleOnHover(hovering),
+        onClick: (event) => {
             setColorSpring({ emissiveIntensity: 1 });
             setSpring({ position: [x, tileSize, z] });
             props.handleClickPickMode({ flower: props.flower });
-        }
-    };
-    let currentClickHandler = clickHandlers[props.inputMode];
-    const bindGesture = useGesture({
-        onDrag: (dragEvent) => {
-            if (props.inputMode == "move") {
-                dragEvent.event.stopPropagation();
-                setSpring({ position: [mouseRef.current.x, mouseRef.current.y, mouseRef.current.z] });
-            }
         },
-        onDragEnd: (dragEndEvent) => {
-            if (props.inputMode == "move") {
-                dragEndEvent.event.stopPropagation();
-                setSpring({ position: [mouseRef.current.x, mouseRef.current.y, mouseRef.current.z] });
-                post('/api/updateTile', { id: props._id, updateObj: { xGrid: toGridUnits(mouseRef.current.x), zGrid: toGridUnits(mouseRef.current.z) } });
-            }
-        },
-        onHover: ({ hovering }) => {
-            setSpring({ scale: hovering ? [1, 1.2, 1] : [1, 1, 1] });
-        }
-    }, { pointerEvents: true });
-    return <a.group position={[x, y, z]} {...spring} {...bindGesture()} onClick={currentClickHandler}>
+    }, {pointerEvents:true});
+    const gestureHandlers = {
+        "move":bindGestureMove,
+        "view": bindGestureView,
+        "delete": bindGestureDelete,
+        "water":bindGestureWater,
+        "pick":bindGesturePick,
+        "add":()=>{}
+    }
+    const bindGesture = gestureHandlers[props.inputMode];
+
+    return <a.group position={[x, y, z]} {...spring} {...bindGesture()}>
         <mesh name="soilMesh" visible={true}>
             <boxGeometry args={[tileSize, height, tileSize]} attach="geometry" />
             <a.meshStandardMaterial {...colorSpringProps} color={soilColor} attach="material" roughness={1} emissive={soilColor} />
@@ -86,3 +103,4 @@ export function Tile(props) {
         </mesh>
     </a.group>;
 }
+export default Tile;
