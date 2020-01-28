@@ -108,7 +108,6 @@ function LeafMesh(props){
 function PlantMesh(props){
     // const useFlowerSpring =useRef();
     // for animating growth
-    console.log(props);
     const currentHeight = props.growthState*props.stemHeight;
     const springConfig = {
         config: { mass: 3, friction: 30, tension: 700 }

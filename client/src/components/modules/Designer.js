@@ -3,6 +3,7 @@ import "./Designer.css";
 import * as examples from './../../test/ExampleFlowers';
 import FlowerViewport from './FlowerViewport';
 import { Button, Slider, FormGroup, InputLabel, TextField, FormControlLabel, RadioGroup, Radio, FormLabel } from '@material-ui/core';
+import DesignSlider from "./DesignSlider";
 class Designer extends Component {
   constructor(props){
     super(props);
@@ -63,18 +64,14 @@ class Designer extends Component {
             <FlowerViewport {...this.state}/>
           </div>
           <div className="sliders">
-            <FormGroup>
-                <InputLabel id="numPetalsLabel">numPetals</InputLabel>
-                <Slider name="numPetals" 
-                    value={this.state.numPetals}
-                    type="number" label="numPetals" 
-                    getAriaLabel={num=>num.toString()} 
-                    onChange={(event, value)=>this.setState({numPetals:value})}
-                    min={0}
-                    max={24}
-                    step={1}
-                    />
-            </FormGroup>
+              <DesignSlider name="numPetals" min={0} max={24} step={1} parent={this} labelText="number" />
+              <DesignSlider name="petalLength" min={0} max={8} step={0.1} parent={this} labelText="size" />
+              <DesignSlider name="petalPitch" min={-90*Math.PI/180} max={90*Math.PI/180}step={.01} parent={this} labelText="pitch"/>
+              <DesignSlider name="petalInnerXRelative" min={0} max={2} step={0.1} parent={this} labelText="innerX" />
+              <DesignSlider name="petalInnerYRelative" min={-2} max={2} step={0.1} parent={this} labelText="innerY" />
+              <DesignSlider name="petalOuterXRelative" min={0} max={2} step={0.1} parent={this} labelText="outerX" />
+              <DesignSlider name="petalOuterYRelative" min={-2} max={2} step={0.1} parent={this} labelText="outerY" />
+              <DesignSlider name="stemHeight" min={1} max={20} step={0.2} parent={this} labelText="height" />
           </div>
         </div>
     );
