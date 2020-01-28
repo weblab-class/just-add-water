@@ -177,6 +177,18 @@ class Skeleton extends Component {
       captionText: "click to select plants"
     })
   }
+  handleDelete = (params)=>{
+    try{
+      this.getMapData()
+    }
+    catch {
+      let newTileArr = this.state.tiles;
+      newTileArr[newTileArr.findIndex(tile._id=params.id)].isDeleted = true;
+      this.setState(
+        {tiles:newTileArr}
+      )
+    }
+  }
   handleFinishWater=() =>{
     this.setViewMode();
     // wait for animation to finish before refreshing map
@@ -212,6 +224,7 @@ class Skeleton extends Component {
             canAdd={this.state.canAdd} plantToAdd={this.state.plantToAdd} 
             handleClickAddMode={this.handleClickAddMode}
             handleClickPickMode={this.handleClickPickMode}
+            handleDelete = {this.handleDelete}
             userId={this.state.userId} />
         </Canvas>
       </div>

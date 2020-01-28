@@ -95,7 +95,7 @@ router.post("/newTile", (req,res) => {
 router.post("/deleteTile", (req,res) =>{
   console.log("request to delete: ", req.body)
   Tile.deleteOne({_id:req.body.id}).then(
-    console.log("deleted")
+    res.send({})
   );
 });
 
