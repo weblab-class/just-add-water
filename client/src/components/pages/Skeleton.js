@@ -194,9 +194,10 @@ class Skeleton extends Component {
         <div className="caption">
           {this.state.captionText}
           <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} />
-        <Button onClick={this.setDeleteMode}>Delete</Button>
-        <Button onClick={this.setAddMode}>Add</Button>
-        <Button onClick={this.setPickMode}>Pick</Button>
+          <Button onClick={this.setDeleteMode}>Delete</Button>
+          <Button onClick={this.setAddMode}>Add</Button>
+          <Button onClick={this.setPickMode}>Pick</Button>
+          {this.state.inputMode == "view"? <span/>:<Button onClick={this.setViewMode}>Done</Button>}
           </div>
         <div className="caption-bottom">design plants <a href="https://ju-de.itch.io/inflorescence">here</a></div>
         <a className={this.state.inputMode == "move" ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a>
