@@ -18,9 +18,9 @@ const minValues = {
       petalLength:3,
       petalPitch : -90*Math.PI/180,
       petalInnerXRelative:0,
-      petalOuterXRelative:-2,
+      petalOuterXRelative:-1,
       petalInnerYRelative:0,
-      petalOuterYRelative:-2,
+      petalOuterYRelative:-1,
       leafRotAngle:0,
       leafLength:0,
       leafSpacing:0.5,
@@ -54,7 +54,7 @@ function randomBetween(minimum, maximum){
 }
 function randomFlower(){
     const flowerData = {
-      numPetals:Math.ceil(20*Math.random()),
+      numPetals:Math.ceil(16*Math.random()),
       petalLength:Math.random()*8,
       petalPitch : randomBetween(minValues.petalPitch, maxValues.petalPitch),
       petalInnerXRelative:randomBetween(minValues.petalInnerXRelative, maxValues.petalInnerXRelative),

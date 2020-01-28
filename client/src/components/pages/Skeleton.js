@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Button} from '@material-ui/core';
+import {Button,ButtonGroup} from '@material-ui/core';
 import { Canvas} from 'react-three-fiber';
 import * as maptest from '../../test/MapTest';
 import * as THREE from 'three';
@@ -206,15 +206,21 @@ class Skeleton extends Component {
       <div>
         <div className="caption">
           {this.state.captionText}
-          <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} />
-          <Button onClick={this.setDeleteMode}>Delete</Button>
-          <Button onClick={this.addNewRandom}>Add</Button>
-          <Button onClick={this.setPickMode}>Pick</Button>
-          {this.state.inputMode == "view"? <span/>:<Button onClick={this.setViewMode}>Done</Button>}
+            <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} />
+          </div>
+
+          <div className="control-bar">
+            <a className={this.state.inputMode == "water" ? "button-water-active":"button-water-inactive"} onClick={this.handleClickWaterButton} ></a>
+            <ButtonGroup orientation="vertical">
+            <Button onClick={this.addNewRandom}>Add</Button>
+            <Button onClick={this.setPickMode}>Pick</Button>
+            <Button onClick={this.setMoveMode}>Move</Button>
+            <Button onClick={this.setDeleteMode}>Delete</Button>
+            {this.state.inputMode == "view"? <span/>:<Button onClick={this.setViewMode}>Done</Button>}
+            </ButtonGroup>
           </div>
         <div className="caption-bottom">design plants <a href="https://ju-de.itch.io/inflorescence">here</a></div>
-        <a className={this.state.inputMode == "move" ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a>
-        <a className={this.state.inputMode == "water" ? "button-water-active":"button-water-inactive"} onClick={this.handleClickWaterButton} ></a>
+        {/* <a className={this.state.inputMode == "move" ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a> */}
       <div className="canvasContainer">
 
         <Canvas orthographic={true} camera={{zoom:8, position:[gmap.worldLengthX,25,gmap.worldLengthZ],rotation:isometricRotation}}>
