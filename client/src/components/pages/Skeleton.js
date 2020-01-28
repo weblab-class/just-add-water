@@ -9,7 +9,7 @@ import "../../utilities.css";
 import "./Skeleton.css";
 import LoginButton from "../modules/LoginButton";
 import WaterCounter from "../modules/WaterCounter";
-import {hybridize} from "../modules/hybridize.js";
+import {hybridize, randomFlower} from "../modules/hybridize.js";
 import {yellowStar, blueSixPetals} from '../../test/ExampleFlowers';
 
 // const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
@@ -139,6 +139,14 @@ class Skeleton extends Component {
     })
   }
 
+  addNewRandom = () =>{
+    const newFlower = randomFlower();
+    this.setState({
+      plantToAdd:newFlower
+    })
+    this.setAddMode();
+  }
+
 
   setDeleteMode(){
     this.setState({
@@ -188,7 +196,7 @@ class Skeleton extends Component {
           {this.state.captionText}
           <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} />
           <Button onClick={this.setDeleteMode}>Delete</Button>
-          <Button onClick={this.setAddMode}>Add</Button>
+          <Button onClick={this.addNewRandom}>Add</Button>
           <Button onClick={this.setPickMode}>Pick</Button>
           {this.state.inputMode == "view"? <span/>:<Button onClick={this.setViewMode}>Done</Button>}
           </div>

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import React, {useImperativeHandle, useRef} from 'react';
 import {useSpring, a, useSprings} from 'react-spring/three';
+import { tileSize } from './Map';
 
 const rotateToXZPlane = new THREE.Euler(-90*Math.PI/180,0,0);
 function makePetalGeometry(xOrigin, yOrigin, flowerData){
@@ -162,7 +163,7 @@ function PlantMesh(props){
     const y = props.y || 0;
     const z = props.z || 0;
 
-    return <group position={[x,y,z]} >
+    return <group position={[x,y-props.stemHeight+tileSize/2,z]} >
         {isFlowerVisible ? flowerMesh: budMesh}
         {stemMesh}
         {flowerMesh}

@@ -12,8 +12,71 @@ function pickOne(trait, p1, p2){
     let randomTrait = inventory[Math.floor(Math.random()*inventory.length)];
     return randomTrait;
 }
+const leafStemColor="#69a339";
+const minValues = {
+      numPetals:1,
+      petalLength:0.2,
+      petalPitch : -90*Math.PI/180,
+      petalInnerXRelative:0,
+      petalOuterXRelative:-2,
+      petalInnerYRelative:0,
+      petalOuterYRelative:-2,
+      leafRotAngle:0,
+      leafLength:0,
+      leafSpacing:0.5,
+      stemHeight:5,
+      leafInner:0,
+      leafOuter:0,
+      leafPitch: -90*Math.PI/180,
+      leavesTopBound:0.5,
+      stemRadius:0.35,
+}
+const maxValues = {
+      numPetals:24,
+      petalLength:10,
+      petalPitch : 90*Math.PI/180,
+      petalInnerXRelative:2,
+      petalOuterXRelative:2,
+      petalInnerYRelative:2,
+      petalOuterYRelative:2,
+      leafRotAngle:2,
+      leafLength:2,
+      leafSpacing:10,
+      stemHeight:16,
+      leafInner:2,
+      leafOuter:2,
+      leafPitch: 90*Math.PI/180,
+      leavesTopBound:0.5,
+      stemRadius:0.35,
+}
+function randomBetween(minimum, maximum){
+    return minimum + Math.random()*(maximum - minimum);
+}
 function randomFlower(){
-
+    const flowerData = {
+      numPetals:Math.ceil(20*Math.random()),
+      petalLength:Math.random()*8,
+      petalPitch : randomBetween(minValues.petalPitch, maxValues.petalPitch),
+      petalInnerXRelative:randomBetween(minValues.petalInnerXRelative, maxValues.petalInnerXRelative),
+      petalOuterXRelative:randomBetween(minValues.petalOuterXRelative, maxValues.petalOuterXRelative),
+      petalInnerYRelative:randomBetween(minValues.petalInnerYRelative, maxValues.petalInnerYRelative),
+      petalOuterYRelative:randomBetween(minValues.petalOuterYRelative, maxValues.petalOuterYRelative),
+      flowerColor:tinycolor({
+          r:255*Math.random(),
+          g:255*Math.random(),
+          b:255*Math.random(),
+      }).toHexString(),
+      leafStemColor:"#69a339",
+      leafRotAngle:randomBetween(minValues.leafRotAngle,maxValues.leafRotAngle),
+      leafLength:randomBetween(minValues.leafLength,maxValues.leafLength),
+      leafSpacing:randomBetween(minValues.leafSpacing,maxValues.leafSpacing),
+      stemHeight:randomBetween(minValues.stemHeight, maxValues.stemHeight),
+      leafInner:randomBetween(minValues.leafInner, maxValues.leafInner),
+      leafOuter:randomBetween(minValues.leafOuter, maxValues.leafOuter),
+      leafPitch: randomBetween(minValues.leafPitch, maxValues.leafPitch),
+      leavesTopBound: randomBetween(minValues.leavesTopBound,maxValues.leavesTopBound),
+    }
+    return flowerData;
 }
 /** cross p1 and p2 (json objects containing flower data) */
 function hybridize(p1, p2){
@@ -42,4 +105,4 @@ function hybridize(p1, p2){
     flowerData.flowerColor = colorBetween(p1.flowerColor,p2.flowerColor);
     return flowerData;
 }
-export {hybridize}
+export {hybridize, randomFlower}
