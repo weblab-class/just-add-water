@@ -1,8 +1,11 @@
+.glass{
+  min-width:160px;
+  min-height:300px;
+    z-index:5;
+}
 .button-water{
   position:absolute;
-  bottom:72px;
   display:block;
-  z-index:1;
   background-size:contain;
   background-repeat:no-repeat;
   border: none;

@@ -213,9 +213,11 @@ class Skeleton extends Component {
       <div>
         <div className="caption">
           {this.state.captionText}
-            <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} />
           </div>
+          <div className="water">
           <WaterGlass inputMode={this.state.inputMode} handleClickWaterButton={this.handleClickWaterButton}/>
+          <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} />
+          </div>
           <ControlBar inputMode={this.state.inputMode} 
             {...{handleClickWaterButton:this.handleClickWaterButton,
             setPickMode:this.setPickMode,

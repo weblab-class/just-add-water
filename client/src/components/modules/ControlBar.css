@@ -13,10 +13,11 @@
   font-family: 'Roboto Mono', monospace;
   font-weight: 500;
   color:white;
-  bottom:0%;
+  top: 0px;
   padding:8px;
     /* Subtract padding and 1/2 of width */
-  left: calc(50% - 25% - 8px);
+  /* left: calc(50% - 25% - 8px); */
+  left:25%;
 
 }
 .button-drag-inactive {
