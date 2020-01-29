@@ -1,2 +1,6 @@
 .water-counter{
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+    justify-content: flex-end;
 }
