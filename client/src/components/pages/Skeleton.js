@@ -225,7 +225,7 @@ class Skeleton extends Component {
             addNewRandom:this.addNewRandom,
             setDeleteMode:this.setDeleteMode,
             setMoveMode:this.setMoveMode}} />
-        <div className="caption-bottom">design plants <a href="https://ju-de.itch.io/inflorescence">here</a></div>
+        {/* <div className="caption-bottom">design plants <a href="https://ju-de.itch.io/inflorescence">here</a></div> */}
         {/* <a className={this.state.inputMode == "move" ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a> */}
       <div className="canvasContainer">
 

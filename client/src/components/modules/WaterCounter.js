@@ -15,12 +15,12 @@ function WaterCounter(props){
 
     const progressBarVal = 100*(props.waterconsumed/props.waterPerDay);
     return (
-        <div className="water-counter"><a>
+        <div className="water-counter">
             <div className="water-counter-text">
-                {cupsConsumed} out of {cupsTotal} cups consumed
-            </div>
-            <LinearProgress variant="determinate" value={progressBarVal>= 100 ? completed : progressBarVal} />
-        </a></div>
+                <span className="number">{cupsConsumed}/{cupsTotal} </span>
+                  cups logged today</div>
+            <LinearProgress className="water-bar" variant="determinate" value={progressBarVal>= 100 ? completed : progressBarVal} />
+        </div>
     )
 }
 

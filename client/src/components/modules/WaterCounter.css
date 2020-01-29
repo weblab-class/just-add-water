@@ -4,3 +4,11 @@
     flex-direction:column;
     justify-content: flex-end;
 }
+.water-counter-text{
+    margin-bottom:4px;
+    font-style: italic;
+}
+.number {
+    font-weight: 300;
+    font-size: 48px;
+}
