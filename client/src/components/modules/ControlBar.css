@@ -14,10 +14,10 @@
   font-weight: 500;
   color:white;
   top: 0px;
-  padding:8px;
+  padding:0px;
     /* Subtract padding and 1/2 of width */
   /* left: calc(50% - 25% - 8px); */
-  left:25%;
+  right:0px;
 
 }
 .button-drag-inactive {
