@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import './Watercounter.css';
+import './WaterCounter.css';
 import {LinearProgress} from "@material-ui/core";
 function WaterCounter(props){
     /**proptypes
@@ -18,7 +18,8 @@ function WaterCounter(props){
         <div className="water-counter">
             <div className="water-counter-text">
                 <span className="number">{cupsConsumed}/{cupsTotal} </span>
-                  cups logged today</div>
+            cups logged today</div>
+            {progressBarVal >= 100 ? <div> congrats! you're done for the day </div> :<></>}
             <LinearProgress className="water-bar" color="secondary" variant="determinate" value={progressBarVal} />
         </div>
     )
