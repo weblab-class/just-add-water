@@ -17,16 +17,14 @@ function ControlBar(props){
 
      return(
           <div className="control-bar">
-            <ButtonGroup orientation="vertical">
+            <a className={props.inputMode == "water" ? "button-water button-water-active":"button-water button-water-inactive"} onClick={props.handleClickWaterButton} ></a>
+            <ButtonGroup orientation="horizontal" className="input-buttons">
             <Button onClick={props.addNewRandom}>
               <LocalFloristSharpIcon/>
               Add</Button>
             <Button onClick={props.setPickMode}>
               <ColorizeSharpIcon/>
               Pick</Button>
-            </ButtonGroup>
-            <a className={props.inputMode == "water" ? "button-water-active":"button-water-inactive"} onClick={props.handleClickWaterButton} ></a>
-            <ButtonGroup orientation="vertical">
             <Button onClick={props.setMoveMode}>
               <PanToolSharpIcon/>
                Move
@@ -34,8 +32,8 @@ function ControlBar(props){
             <Button onClick={props.setDeleteMode}>
               <DeleteSharpIcon/>
               Delete</Button>
-            {props.inputMode == "view"? <span/>:<Button onClick={props.setViewMode}>Done</Button>}
             </ButtonGroup>
+            {props.inputMode == "view"? <span/>:<ButtonGroup><Button onClick={props.setViewMode}>Done</Button></ButtonGroup>}
           </div>
      )
 }
