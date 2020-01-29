@@ -3,7 +3,8 @@ import { Button, Slider, FormGroup, InputLabel, TextField, FormControlLabel, Rad
 import { get, post } from "../../utilities";
 import Paper from '@material-ui/core/Paper';
 import NavigateNextSharpIcon from '@material-ui/icons/NavigateNextSharp';
-import './InfoForm.css'
+import './InfoForm.css';
+import {blueSixPetals} from '../../test/ExampleFlowers'
 export class InfoForm extends Component {
     /** Prop types:
      * @param userId: String
@@ -19,6 +20,9 @@ export class InfoForm extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.saveWaterProfile = this.saveWaterProfile.bind(this);
+    }
+    initializeMap = () =>{
+        post('/api/newTile',{creator_id:this.userId,xGrid:0,zGrid:0,growthState:1,})
     }
     saveWaterProfile(){
         post('/api/setWaterProfile', {userId: this.props.userId, weight:this.state.weight, activity:this.state.activity, cupSize:this.state.cupSize, age:this.state.age});

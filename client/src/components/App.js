@@ -46,15 +46,10 @@ class App extends Component {
     const userToken = res.tokenObj.id_token;
     let hasSeenTutorial;
     post("/api/login", { token: userToken }).then((user) => {
-      this.setState({ userId: user._id });
-      hasSeenTutorial = user.hasSeenTutorial;
+      this.setState({ userId: user._id});
     });
-    if (true){
-      navigate('/home');
-    }
-    else{
-      navigate('/onboarding');
-    }
+    // navigate('/home');
+      // navigate('/onboarding');
   };
 
   handleLogout = () => {
@@ -75,6 +70,7 @@ class App extends Component {
             handleLogin={this.handleLogin}
             handleLogout={this.handleLogout}
             userId={this.state.userId}
+            hasSeenTutorial={this.state.hasSeenTutorial}
           />
           <Onboarding 
             path = "/onboarding" handleLogin={this.handleLogin} handleLogout={this.handleLogout} userId={this.state.userId}/>

@@ -39,10 +39,11 @@ a:visited {
 
 .caption {
   background:transparent;
+  padding-top:8px;
   position: absolute;
-  bottom:20px;
-  width: 100%;
-  text-align:right;
+  top:60px;
+  width: 40%;
+  text-align:left;
   z-index:3;
   font-family: 'Roboto Mono', monospace;
   font-weight: 500;

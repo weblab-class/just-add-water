@@ -17,6 +17,7 @@ class Onboarding extends Component{
     render(){
         return(
             <div className="container">
+                <LoginButton{...this.props}/>
             <InfoForm userId={this.props.userId}/>
             <div className="next"></div>
             </div>

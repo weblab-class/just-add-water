@@ -12,6 +12,7 @@ import {hybridize, randomFlower} from "../modules/hybridize.js";
 import {yellowStar, blueSixPetals} from '../../test/ExampleFlowers';
 import WaterCounter from '../modules/WaterCounter';
 import WaterGlass from '../modules/WaterGlass';
+import Wizard from '../modules/Wizard';
 
 // const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
 const isometricRotation = new THREE.Euler(-30*Math.PI/180,45*Math.PI/180,0 ,"YXZ");
@@ -28,6 +29,8 @@ class Skeleton extends Component {
       captionText : "click the cup to drink water",
       inputMode:"view",
       plantToAdd:blueSixPetals,
+      tutorialStep:0,
+      activeTutorial:true,
     };
     this.groundColor = "#8C7A6f"
     this.parent1 = null; this.parent2 = null;
@@ -49,6 +52,9 @@ class Skeleton extends Component {
     if (this.props.userId){
       this.getMapData();
       this.getWaterData();
+    }
+    if (!this.props.hasSeenTutorial){
+      this.showTutorial();
     }
   }
   componentDidUpdate(){
@@ -178,8 +184,18 @@ class Skeleton extends Component {
       captionText: "click to select plants"
     })
   }
+
+  setCaption = (text)=>{
+    this.setState({captionText:text});
+  }
+  showTutorial= () => {
+    this.setState({
+      activeTutorial:true,
+      tutorialStep:0
+    })
+    this.setCaption("welcome! add, move and breed plants using the toolbar above; log water by clicking the glass.")
+  }
   sendCaptionMessage =(params) =>{
-    const oldCaption = this.state.captionText;
     console.log("caption: ", params.message);
     this.setState({captionText:params.message})
     // setTimeout(this.setState({captionText:oldCaption}),1000);
