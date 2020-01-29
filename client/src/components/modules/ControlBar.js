@@ -6,6 +6,8 @@ import PanToolSharpIcon from '@material-ui/icons/PanToolSharp';
 import ColorizeSharpIcon from '@material-ui/icons/ColorizeSharp';
 import LocalFloristSharpIcon from '@material-ui/icons/LocalFloristSharp';
 import './ControlBar.css';
+import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
+
 function ControlBar(props){
     /**prop types
      * @param addNewRandom
@@ -18,21 +20,21 @@ function ControlBar(props){
      return(
           <div className="control-bar">
             <ButtonGroup orientation="horizontal" className="input-buttons">
-            <Button onClick={props.addNewRandom}>
+            <Button color="primary" onClick={props.addNewRandom}>
               <LocalFloristSharpIcon/>
               Add</Button>
-            <Button onClick={props.setPickMode}>
+            <Button color="primary" onClick={props.setPickMode}>
               <ColorizeSharpIcon/>
               Pick</Button>
-            <Button onClick={props.setMoveMode}>
+            <Button color="primary" onClick={props.setMoveMode}>
               <PanToolSharpIcon/>
                Move
             </Button>
-            <Button onClick={props.setDeleteMode}>
+            <Button color="primary" onClick={props.setDeleteMode}>
               <DeleteSharpIcon/>
               Delete</Button>
             </ButtonGroup>
-            {props.inputMode == "view"? <span/>:<ButtonGroup><Button onClick={props.setViewMode}>Done</Button></ButtonGroup>}
+            {props.inputMode == "view"? <span/>:<ButtonGroup><Button color="primary" onClick={props.setViewMode}>Done</Button></ButtonGroup>}
           </div>
      )
 }

@@ -4,6 +4,7 @@ import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
 import Designer from "./modules/Designer.js";
 import "../utilities.css";
+import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 
 // import { socket } from "../client-socket.js";
 
@@ -22,6 +23,12 @@ class App extends Component {
       // to do; sub out for checking whether setup values are not nothing
       showOnboarding:true,
     };
+    this.muiTheme = createMuiTheme({
+      palette:{
+        primary:{main:"#ffffff"},
+        secondary:{main:"#80cbc4"}
+      }
+    });
   }
 
   componentDidMount() {
@@ -49,6 +56,7 @@ class App extends Component {
   render() {
     return (
       <>
+      <ThemeProvider theme={this.muiTheme}>
         <Router className="router-wrapper">
           <Skeleton
             path="/"
@@ -62,6 +70,7 @@ class App extends Component {
             path = "/design" handleLogin={this.handleLogin} handleLogout={this.handleLogout} userId={this.state.userId}/>
           <NotFound default />
         </Router>
+        </ThemeProvider>
 
       </>
     );

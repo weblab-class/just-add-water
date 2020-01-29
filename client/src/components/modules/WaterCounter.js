@@ -19,7 +19,7 @@ function WaterCounter(props){
             <div className="water-counter-text">
                 <span className="number">{cupsConsumed}/{cupsTotal} </span>
                   cups logged today</div>
-            <LinearProgress className="water-bar" variant="determinate" value={progressBarVal} />
+            <LinearProgress className="water-bar" color="secondary" variant="determinate" value={progressBarVal} />
         </div>
     )
 }
