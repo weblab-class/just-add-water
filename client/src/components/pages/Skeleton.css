@@ -73,6 +73,6 @@ a:visited {
   display:flex;
   flex-direction:row;
   justify-content: flex-end;
-  left:25%;
+  left:10px;
   z-index:5;
 }

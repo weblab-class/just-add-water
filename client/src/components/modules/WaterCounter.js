@@ -13,13 +13,13 @@ function WaterCounter(props){
     const cupsRemaining = Math.ceil(waterRemaining/props.cupSize);
     const cupsTotal = Math.ceil(props.waterPerDay/props.cupSize);
 
-    const progressBarVal = 100*(props.waterconsumed/props.waterPerDay);
+    const progressBarVal = 100*(props.waterConsumed/props.waterPerDay);
     return (
         <div className="water-counter">
             <div className="water-counter-text">
                 <span className="number">{cupsConsumed}/{cupsTotal} </span>
                   cups logged today</div>
-            <LinearProgress className="water-bar" variant="determinate" value={progressBarVal>= 100 ? completed : progressBarVal} />
+            <LinearProgress className="water-bar" variant="determinate" value={progressBarVal} />
         </div>
     )
 }
