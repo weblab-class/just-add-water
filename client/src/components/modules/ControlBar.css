@@ -51,28 +51,28 @@
 
 .button-water{
   position:absolute;
-  bottom:50px;
+  bottom:72px;
   display:block;
   z-index:1;
-  width:100px;
   background-size:contain;
-  height:190px;
+  background-repeat:no-repeat;
   border: none;
   outline:none;
+  width:160px;
+  height:300px;
 }
 .button-water-inactive{
   /* position: absolute;
   bottom:4px;
   right:20px; */
-  background: url(../../assets/glass-empty.svg) no-repeat;
+  background-image: url(../../assets/glass-empty.svg);
 }
 .button-water-inactive:hover{
-  background: url(../../assets/glass-drop.svg) no-repeat;
+  background-image: url(../../assets/glass-drop.svg);
 }
 .button-water-active {
-  z-index:1;
   /* position: absolute;
   bottom:0px;
   right:20px; */
-  background: url(../../assets/glass-half-full.svg) no-repeat;
+  background-image: url(../../assets/glass-half-full.svg);
 }
