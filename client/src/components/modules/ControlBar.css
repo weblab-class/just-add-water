@@ -1,0 +1,76 @@
+.control-bar{
+  background:transparent;
+  position: absolute;
+  display:flex;
+  margin: 0 auto;
+  width: 100%;
+  text-align:left;
+  z-index:4;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 500;
+  color:white;
+  bottom:0%;
+  padding:8px;
+    /* Subtract padding and 1/2 of width */
+  left: calc(50% - 25% - 8px);
+
+}
+.button-drag-inactive {
+  z-index:1;
+  position: absolute;
+  bottom:40%;
+  right:20px;
+  transform: rotate(180deg);
+  transform-origin:center;
+  background: url(../../assets/shovel-clean.svg) no-repeat;
+  background-size:contain;
+  width:120px;
+  height:100px;
+}
+.button-drag-inactive:hover{
+  transform-origin:center;
+  transform: rotate(225deg);
+}
+.button-drag-active{
+  z-index:1;
+  position: absolute;
+  bottom:40%;
+  right:15px;
+  transform: rotate(225deg) ;
+  transform-origin:center;
+  width:120px;
+  height:100px;
+  background: url(../../assets/shovel-dirty.svg) no-repeat;
+  background-size:contain;
+  width:160px;
+}
+
+.button-water-inactive{
+  display:block;
+  z-index:1;
+  /* position: absolute;
+  bottom:4px;
+  right:20px; */
+  background: url(../../assets/glass-empty.svg) no-repeat;
+  width:100px;
+  background-size:contain;
+  height:190px;
+  border: none;
+  outline:none;
+}
+.button-water-inactive:hover{
+  background: url(../../assets/glass-drop.svg) no-repeat;
+}
+.button-water-active {
+  z-index:1;
+  /* position: absolute;
+  bottom:0px;
+  right:20px; */
+  background: url(../../assets/glass-empty.svg) no-repeat;
+  width:100px;
+  background-size:contain;
+  height:190px;
+  border: none;
+  outline:none;
+  background: url(../../assets/glass-half-full.svg) no-repeat;
+}
