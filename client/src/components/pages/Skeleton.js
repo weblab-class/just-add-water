@@ -27,7 +27,7 @@ class Skeleton extends Component {
       waterPerDay:null,
       cupSize:null,
       waterConsumedToday:null,
-      captionText : "click the cup to drink water",
+      captionText : "welcome! add, move and breed plants using the toolbar above; log water by clicking the glass.",
       inputMode:"view",
       plantToAdd:blueSixPetals,
       tutorialStep:0,
