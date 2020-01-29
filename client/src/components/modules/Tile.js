@@ -61,17 +61,23 @@ function Tile(props) {
     const bindGestureWater = useGesture({
         onHover:({hovering})=>scaleOnHover(hovering),
         onClick: (event) => {
-            console.log("growth triggered");
-            event.stopPropagation();
-            setColorSpring({ emissiveIntensity: 1.5 });
-            growthState += growthIncrement;
-            post('/api/updateTile', { id: props._id, updateObj: { growthState: growthState } }).then(res => console.log("updated tile: ", res));
-            const setPlantSpring = plantSpringRef.current;
-            setPlantSpring({
-                growthIncrement: growthIncrement,
-                newGrowthState: growthState
-            });
-            props.handleFinishWater();
+            if (growthState<1){
+                console.log("growth triggered");
+                event.stopPropagation();
+                setColorSpring({ emissiveIntensity: 1.5 });
+                growthState += growthIncrement;
+                post('/api/updateTile', { id: props._id, updateObj: { growthState: growthState } }).then(res => console.log("updated tile: ", res));
+                const setPlantSpring = plantSpringRef.current;
+                setPlantSpring({
+                    growthIncrement: growthIncrement,
+                    newGrowthState: growthState
+                });
+                props.handleFinishWater();
+            }
+            else {
+                console.log(props.sendCaptionMessage);
+                props.sendCaptionMessage({message:"this plant is already fully grown"})
+            }
         },
     }, {pointerEvents:true});
     const bindGesturePick = useGesture({

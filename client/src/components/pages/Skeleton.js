@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import {Button,ButtonGroup} from '@material-ui/core';
 import { Canvas} from 'react-three-fiber';
 import * as maptest from '../../test/MapTest';
 import * as THREE from 'three';
@@ -8,9 +7,10 @@ import { get, post } from "../../utilities";
 import "../../utilities.css";
 import "./Skeleton.css";
 import LoginButton from "../modules/LoginButton";
-import WaterCounter from "../modules/WaterCounter";
+import ControlBar from '../modules/ControlBar'
 import {hybridize, randomFlower} from "../modules/hybridize.js";
 import {yellowStar, blueSixPetals} from '../../test/ExampleFlowers';
+import WaterCounter from '../modules/WaterCounter';
 
 // const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
 const isometricRotation = new THREE.Euler(-30*Math.PI/180,45*Math.PI/180,0 ,"YXZ");
@@ -177,6 +177,12 @@ class Skeleton extends Component {
       captionText: "click to select plants"
     })
   }
+  sendCaptionMessage =(params) =>{
+    const oldCaption = this.state.captionText;
+    console.log("caption: ", params.message);
+    this.setState({captionText:params.message})
+    // setTimeout(this.setState({captionText:oldCaption}),1000);
+  }
   handleDelete = (params)=>{
     try{
       this.getMapData()
@@ -208,17 +214,13 @@ class Skeleton extends Component {
           {this.state.captionText}
             <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} />
           </div>
-
-          <div className="control-bar">
-            <a className={this.state.inputMode == "water" ? "button-water-active":"button-water-inactive"} onClick={this.handleClickWaterButton} ></a>
-            <ButtonGroup orientation="vertical">
-            <Button onClick={this.addNewRandom}>Add</Button>
-            <Button onClick={this.setPickMode}>Pick</Button>
-            <Button onClick={this.setMoveMode}>Move</Button>
-            <Button onClick={this.setDeleteMode}>Delete</Button>
-            {this.state.inputMode == "view"? <span/>:<Button onClick={this.setViewMode}>Done</Button>}
-            </ButtonGroup>
-          </div>
+          <ControlBar inputMode={this.state.inputMode} 
+            {...{handleClickWaterButton:this.handleClickWaterButton,
+            setPickMode:this.setPickMode,
+            setViewMode:this.setViewMode,
+            addNewRandom:this.addNewRandom,
+            setDeleteMode:this.setDeleteMode,
+            setMoveMode:this.setMoveMode}} />
         <div className="caption-bottom">design plants <a href="https://ju-de.itch.io/inflorescence">here</a></div>
         {/* <a className={this.state.inputMode == "move" ? "button-drag-active" : "button-drag-inactive"} onClick={this.setMoveMode}></a> */}
       <div className="canvasContainer">
@@ -231,6 +233,7 @@ class Skeleton extends Component {
             handleClickAddMode={this.handleClickAddMode}
             handleClickPickMode={this.handleClickPickMode}
             handleDelete = {this.handleDelete}
+            sendCaptionMessage={this.sendCaptionMessage}
             userId={this.state.userId} />
         </Canvas>
       </div>

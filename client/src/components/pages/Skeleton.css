@@ -110,6 +110,7 @@ a:visited {
 }
 
 .button-water-inactive{
+  display:block;
   z-index:1;
   /* position: absolute;
   bottom:4px;
