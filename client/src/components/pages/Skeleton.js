@@ -23,6 +23,7 @@ class Skeleton extends Component {
     // Initialize Default State
     this.state = {
       // tiles:maptest.mapDiffGrowth.tiles,
+      unlimitedWater:false,
       tiles:[],
       waterPerDay:null,
       cupSize:null,
@@ -45,14 +46,15 @@ class Skeleton extends Component {
     this.handleClickAddMode=this.handleClickAddMode.bind(this);
     this.getMapData=this.getMapData.bind(this);
 
-    // testing flags
-    this.unlimitedWater = false;
   }
 
   componentDidMount() {
     if (this.props.userId){
       this.getMapData();
       this.getWaterData();
+      if(this.props.userId=="5e31742ea8bb846634da2775"){
+        this.setState({unlimitedWater:true})
+      }
     }
   }
   componentDidUpdate(){
@@ -119,7 +121,7 @@ class Skeleton extends Component {
   }
 
   handleClickWaterButton(){
-    if (this.unlimitedWater || !this.hasConsumedMaxWater()){
+    if (this.state.unlimitedWater || !this.hasConsumedMaxWater()){
       this.drinkWater();
       this.setWaterMode();
     }
