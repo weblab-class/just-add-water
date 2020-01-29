@@ -40,15 +40,14 @@ a:visited {
 .caption {
   background:transparent;
   position: absolute;
-  top:60px;
-  margin: 0 auto;
+  bottom:20px;
   width: 100%;
-  text-align:center;
+  text-align:right;
   z-index:3;
   font-family: 'Roboto Mono', monospace;
   font-weight: 500;
   color:white;
-  height:100px;
+  height:min-content;
 }
 
 .caption-bottom {
