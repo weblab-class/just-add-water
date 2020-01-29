@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Canvas} from 'react-three-fiber';
+import { Router, navigate } from "@reach/router";
 import * as maptest from '../../test/MapTest';
 import * as THREE from 'three';
 import * as gmap from '../modules/Map';
@@ -53,9 +54,6 @@ class Skeleton extends Component {
       this.getMapData();
       this.getWaterData();
     }
-    if (!this.props.hasSeenTutorial){
-      this.showTutorial();
-    }
   }
   componentDidUpdate(){
     if(!this.state.waterPerDay){
@@ -74,13 +72,12 @@ class Skeleton extends Component {
       this.setState({
         tiles:tileArr
       });
-    });
+    }).catch(()=>navigate('/onboarding'));
   }
   getWaterData(){
     get('/api/getWaterProfile', {userId:this.props.userId}).then(profile => {
-      console.log("got water profile: ", profile);
       this.setState(profile);
-    });
+    }).catch(()=>navigate('/onboarding'));
   }
 
   handleClickPickMode = params =>{

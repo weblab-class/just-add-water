@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import NavigateNextSharpIcon from '@material-ui/icons/NavigateNextSharp';
 import './InfoForm.css';
 import {blueSixPetals} from '../../test/ExampleFlowers'
+import { Router, navigate } from "@reach/router";
 export class InfoForm extends Component {
     /** Prop types:
      * @param userId: String
@@ -32,7 +33,11 @@ export class InfoForm extends Component {
     }
     handleSubmit(event) {
         // route to game screen or next part of tutorial
-        this.saveWaterProfile();
+        if (this.props.userId){
+            post('/api/updateUser', {id:this.props.userId, updateObj:{onboardingDone:true}});
+            this.saveWaterProfile();
+            navigate('/home')
+        }
     }
     render() {
         return (<div className="form">
@@ -59,9 +64,10 @@ export class InfoForm extends Component {
                     getAriaLabel={num=>num.toString()} />
             </FormGroup>
             <br></br>
-            <div className="next-button"><Button size="large" color="primary" variant="outlined" onClick={this.handleSubmit} href="/home">
+            <div className="next-button"><Button size="large" color="primary" variant="outlined" onClick={this.handleSubmit} >
                 next <NavigateNextSharpIcon/>
-                </Button ></div>
+                </Button >
+    {this.props.userId?<></>: <>please log in before continuing</>} </div>
         </div>);
     }
 }

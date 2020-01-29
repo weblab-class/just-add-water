@@ -69,7 +69,17 @@ router.get("/all_tiles", (req, res) => {
     res.send("tiles printed in console");
   });
 });
-
+router.post("/updateUser", (req,res)=>{
+  try {
+    User.findByIdAndUpdate(req.body.id, req.body.updateObj).then((user)=>{
+      res.send(user);
+    });
+  }
+  catch(err){
+    res.sendStatus(500);
+    res.send({error:err})
+  }
+});
 router.post("/updateTile", (req, res) =>{
   try {
     Tile.findByIdAndUpdate(req.body.id, req.body.updateObj).then((newTile)=>{
