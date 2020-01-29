@@ -1,0 +1,47 @@
+.water-counter{
+    display:block;
+    z-index:3;
+    position: absolute;
+    bottom:0%;
+    left:0%;
+    height:500px;
+    width:300px;
+    background-color:transparent;
+    background-image: url('./assets/glassFill.png');
+    background-repeat: no-repeat;
+    background-size:contain;
+    mask-image: url('./assets/glassMask.png');
+    -webkit-mask-image: url('./assets/glassMaskInverse.png');
+    -webkit-mask-size:contain;
+    -webkit-mask-repeat: no-repeat;
+}
+.water-top{
+    display:block;
+    z-index:4;
+    position: absolute;
+    bottom:0%;
+    left:0%;
+    height:500px;
+    width:300px;
+    background-image: url('./assets/glassTop.png');
+    background-size:contain;
+}
+.button-water-inactive{
+  width:200px;
+  height:400px;
+  background-size:contain;
+  border: none;
+  outline:none;
+}
+.button-water-inactive:hover{
+  width:400px;
+  height:400px;
+  background-size:contain;
+}
+.button-water-active {
+  width:200px;
+  height:400px;
+  background-size:contain;
+  border: none;
+  outline:none;
+}

@@ -45,32 +45,3 @@
   width:160px;
 }
 
-.button-water-inactive{
-  display:block;
-  z-index:1;
-  /* position: absolute;
-  bottom:4px;
-  right:20px; */
-  background: url(../../assets/glass-empty.svg) no-repeat;
-  width:100px;
-  background-size:contain;
-  height:190px;
-  border: none;
-  outline:none;
-}
-.button-water-inactive:hover{
-  background: url(../../assets/glass-drop.svg) no-repeat;
-}
-.button-water-active {
-  z-index:1;
-  /* position: absolute;
-  bottom:0px;
-  right:20px; */
-  background: url(../../assets/glass-empty.svg) no-repeat;
-  width:100px;
-  background-size:contain;
-  height:190px;
-  border: none;
-  outline:none;
-  background: url(../../assets/glass-half-full.svg) no-repeat;
-}
