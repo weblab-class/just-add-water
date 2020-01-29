@@ -17,7 +17,6 @@ function ControlBar(props){
 
      return(
           <div className="control-bar">
-            <a className={props.inputMode == "water" ? "button-water button-water-active":"button-water button-water-inactive"} onClick={props.handleClickWaterButton} ></a>
             <ButtonGroup orientation="horizontal" className="input-buttons">
             <Button onClick={props.addNewRandom}>
               <LocalFloristSharpIcon/>

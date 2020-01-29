@@ -11,6 +11,7 @@ import ControlBar from '../modules/ControlBar'
 import {hybridize, randomFlower} from "../modules/hybridize.js";
 import {yellowStar, blueSixPetals} from '../../test/ExampleFlowers';
 import WaterCounter from '../modules/WaterCounter';
+import WaterGlass from '../modules/WaterGlass';
 
 // const isometricRotation = new THREE.Euler(60*Math.PI/180,0,-45*Math.PI/180, "ZXY");
 const isometricRotation = new THREE.Euler(-30*Math.PI/180,45*Math.PI/180,0 ,"YXZ");
@@ -214,6 +215,7 @@ class Skeleton extends Component {
           {this.state.captionText}
             <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} />
           </div>
+          <WaterGlass inputMode={this.state.inputMode} handleClickWaterButton={this.handleClickWaterButton}/>
           <ControlBar inputMode={this.state.inputMode} 
             {...{handleClickWaterButton:this.handleClickWaterButton,
             setPickMode:this.setPickMode,
