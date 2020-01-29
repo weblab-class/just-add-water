@@ -42,7 +42,6 @@ class Skeleton extends Component {
 
     // testing flags
     this.unlimitedWater = true;
-    this.skipLogin = false;
   }
 
   componentDidMount() {
@@ -209,12 +208,12 @@ class Skeleton extends Component {
 
       <LoginButton {...this.props}/>
       {/* {true ? ( */}
-      {this.skipLogin||this.props.userId ? (
+      {this.props.userId ? (
       <div>
         <div className="caption">
           {this.state.captionText}
-        </div>
-        <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} inputMode={this.state.inputMode} handleClickWaterButton={this.handleClickWaterButton}/>
+            <WaterCounter waterPerDay = {this.state.waterPerDay} waterConsumed = {this.state.waterConsumedToday} cupSize={this.state.cupSize} />
+          </div>
           <ControlBar inputMode={this.state.inputMode} 
             {...{handleClickWaterButton:this.handleClickWaterButton,
             setPickMode:this.setPickMode,

@@ -25,6 +25,7 @@ function ControlBar(props){
               <ColorizeSharpIcon/>
               Pick</Button>
             </ButtonGroup>
+            <a className={props.inputMode == "water" ? "button-water-active":"button-water-inactive"} onClick={props.handleClickWaterButton} ></a>
             <ButtonGroup orientation="vertical">
             <Button onClick={props.setMoveMode}>
               <PanToolSharpIcon/>
@@ -33,14 +34,8 @@ function ControlBar(props){
             <Button onClick={props.setDeleteMode}>
               <DeleteSharpIcon/>
               Delete</Button>
+            {props.inputMode == "view"? <span/>:<Button onClick={props.setViewMode}>Done</Button>}
             </ButtonGroup>
-            {props.inputMode == "view"? <span/>:
-            <ButtonGroup orientation="vertical">
-              // todo - add icons. also the whole button bar could be flexbox?
-              <Button onClick={props.setViewMode}>Done</Button>
-              <Button onClick={props.setViewMode}>Cancel</Button>
-            </ButtonGroup>
-            }
           </div>
      )
 }
