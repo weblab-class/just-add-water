@@ -5,6 +5,7 @@ import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
 import PanToolSharpIcon from '@material-ui/icons/PanToolSharp';
 import ColorizeSharpIcon from '@material-ui/icons/ColorizeSharp';
 import LocalFloristSharpIcon from '@material-ui/icons/LocalFloristSharp';
+
 import './ControlBar.css';
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 

@@ -1,0 +1,60 @@
+.login {
+    position:absolute;
+    top:0;
+    right: 0;
+}
+.splash-root{
+    height:100vh;
+    width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family:"Roboto";
+    z-index: 1;
+}
+.splash-info{
+    z-index: 2;
+    background-color: "#6bbDA9";
+    flex-direction: column;
+    flex-grow: 1;
+    padding:60px;
+}
+
+.login-pane{
+    background-color: #4f9a94;
+    min-height: 100vh;
+    align-items: flex-end;
+    flex-grow: 1;
+    padding:60px;
+    display:flex;
+    flex-direction: column;
+    padding-right:0px;
+}
+.brown {
+    background-color: #005b4f;
+    min-height:100vh;
+    padding:60px;
+    bottom:0px;
+    display:flex;
+    flex-wrap:row;
+}
+
+
+h1 {
+   font-family: 'Roboto Slab', serif;
+   font-weight: 200;
+}
+h1 em {
+    font-weight:800;
+    font-style:normal;
+}
+h2 {
+    font-weight:200;
+    font-size: x-large;
+}
+ol {
+    font-size: medium;
+}
+ol p {
+    font-size: small;
+}
