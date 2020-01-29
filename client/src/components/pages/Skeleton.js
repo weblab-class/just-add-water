@@ -46,7 +46,7 @@ class Skeleton extends Component {
     this.getMapData=this.getMapData.bind(this);
 
     // testing flags
-    this.unlimitedWater = true;
+    this.unlimitedWater = false;
   }
 
   componentDidMount() {
