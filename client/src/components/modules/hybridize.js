@@ -32,7 +32,7 @@ const minValues = {
       stemRadius:0.35,
 }
 const maxValues = {
-      numPetals:18,
+      numPetals:12,
       petalLength:8,
       petalPitch : 90*Math.PI/180,
       petalInnerXRelative:2,

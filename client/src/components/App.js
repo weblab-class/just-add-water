@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Router } from "@reach/router";
+import { Router, navigate } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
+import Splash from "./pages/Splash.js";
 import Designer from "./modules/Designer.js";
 import "../utilities.css";
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
@@ -46,6 +47,7 @@ class App extends Component {
     post("/api/login", { token: userToken }).then((user) => {
       this.setState({ userId: user._id });
     });
+    navigate('/home');
   };
 
   handleLogout = () => {
@@ -58,16 +60,16 @@ class App extends Component {
       <>
       <ThemeProvider theme={this.muiTheme}>
         <Router className="router-wrapper">
+          <Splash 
+            path = "/" handleLogin={this.handleLogin} handleLogout={this.handleLogout} userId={this.state.userId}/>
           <Skeleton
-            path="/"
+            path="/home"
             handleLogin={this.handleLogin}
             handleLogout={this.handleLogout}
             userId={this.state.userId}
           />
           <Onboarding 
             path = "/onboarding" handleLogin={this.handleLogin} handleLogout={this.handleLogout} userId={this.state.userId}/>
-          <Designer 
-            path = "/design" handleLogin={this.handleLogin} handleLogout={this.handleLogout} userId={this.state.userId}/>
           <NotFound default />
         </Router>
         </ThemeProvider>
