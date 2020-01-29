@@ -44,10 +44,17 @@ class App extends Component {
   handleLogin = (res) => {
     console.log(`Logged in as ${res.profileObj.name}`);
     const userToken = res.tokenObj.id_token;
+    let hasSeenTutorial;
     post("/api/login", { token: userToken }).then((user) => {
       this.setState({ userId: user._id });
+      hasSeenTutorial = user.hasSeenTutorial;
     });
-    navigate('/home');
+    if (true){
+      navigate('/home');
+    }
+    else{
+      navigate('/onboarding');
+    }
   };
 
   handleLogout = () => {

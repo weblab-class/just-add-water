@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Slider, FormGroup, InputLabel, TextField, FormControlLabel, RadioGroup, Radio, FormLabel } from '@material-ui/core';
 import { get, post } from "../../utilities";
+import Paper from '@material-ui/core/Paper';
+import NavigateNextSharpIcon from '@material-ui/icons/NavigateNextSharp';
+import './InfoForm.css'
 export class InfoForm extends Component {
     /** Prop types:
      * @param userId: String
@@ -28,14 +31,13 @@ export class InfoForm extends Component {
         this.saveWaterProfile();
     }
     render() {
-        return (<div>
-            <h1>let's get started</h1>
+        return (<div className="form">
+            <h1>let's calculate how much water you need to drink: </h1>
             <FormGroup>
                 <TextField name="weight" id="weight" type='number' label="weight" required={true} onChange={this.handleChange} />
-            </FormGroup>
-            <FormGroup>
                 <TextField name="age" id="age" type='number' label="age" required={true} onChange={this.handleChange} />
             </FormGroup>
+            <br></br>
             <FormGroup>
                 <InputLabel id="cup-label">my typical cup of water is</InputLabel>
                 <Slider name="cupSize" 
@@ -43,6 +45,7 @@ export class InfoForm extends Component {
                     type="number" label="cup-label" marks={[{ value: 8, label: "8 oz" }, { value: 16, label: "16 oz" }, { value: 32, label: "32 oz" }]} step={2} min={2} max={32} valueLabelDisplay="auto" valueLabelFormat={(num) => (JSON.stringify(num) + " oz")} onChange={(event, value) => this.setState({ cupSize: value })}  
                     getAriaLabel={num=>num.toString()} />
             </FormGroup>
+            <br></br>
             <FormGroup>
                 <FormLabel>on average, I get ___ minutes of exercise per day</FormLabel>
                 <Slider 
@@ -51,7 +54,10 @@ export class InfoForm extends Component {
                     marks={true, [{value:15,label:"15 min"}, {value:30, label:"30 min"}, {value:45, label:"45 min"},{value:60, label:">60 min"}]} step={5} min={0} max={60} valueLabelDisplay="auto"  onChange={(event, value) => this.setState({ activity: value })} 
                     getAriaLabel={num=>num.toString()} />
             </FormGroup>
-            <Button onClick={this.handleSubmit} href="/">next</Button >
+            <br></br>
+            <div className="next-button"><Button size="large" color="primary" variant="outlined" onClick={this.handleSubmit} href="/home">
+                next <NavigateNextSharpIcon/>
+                </Button ></div>
         </div>);
     }
 }

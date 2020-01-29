@@ -1,0 +1,7 @@
+.form{
+    padding:60px;
+    flex-grow:1;
+}
+.next-button{
+    position: absolute;
+}

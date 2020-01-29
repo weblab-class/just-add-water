@@ -2,20 +2,7 @@ import React, {Component} from 'react';
 import {Button, InputBase, InputAdornment} from '@material-ui/core';
 import LoginButton from '../modules/LoginButton'
 import { InfoForm } from './InfoForm';
-function Welcome(props){
-    return(
-        <>
-            <LoginButton {...props}/>
-            <h1>welcome to h2gro</h1>
-            <ol>
-                <li>track</li>
-                <li>grow</li>
-                <li>create</li>
-            </ol>
-            <Button>get started</Button>
-        </>
-    )
-}
+import './Onboarding.css';
 class Onboarding extends Component{
     /** Prop types:
      */
@@ -29,10 +16,10 @@ class Onboarding extends Component{
     // log water to see what you get
     render(){
         return(
-            <>
-            <Welcome {...this.props}/>
+            <div className="container">
             <InfoForm userId={this.props.userId}/>
-            </>
+            <div className="next"></div>
+            </div>
         )
     }
 }

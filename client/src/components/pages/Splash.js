@@ -25,10 +25,7 @@ function Splash(props){
             </ol>
         </div>  
         <div className="login-pane">
-            <div className="brown">
-            <div className="loginstuff">
             <span className="login"><LoginButton {...props}/></span>
-            </div></div>
         </div>
       </div>
     );

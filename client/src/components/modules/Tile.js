@@ -61,9 +61,9 @@ function Tile(props) {
     const bindGestureWater = useGesture({
         onHover:({hovering})=>scaleOnHover(hovering),
         onClick: (event) => {
+            event.stopPropagation();
             if (growthState<1){
                 console.log("growth triggered");
-                event.stopPropagation();
                 setColorSpring({ emissiveIntensity: 1.5 });
                 growthState += growthIncrement;
                 post('/api/updateTile', { id: props._id, updateObj: { growthState: growthState } }).then(res => console.log("updated tile: ", res));
@@ -80,13 +80,20 @@ function Tile(props) {
             }
         },
     }, {pointerEvents:true});
+    const yref = useRef(y);
     const bindGesturePick = useGesture({
         onHover:({hovering})=>scaleOnHover(hovering),
         onClick: (event) => {
             event.stopPropagation();
-            setColorSpring({ emissiveIntensity: 2 });
-            setSpring({position:[x,tileSize,z]});
-            props.handleClickPickMode({ flower: props.flower });
+            if (props.growthState>=1){
+                setColorSpring({ emissiveIntensity: 2 });
+                setSpring({position:[x,tileSize,z]});
+                yref.current=tileSize;
+                props.handleClickPickMode({ flower: props.flower });
+            }
+            else{
+                props.sendCaptionMessage({message:"you cannot hybridize plants until they are mature"})
+            }
         },
     }, {pointerEvents:true});
     const gestureHandlers = {
@@ -114,8 +121,9 @@ function Tile(props) {
             }
         },
         "view":()=>{ 
-            if (spring.position.y > props.y) {
+            if (yref.current> y) {
                 setSpring({position:[x,y,z]});
+                yref.current=y;
             }
             setColorSpring({emissiveIntensity:0});
         }
