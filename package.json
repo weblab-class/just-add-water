@@ -46,7 +46,7 @@
     "react-use-gesture": "^6.0.14",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
-    "three": "^0.112.1",
+    "three": "^0.125.0",
     "three-orbitcontrols": "^2.99.1",
     "tinycolor2": "^1.4.1",
     "url-loader": "^1.1.2"
